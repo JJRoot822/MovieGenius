@@ -4,6 +4,7 @@
  */
 package controllers;
 
+import business.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -28,18 +29,21 @@ public class Private extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Private</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Private at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            response.sendRedirect("Public");
+            return;
+        }
+        
+        String url = ""; //insert logged in url here later.
+        
+        String action = request.getParameter("action");
+        if (action == null) {
+            action = "default";
+        }
+        
+        switch (action) {
+            
         }
     }
 
