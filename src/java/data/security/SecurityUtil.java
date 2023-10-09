@@ -13,7 +13,7 @@ public class SecurityUtil {
         
         credentialHandler.setAlgorithm("PBKDF2WithHmacSHA256");
         credentialHandler.setKeyLength(256);
-        credientialHandler.setSaltLength(16);
+        credentialHandler.setSaltLength(16);
         credentialHandler.setIterations(4096);
         
         return credentialHandler;
