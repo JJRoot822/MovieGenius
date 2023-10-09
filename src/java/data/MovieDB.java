@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import business.user;
+import business.User;
 /**
  *
  * @author tmdel
@@ -19,7 +19,7 @@ import business.user;
 public class MovieDB {
     private static final Logger LOG = Logger.getLogger(MovieDB.class.getName());
 
-    public static int insertUser(user user) throws SQLException {
+    public static int insertUser(User user) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
