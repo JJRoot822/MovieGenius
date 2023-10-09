@@ -8,6 +8,6 @@ package business;
  *
  * @author tmdel
  */
-public class movie {
+public class Validation {
     
 }

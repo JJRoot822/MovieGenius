@@ -8,6 +8,6 @@ package business;
  *
  * @author tmdel
  */
-public class review {
+public class Review {
     
 }
