@@ -57,28 +57,24 @@ public class MovieDB {
         }
     }
 
-    public static void deleteUser(int userID) throws SQLException {
+    public static int deleteUser(int userID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
-        ResultSet rs = null;
 
         String query
-                = "DELETE "
-                + "FROM users "
+                = "DELETE FROM users "
                 + "WHERE userID = ?";
-
         try {
             ps = connection.prepareStatement(query);
             ps.setInt(1, userID);
-            rs = ps.executeQuery();
+            return ps.executeUpdate();
         } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "*** get password", e);
+            LOG.log(Level.SEVERE, "*** delete user sql", e);
             throw e;
         } finally {
             try {
                 ps.close();
-                rs.close();
                 pool.freeConnection(connection);
             } catch (Exception e) {
                 LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
