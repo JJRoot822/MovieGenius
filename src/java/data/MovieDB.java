@@ -4,6 +4,8 @@
  */
 package data;
 
+import business.Genre;
+import business.Movie;
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,12 +14,16 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import business.User;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+
 /**
  *
  * @author tmdel
  */
 public class MovieDB {
+
     private static final Logger LOG = Logger.getLogger(MovieDB.class.getName());
 
     public static int insertUser(User user) throws SQLException {
@@ -50,7 +56,7 @@ public class MovieDB {
             }
         }
     }
-    
+
     public static void deleteUser(int userID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -80,7 +86,7 @@ public class MovieDB {
             }
         }
     }
-    
+
     public static LinkedHashMap<String, User> selectAllUsers() throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -113,13 +119,13 @@ public class MovieDB {
                 rs.close();
                 ps.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** select all null pointer?", e);
                 throw e;
             }
         }
     }
-    
+
     public static String getPasswordForUsername(String username) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -154,7 +160,7 @@ public class MovieDB {
             }
         }
     }
-    
+
     public static int selectUserID(String username) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -182,12 +188,12 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** select userID null pointer?", e);
             }
         }
     }
-    
+
     public static boolean validateEmail(String email) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -218,7 +224,7 @@ public class MovieDB {
                 rs.close();
                 ps.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** validate email null pointer?", e);
                 throw e;
             }
@@ -255,14 +261,14 @@ public class MovieDB {
                 rs.close();
                 ps.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** validate username null pointer?", e);
                 throw e;
             }
         }
     }
-    
-     public static User getUserInfo(String username, String password) throws SQLException {
+
+    public static User getUserInfo(String username, String password) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
@@ -282,7 +288,7 @@ public class MovieDB {
             if (rs.next()) {
                 int userid = rs.getInt("userID");
                 String userName = rs.getString("username");
-                String Password = rs.getString("password"); 
+                String Password = rs.getString("password");
                 String email = rs.getString("email");
                 String userType = rs.getString("userType");
                 user = new User(userid, userName, Password, email, userType);
@@ -296,13 +302,13 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** get password null pointer?", e);
                 throw e;
             }
         }
     }
-    
+
     public static User getUserInfo(String username) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -322,7 +328,7 @@ public class MovieDB {
             if (rs.next()) {
                 int userid = rs.getInt("userID");
                 String userName = rs.getString("username");
-                String Password = rs.getString("password"); 
+                String Password = rs.getString("password");
                 String email = rs.getString("email");
                 String userType = rs.getString("userType");
                 user = new User(userid, userName, Password, email, userType);
@@ -336,8 +342,210 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** get password null pointer?", e);
+                throw e;
+            }
+        }
+    }
+
+    public static int insertMovie(Movie movie) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "INSERT INTO movies (title, summary, releaseDate) "
+                + "VALUES (?, ?, ?)";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, movie.getTitle());
+            ps.setString(2, movie.getSummary());
+            ps.setDate(3, Date.valueOf(movie.getReleaseDate()));
+            return ps.executeUpdate();
+
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** insert sql", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** insert null pointer?", e);
+                throw e;
+            }
+        }
+    }
+
+    public static void deleteMovie(int movieID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query
+                = "DELETE "
+                + "FROM movies "
+                + "WHERE movieID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, movieID);
+            rs = ps.executeQuery();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get movie", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** delete movie null pointer?", e);
+                throw e;
+            }
+        }
+    }
+
+    public static void updateMovie(Movie movie) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query
+                = "UPDATE movies "
+                + "SET title = ?, summary = ?, releaseDate = ?"
+                + "WHERE movieID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, movie.getTitle());
+            ps.setString(2, movie.getSummary());
+            ps.setDate(3, Date.valueOf(movie.getReleaseDate()));
+            ps.setInt(4, movie.getMovieID());
+            rs = ps.executeQuery();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get movie", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** delete movie null pointer?", e);
+                throw e;
+            }
+        }
+    }
+
+    public static ArrayList<String> getMovieGenres(int userID) throws SQLException {
+        ArrayList<String> genres = new ArrayList();
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query
+                = "SELECT genreName "
+                + "FROM moviegenre "
+                + "INNER JOIN genres"
+                + "ON moviegenre.genreID = genres.genreID"
+                + "WHERE movieID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, userID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String genreName = rs.getString("genreName");
+                genres.add(genreName);
+            }
+            return genres;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get password", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+                pool.freeConnection(connection);
             } catch (Exception e) {
                 LOG.log(Level.SEVERE, "*** get password null pointer?", e);
+                throw e;
+            }
+        }
+    }
+
+    public static ArrayList<Movie> getTop10() throws SQLException {
+        ArrayList<Movie> movies = new ArrayList();
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String query
+                = "SELECT *"
+                + "FROM movies"
+                + "INNER JOIN reviews"
+                + "ON movies.movieID = reviews.movieID"
+                + "GROUP BY movieID"
+                + "ORDER BY AVG(rating) desc"
+                + "LIMIT 10";
+        try {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            int movieID = rs.getInt("movieID");
+            String title = rs.getString("title");
+            String summary = rs.getString("summary");
+            LocalDate releaseDate = rs.getDate("releaseDate").toLocalDate();
+            Movie movie = new Movie(movieID, title, summary, releaseDate);
+            movies.add(movie);
+            return movies;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get password", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** get password null pointer?", e);
+                throw e;
+            }
+        }
+    }
+
+    public static ArrayList<Movie> selectAllMovies() throws SQLException {
+        ArrayList<Movie> movies = new ArrayList();
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String query
+                = "SELECT *"
+                + "FROM movies";
+        try {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            int movieID = rs.getInt("movieID");
+            String title = rs.getString("title");
+            String summary = rs.getString("summary");
+            LocalDate releaseDate = rs.getDate("releaseDate").toLocalDate();
+            Movie movie = new Movie(movieID, title, summary, releaseDate);
+            movies.add(movie);
+            return movies;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get movies", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** get movies null pointer?", e);
                 throw e;
             }
         }
