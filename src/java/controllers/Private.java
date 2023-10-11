@@ -5,12 +5,17 @@
 package controllers;
 
 import business.User;
+import data.MovieDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -30,21 +35,56 @@ public class Private extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
-        if (loggedInUser == null) {
+        /*if (loggedInUser == null) {
             response.sendRedirect("Public");
             return;
-        }
-        
+        }*/
+
         String url = ""; //insert logged in url here later.
-        
+
         String action = request.getParameter("action");
         if (action == null) {
             action = "default";
         }
-        
+
         switch (action) {
-            
+            case "gotoUpdatePage": {
+                url = "/updateUser.jsp";
+
+                break;
+            }
+            case "logout": {
+                HttpSession session;
+                session = request.getSession();
+                session.invalidate();
+                
+                url = "/login.jsp";
+                
+                break;
+            }
+            case "updateUser": {
+                
+                
+                break;
+            }
+            case "deleteAccount": {
+                int userID = 0;
+                try {
+                    userID = loggedInUser.getUserID();
+                } catch (Exception e) {
+                    request.setAttribute("msg", "Failed to parse int");
+                }
+                try {
+                    MovieDB.deleteUser(userID);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                break;
+            }
         }
+
+        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

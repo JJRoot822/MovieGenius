@@ -77,7 +77,7 @@
                         <form method="post" action="Public">
                             <label for="email-or-username-field">Username or Email</label>
                             <br>
-                            <input type="email id=email-or-username-field" name=email-or-username" class="form-control">
+                            <input type="email" id=email-or-username-field" name=email-or-username" class="form-control">
 
                             <br>
                             <br>
