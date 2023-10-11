@@ -160,7 +160,42 @@ public class MovieDB {
             }
         }
     }
+    
+    public static String getPasswordForEmail(String email) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        String query
+                = "SELECT password "
+                + "FROM users "
+                + "WHERE email = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, email);
+            String password = "";
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                password = rs.getString("password");
+            }
+            return password;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get password", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** get password null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
     public static int selectUserID(String username) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();

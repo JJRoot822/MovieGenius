@@ -5,7 +5,8 @@
 package controllers;
 
 import data.MovieDB;
-import java.io.IOException;
+import business.Validation;
+import java.o.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -44,7 +45,17 @@ public class Public extends HttpServlet {
         }
 
         switch (action) {
-            
+            case "login":
+                String emailOrUsername = ((String)request.getParameter("email-or-username"));
+                String password = ((String) request.getParameter("password"));
+                boolean isAnEmail = Validation.isEmail(emailOrUsername);
+                
+                if (isAnEmail) {
+                    String passwordForEmail = MovieDB.getPasswordForEmail(emailOrUsername);
+                    boolean doesPasswordMatch = false;
+                } else {
+                    
+                }
         }
     }
 
