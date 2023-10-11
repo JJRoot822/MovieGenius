@@ -68,14 +68,15 @@ public class Private extends HttpServlet {
                 break;
             }
             case "deleteAccount": {
-                int userID = 0;
-                try {
+                int userID = 3;
+                /*try {
                     userID = loggedInUser.getUserID();
                 } catch (Exception e) {
-                    request.setAttribute("msg", "Failed to parse int");
-                }
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }*/
                 try {
                     MovieDB.deleteUser(userID);
+                    url = "/login.jsp";
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
