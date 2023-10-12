@@ -299,7 +299,7 @@ public class MovieDB {
         }
     }
 
-    public static User getUserInfo(String username, String password) throws SQLException {
+    public static User getUserInfo(String usernameOrEmail, String password) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
@@ -308,7 +308,7 @@ public class MovieDB {
         String query
                 = "SELECT * "
                 + "FROM users "
-                + "WHERE username = ? AND password = ?";
+                + "WHERE" + Validation.isEmail(usernameOrEmail) ? "username = ?" : "email = ?" + " AND password = ?";
 
         try {
             ps = connection.prepareStatement(query);

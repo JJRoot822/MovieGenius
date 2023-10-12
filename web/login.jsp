@@ -75,6 +75,10 @@
                     
                     <div class="col-4">
                         <form method="post" action="Public">
+                            <c:if test="${not empty errorMessage}">
+                                <h3 class="text-danger"></h3>
+                                <br>
+                            </c:if>
                             <label for="email-or-username-field">Username or Email</label>
                             <br>
                             <input type="email" id=email-or-username-field" name=email-or-username" class="form-control">

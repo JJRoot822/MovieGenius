@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controllers;
 
 import data.MovieDB;
+import data.security.SecurityUtil;
 import business.Validation;
 import java.o.IOException;
 import java.io.PrintWriter;
@@ -46,16 +43,7 @@ public class Public extends HttpServlet {
 
         switch (action) {
             case "login":
-                String emailOrUsername = ((String)request.getParameter("email-or-username"));
-                String password = ((String) request.getParameter("password"));
-                boolean isAnEmail = Validation.isEmail(emailOrUsername);
-                
-                if (isAnEmail) {
-                    String passwordForEmail = MovieDB.getPasswordForEmail(emailOrUsername);
-                    boolean doesPasswordMatch = false;
-                } else {
-                    
-                }
+                login();
         }
     }
 
@@ -98,4 +86,46 @@ public class Public extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
+    private void login(HttpServletRequest request) {
+        String usernameOrEmail = ((string) request.getParameter("email-or-password"))
+                String password = ((String) request.getParameter("password"));
+                String hashedPassword = "";
+                String errorMessage = "";
+                
+                try {
+                    if (Validation.isEmail(usernameOrEmail) && MovieDB.validateEmail(usernameOrEmail)) {
+                        hashedPassword = MovieDB.getPasswordForEmail(usernameOrEmail);
+                    }
+                    
+                    if (!Validation.isEmail(usernameOrEmail) && MovieDB.validateUsername(usernameOrEmail)) {
+                        hashedPassword = MovieDB.getPasswordForUsername(usernameOrEmail);
+                    }
+
+
+if (hashedPassword.isEmpty()) {
+    errorMessage = "Invalid username or email";
+}                     else {
+                        bool doPasswordsMatch = SecurityUtil.isMatchingPassword(password, hashedPassword);
+                    
+                    if (doPasswordsMatch) {
+                        loggedInUser = MovieDB.getUserInfo(usernameOrEmail, hashedPassword);
+                        
+                        url = "user-page.jsp";
+                        
+                        getServletContext().getRequestDispatcher(url).forward(request, response);
+                    } else {
+                        errorMessage = "Invalid Password";
+                        
+                        request.setAttribute("errorMessage", errorMessage);
+                        
+                        url = login.jsp
+;
+
+getServletContext().getRequestDispatcher(url).forward(request, response);                    }
+}
+                } catch (Exception e) {
+                    errorMessage = "Either the email or username, or password you have entered is incorrect. Please try again."
+                }
+    }
 }
