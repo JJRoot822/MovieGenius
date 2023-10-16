@@ -308,7 +308,7 @@ public class MovieDB {
         String query
                 = "SELECT * "
                 + "FROM users "
-                + "WHERE" + Validation.isEmail(usernameOrEmail) ? "username = ?" : "email = ?" + " AND password = ?";
+                + "WHERE" + Validation.isEmail(usernameOrEmail) ? "email = ?" : "username = ?" + " AND password = ?";
 
         try {
             ps = connection.prepareStatement(query);

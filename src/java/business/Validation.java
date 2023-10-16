@@ -1,18 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package business;
 
 import data.MovieDB;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  *
  * @author tmdel
  */
 public class Validation {
+    // Simply used for determining if the user entered a username or email in the log in form so the login process can proceed in accordance with which was entered.
+    // NOT used for Validating data, with errors and all that comes with it.
+    public static boolean isEmail(String email) {
+        String emailPattern = "^[A-Za-z0-9+_.-]+@(.+)$";
+Pattern pattern = Pattern.compile(emailPattern);
+Matcher matcher = pattern.matcher(email);
+
+        return matcher.matches();
+    }
+    
     public static String isValidUsername (String username, String label, HashMap<String, String> errors) {
         // username must be between 4-30 characters inclusive and must be unique for all users
         

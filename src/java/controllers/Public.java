@@ -2,7 +2,9 @@ package controllers;
 
 import data.MovieDB;
 import data.security.SecurityUtil;
+import data.security.AuthenticationService;
 import business.Validation;
+import data.security.AuthenticationService;
 import java.o.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -21,6 +23,7 @@ import org.apache.catalina.realm.SecretKeyCredentialHandler;
  * @author tmdel
  */
 public class Public extends HttpServlet {
+    String url;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,7 +38,7 @@ public class Public extends HttpServlet {
             throws ServletException, IOException {
         Logger LOG = Logger.getLogger(Public.class.getName());
         
-        String url = "/index.jsp";
+        url = "/index.jsp";
         String action = request.getParameter("action");
         if (action == null) {
             action = "default";
@@ -88,44 +91,27 @@ public class Public extends HttpServlet {
 
     
     private void login(HttpServletRequest request) {
-        String usernameOrEmail = ((string) request.getParameter("email-or-password"))
-                String password = ((String) request.getParameter("password"));
-                String hashedPassword = "";
-                String errorMessage = "";
+        String usernameOrEmail = ((string) request.getParameter("email-or-password"));
+        String password = ((String) request.getParameter("password"));
                 
-                try {
-                    if (Validation.isEmail(usernameOrEmail) && MovieDB.validateEmail(usernameOrEmail)) {
-                        hashedPassword = MovieDB.getPasswordForEmail(usernameOrEmail);
-                    }
-                    
-                    if (!Validation.isEmail(usernameOrEmail) && MovieDB.validateUsername(usernameOrEmail)) {
-                        hashedPassword = MovieDB.getPasswordForUsername(usernameOrEmail);
-                    }
-
-
-if (hashedPassword.isEmpty()) {
-    errorMessage = "Invalid username or email";
-}                     else {
-                        bool doPasswordsMatch = SecurityUtil.isMatchingPassword(password, hashedPassword);
-                    
-                    if (doPasswordsMatch) {
-                        loggedInUser = MovieDB.getUserInfo(usernameOrEmail, hashedPassword);
+        boolean wasLogInSuccessful = AuthenticationService.shared.login(usernameOrEmail, password);
+                
+        List<String> errors = new ArrayList<String>();
+                
+        if (wasLogInSuccessful) {
+            try {
+                User loggedInUser = MovieDB.getUserInfo(usernameOrEmail);
+                request.getSession().setAttribute("loggedInUser", loggedInUser);
+            } catch (Exception e) {
+                errors.add("A user with the provided details does not exist.");
                         
-                        url = "user-page.jsp";
-                        
-                        getServletContext().getRequestDispatcher(url).forward(request, response);
-                    } else {
-                        errorMessage = "Invalid Password";
-                        
-                        request.setAttribute("errorMessage", errorMessage);
-                        
-                        url = login.jsp
-;
-
-getServletContext().getRequestDispatcher(url).forward(request, response);                    }
-}
-                } catch (Exception e) {
-                    errorMessage = "Either the email or username, or password you have entered is incorrect. Please try again."
-                }
+                url = "user-page.jsp";
+            }
+        } else {
+            errors.add("Invalid username/email or password");
+            url = "login.jsp";
+        }
+                
+        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 }
