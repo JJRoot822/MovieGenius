@@ -1,11 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package data;
 
-import business.Genre;
-import business.Movie;
+import business.*;
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -305,14 +300,18 @@ public class MovieDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String query
-                = "SELECT * "
-                + "FROM users "
-                + "WHERE" + Validation.isEmail(usernameOrEmail) ? "email = ?" : "username = ?" + " AND password = ?";
+        String query = "";
+        
+        if (Validation.isEmail(usernameOrEmail)) {
+            query = "SELECT * FROM users WHERE email = ? AND password = ?";
+        } else {
+            query = "SELECT * FROMuUsers WHERE username = ? AND password = ?";
+        }
+        
 
         try {
             ps = connection.prepareStatement(query);
-            ps.setString(1, username);
+            ps.setString(1, usernameOrEmail);
             ps.setString(2, password);
             rs = ps.executeQuery();
             User user = null;

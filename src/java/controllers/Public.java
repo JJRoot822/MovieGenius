@@ -4,12 +4,15 @@ import data.MovieDB;
 import data.security.SecurityUtil;
 import data.security.AuthenticationService;
 import business.Validation;
+import business.User;
 import data.security.AuthenticationService;
-import java.o.IOException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -23,17 +26,9 @@ import org.apache.catalina.realm.SecretKeyCredentialHandler;
  * @author tmdel
  */
 public class Public extends HttpServlet {
-    String url;
+    String url = "";
+    User loggedInUser = null;
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Logger LOG = Logger.getLogger(Public.class.getName());
@@ -46,7 +41,9 @@ public class Public extends HttpServlet {
 
         switch (action) {
             case "login":
-                login();
+                login(request);
+                getServletContext().getRequestDispatcher(url).forward(request, response);
+                break;
         }
     }
 
@@ -91,7 +88,7 @@ public class Public extends HttpServlet {
 
     
     private void login(HttpServletRequest request) {
-        String usernameOrEmail = ((string) request.getParameter("email-or-password"));
+        String usernameOrEmail = ((String) request.getParameter("email-or-password"));
         String password = ((String) request.getParameter("password"));
                 
         boolean wasLogInSuccessful = AuthenticationService.shared.login(usernameOrEmail, password);
@@ -100,18 +97,18 @@ public class Public extends HttpServlet {
                 
         if (wasLogInSuccessful) {
             try {
-                User loggedInUser = MovieDB.getUserInfo(usernameOrEmail);
+                loggedInUser = MovieDB.getUserInfo(usernameOrEmail);
                 request.getSession().setAttribute("loggedInUser", loggedInUser);
+                
+                url = "/user-page.jsp";
             } catch (Exception e) {
                 errors.add("A user with the provided details does not exist.");
                         
-                url = "user-page.jsp";
+                url = "/login.jsp";
             }
         } else {
             errors.add("Invalid username/email or password");
-            url = "login.jsp";
+            url = "/login.jsp";
         }
-                
-        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 }
