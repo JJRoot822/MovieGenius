@@ -19,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.catalina.realm.SecretKeyCredentialHandler;
 
 /**
@@ -40,10 +41,23 @@ public class Public extends HttpServlet {
         }
 
         switch (action) {
-            case "login":
+            case "login": {
                 login(request);
                 getServletContext().getRequestDispatcher(url).forward(request, response);
                 break;
+            }
+            case "logout": {
+                HttpSession session;
+                session = request.getSession();
+                session.invalidate();
+
+                url = "/Public?action=gotoIndex";
+                break;
+            }
+            case "gotoIndex": {
+                url = "/index.jsp";
+                break;
+            }
         }
     }
 

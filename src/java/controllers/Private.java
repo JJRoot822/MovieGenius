@@ -58,7 +58,7 @@ public class Private extends HttpServlet {
                 session = request.getSession();
                 session.invalidate();
                 
-                url = "/login.jsp";
+                url = "/Public?action=gotoIndex";
                 
                 break;
             }
@@ -83,6 +83,7 @@ public class Private extends HttpServlet {
                 
                 break;
             }
+            
         }
 
         getServletContext().getRequestDispatcher(url).forward(request, response);
