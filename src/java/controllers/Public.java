@@ -6,6 +6,7 @@ import data.security.AuthenticationService;
 import business.Validation;
 import business.User;
 import data.security.AuthenticationService;
+import data.security.RegistrationService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -19,7 +20,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.apache.catalina.realm.SecretKeyCredentialHandler;
 
 /**
@@ -41,23 +41,13 @@ public class Public extends HttpServlet {
         }
 
         switch (action) {
-            case "login": {
+            case "login":
                 login(request);
                 getServletContext().getRequestDispatcher(url).forward(request, response);
                 break;
-            }
-            case "logout": {
-                HttpSession session;
-                session = request.getSession();
-                session.invalidate();
-
-                url = "/Public?action=gotoIndex";
+            case "register":
+                register(request);
                 break;
-            }
-            case "gotoIndex": {
-                url = "/index.jsp";
-                break;
-            }
         }
     }
 
@@ -100,6 +90,33 @@ public class Public extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
+    private void register(HttpServletRequest request) {
+        getServletContext().getRequestDispatcher(url).forward(request, response);
+        String email = ((String) request.getParameter("email"));
+        String username = ((String) request.getParameter("username"));
+        String password = ((String) request.getParameter("password"));
+        String verifyPassword = ((String) request.getParameter("verify-password"));
+        
+        List<String> errors = new ArrayList<String>();
+        
+        if (!Validation.isEmail(email)) {
+            errors.add("The email you entered is not a valid format. A valid format looks like this: example@somesite.com");
+        }
+        
+        if (!password.equals(verifyPassword)) {
+            errors.add("The password and password verification fields don't match.");
+        }
+        
+        if (errors.size() > 0) {
+            url = "/register.jsp";
+            request.setAttribute("errors", errors);
+        } else {
+            RegistrationService.shared.register(email, username, password);
+            
+            url = "/login.jsp";
+        }
+    }
     
     private void login(HttpServletRequest request) {
         String usernameOrEmail = ((String) request.getParameter("email-or-password"));
