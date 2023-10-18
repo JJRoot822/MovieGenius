@@ -22,7 +22,8 @@ selectAllUsers() - Selects all of the users, returns LinkedHashMap with username
 getPasswordForUsername(String username) - Returns the password for a given username
 getPasswordForEmail(String email) - Returns the password for a given email
 selectUserID(String username) - Returns the userID for a given username
-adminUpdateUser(User user) - Updates a movie, assumes that the userID is not changing and is based on userID for the user
+adminUpdateUser(User user) - Updates a movie, assumes that the userID is not changing and is based on userID for the user.  Also has the ability to change the userType
+updateUser(User user) - Updates a movie, assumes that the userID is not changing and is based on userID for the user
 validateEmail(String email) - Returns a boolean on if an email already exists
 validateUsername(String username) - Returns a boolean on if an username already exists
 getUserInfo(String usernameOrEmail, String password) - Returns a user based on username or email, and the password
@@ -36,6 +37,7 @@ selectAllMovies() - Returns an arraylist of all movies
 selectAllGenres() - Returns an arraylist of all genres
 getUserReviews(int userID) - Returns an arraylist of all reviews associated with a user
 getMoviesByGenreID(int genreID) - Returns an arraylist of movies associated with a genre by genreID
+movieSearchByName(String titleSearch) - Returns an arraylist of all the movies that contain the string
  */
 /**
  *
@@ -278,7 +280,7 @@ public class MovieDB {
         }
     }
     
-    public static void UpdateUser(User user) throws SQLException {
+    public static void updateUser(User user) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
@@ -774,7 +776,46 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** get password null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static ArrayList<Movie> movieSearchByName(String titleSearch) throws SQLException {
+        ArrayList<Movie> Movies = new ArrayList();
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query
+                = "SELECT * "
+                + "FROM movies "
+                + "WHERE title LIKE '%?%'";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, titleSearch);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int movieID = rs.getInt("movieID");
+                String title = rs.getString("title");
+                String summary = rs.getString("summary");
+                LocalDate releaseDate = rs.getDate("releaseDate").toLocalDate();
+                Movie movie = new Movie(movieID, title, summary, releaseDate);
+                Movies.add(movie);
+            }
+            return Movies;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get password", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** get password null pointer?", e);
                 throw e;
             }
