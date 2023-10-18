@@ -63,8 +63,7 @@ public class Private extends HttpServlet {
                 break;
             }
             case "updateUser": {
-                
-                
+                url= "userPage.jsp";
                 break;
             }
             case "deleteAccount": {
