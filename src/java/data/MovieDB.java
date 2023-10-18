@@ -12,6 +12,7 @@ import business.User;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+
 /*
 Current methods
 ----------------------------------
@@ -21,6 +22,7 @@ selectAllUsers() - Selects all of the users, returns LinkedHashMap with username
 getPasswordForUsername(String username) - Returns the password for a given username
 getPasswordForEmail(String email) - Returns the password for a given email
 selectUserID(String username) - Returns the userID for a given username
+updateUser(User user) - Updates a movie, assumes that the userID is not changing and is based on userID for the user
 validateEmail(String email) - Returns a boolean on if an email already exists
 validateUsername(String username) - Returns a boolean on if an username already exists
 getUserInfo(String usernameOrEmail, String password) - Returns a user based on username or email, and the password
@@ -34,7 +36,7 @@ selectAllMovies() - Returns an arraylist of all movies
 selectAllGenres() - Returns an arraylist of all genres
 getUserReviews(int userID) - Returns an arraylist of all reviews associated with a user
 getMoviesByGenreID(int genreID) - Returns an arraylist of movies associated with a genre by genreID
-*/
+ */
 /**
  *
  * @author tmdel
@@ -242,6 +244,40 @@ public class MovieDB {
         }
     }
 
+    public static void updateUser(User user) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query
+                = "UPDATE users "
+                + "SET username = ?, password = ?, email = ?, userType = ?"
+                + "WHERE userID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getUserType());
+            ps.setInt(5, user.getUserID());
+            rs = ps.executeQuery();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get user", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
+                throw e;
+            }
+        }
+    }
+
     public static boolean validateEmail(String email) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -379,10 +415,10 @@ public class MovieDB {
             if (rs.next()) {
                 int userid = rs.getInt("userID");
                 String userName = rs.getString("username");
-                String Password = rs.getString("password");
+                String password = rs.getString("password");
                 String email = rs.getString("email");
                 String userType = rs.getString("userType");
-                user = new User(userid, userName, Password, email, userType);
+                user = new User(userid, userName, password, email, userType);
             }
             return user;
         } catch (SQLException e) {
