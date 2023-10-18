@@ -57,8 +57,6 @@
                 </nav>
             </header>
             <h1>Welcome to Movie Genius!</h1>
-            <footer>
-                <p>Copyright &#169;2023</p>
-            </footer>
+            
     </body>
 </html>
