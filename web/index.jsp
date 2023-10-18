@@ -24,26 +24,26 @@
 
                     <ul>
                         <li class="nav-item text-dark">
-                            <a href="index.jsp" class="nav-link">Home&emsp;&#124;</a>
+                            <a href="index.jsp" class="nav-link">&emsp;Home&emsp;</a>
                         </li>
                         <li class="nav-item">
-                            <a href="movies.jsp" class="nav-link">&emsp;Movies&emsp;&#124;</a>
+                            <a href="movies.jsp" class="nav-link">&emsp;Movies&emsp;</a>
                         </li>
                         <c:if test="${not empty sessionScope.loggedInUser}">
                             <li class="nav-item">
                                 <form action="Private" method="post">
                                     <input type="hidden" value="logout" name="action" />
-                                    <button role="link" type="submit" class="nav-link text-dark">&emsp;Log Out&emsp;&#124;</button>
+                                    <button role="link" type="submit" class="nav-link text-dark">&emsp;Log Out&emsp;</button>
                                 </form>
                             </li>
                         </c:if>
                         <c:if test="${empty sessionScope.loggedInUser}">
                             <li class="nav-item">
-                                <a href="login.jsp" class="nav-link text-dark">&emsp;Log In&emsp;&#124;</a>
+                                <a href="login.jsp" class="nav-link text-dark">&emsp;Log In&emsp;</a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="register.jsp" class="nav-link text-dark">&emsp;Register</a>
+                                <a href="register.jsp" class="nav-link text-dark">&emsp;Register&emsp;</a>
                             </li>
                         </c:if>
 
@@ -56,6 +56,7 @@
                 </div>
             </nav>
         </header>
+                            
         <h1>Welcome to Movie Genius!</h1>
     </body>
 </html>
