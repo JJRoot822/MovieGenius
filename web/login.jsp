@@ -37,16 +37,15 @@
                         <li class="nav-item">
                             <a href="movies.jsp" class="nav-link">Movies</a>
                         </li>
-                        <c:choose>
-                            <c:when test="${not empty loggedInUser}">
-                                <li class="nav-item">
+                        <c:if test="not empty sessionScope.loggedInUser">
+                            <li class="nav-item">
                                     <form action="Private" method="post">
                                         <input type="hidden" value="logout" name="action" />
                                         <button role="link" type="submit" class="nav-link text-dark">Log Out</button>
                                     </form>
                                 </li>
-                            </c:when>
-                            <c:otherwise>
+                        </c:if>
+                            <c:if test="${empty sessionScope.loggedInUser}">
                                 <li class="nav-item">
                                     <a href="login.jsp" class="nav-link text-dark">Log In</a>
                                 </li>
@@ -54,9 +53,8 @@
                                 <li class="nav-item">
                                     <a href="register.jsp" class="nav-link text-dark">Register</a>
                                 </li>
-                            </c:otherwise>
-                            
-                        </c:choose>
+                            </c:if>
+                        
                     </ul>
 
                   <form class="d-flex" role="search">
@@ -75,29 +73,23 @@
                     
                     <div class="col-4">
                         <form method="post" action="Public">
-                            <c:if test="${not empty errorMessage}">
-                                <h3 class="text-danger"></h3>
-                                <br>
-                            </c:if>
+                            <c:forEach items="${requestScope.errors}" var="error">
+                                <p class="text-danger">${error}</p>
+                            </c:forEach>
+
                             <label for="email-or-username-field">Username or Email</label>
                             <br>
-                            <input type="email" id=email-or-username-field" name=email-or-username" class="form-control">
+                            <input type="email" id="email-or-username-field" name=email-or-username" class="form-control">
 
-                            <br>
                             <br>
 
                             <label for="password-field">Password</label>
                             <br>
                             <input type="password" id="password-field" name="password" class="form-control">
                             <br>
-                            <button class="btn btn-outline-secondary" id="show-password-btn">Show Password</button
-                                
-                                <br>
-                                <br>
-                                <br>
-
-                                <input type="hidden name=action" value="login">
-                                <button type="submit" class="btn btn-success">Log In</button>
+                            
+                            <input type="hidden" name=action" value="login">
+                            <button type="submit" class="btn btn-success">Log In</button>
                         </form>
                     </div>
                     
@@ -105,17 +97,5 @@
                 </div>
             </div>
         </main>
-        <script>
-            let showPasswordButton = document.getElementById("show-password-btn");
-            let passwordField = document.getElementById("password-field");
-
-            showPasswordButton.addEventListener('click', () => {
-                passwordField.type = "text";
-
-                setTimeout(() => {
-                    passwordField.type = "password";
-                }, 5000);
-            })
-        </script>
     </body>
 </html>
