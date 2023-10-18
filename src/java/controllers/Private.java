@@ -63,7 +63,8 @@ public class Private extends HttpServlet {
                 break;
             }
             case "updateUser": {
-                url= "userPage.jsp";
+                url= "/userPage.jsp";
+                MovieDB.UpdateUser(loggedInUser);
                 break;
             }
             case "deleteAccount": {

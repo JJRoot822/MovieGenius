@@ -22,7 +22,7 @@ selectAllUsers() - Selects all of the users, returns LinkedHashMap with username
 getPasswordForUsername(String username) - Returns the password for a given username
 getPasswordForEmail(String email) - Returns the password for a given email
 selectUserID(String username) - Returns the userID for a given username
-updateUser(User user) - Updates a movie, assumes that the userID is not changing and is based on userID for the user
+adminUpdateUser(User user) - Updates a movie, assumes that the userID is not changing and is based on userID for the user
 validateEmail(String email) - Returns a boolean on if an email already exists
 validateUsername(String username) - Returns a boolean on if an username already exists
 getUserInfo(String usernameOrEmail, String password) - Returns a user based on username or email, and the password
@@ -244,7 +244,7 @@ public class MovieDB {
         }
     }
 
-    public static void updateUser(User user) throws SQLException {
+    public static void adminUpdateUser(User user) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
@@ -262,6 +262,39 @@ public class MovieDB {
             ps.setString(3, user.getEmail());
             ps.setString(4, user.getUserType());
             ps.setInt(5, user.getUserID());
+            rs = ps.executeQuery();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get user", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static void UpdateUser(User user) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query
+                = "UPDATE users "
+                + "SET username = ?, password = ?, email = ?"
+                + "WHERE userID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getEmail());
+            ps.setInt(4, user.getUserID());
             rs = ps.executeQuery();
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "*** get user", e);
