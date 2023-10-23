@@ -46,7 +46,7 @@ public class Public extends HttpServlet {
                 getServletContext().getRequestDispatcher(url).forward(request, response);
                 break;
             case "register":
-                register(request);
+                register(request, response);
                 break;
         }
     }
@@ -91,7 +91,8 @@ public class Public extends HttpServlet {
     }// </editor-fold>
 
     
-    private void register(HttpServletRequest request) {
+    private void register(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         getServletContext().getRequestDispatcher(url).forward(request, response);
         String email = ((String) request.getParameter("email"));
         String username = ((String) request.getParameter("username"));
