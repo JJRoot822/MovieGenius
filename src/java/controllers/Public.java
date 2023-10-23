@@ -131,7 +131,7 @@ public class Public extends HttpServlet {
                 loggedInUser = MovieDB.getUserInfo(usernameOrEmail);
                 request.getSession().setAttribute("loggedInUser", loggedInUser);
                 
-                url = "/user-page.jsp";
+                url = "/userPage.jsp";
             } catch (Exception e) {
                 errors.add("A user with the provided details does not exist.");
                         
