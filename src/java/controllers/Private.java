@@ -35,10 +35,10 @@ public class Private extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
-        /*if (loggedInUser == null) {
+        if (loggedInUser == null) {
             response.sendRedirect("Public");
             return;
-        }*/
+        }
 
         String url = ""; //insert logged in url here later.
 
@@ -63,23 +63,45 @@ public class Private extends HttpServlet {
                 break;
             }
             case "updateUser": {
-                url= "/userPage.jsp";
-                MovieDB.UpdateUser(loggedInUser);
+                String newEmail = request.getParameter("email");
+                String newUserName = request.getParameter("userName");
+                String newPassword = request.getParameter("newPassword");
+                String re_enterPassword = request.getParameter("checkNewPassword");
+                String oldPassword = request.getParameter("oldPassword");
+                try {
+                    if (newPassword.equals(loggedInUser.getPassword())){
+                        url = "/updateUser.jsp";
+                    }
+                    else if (!newPassword.equals(re_enterPassword)){
+                        url = "/updateUser.jsp";
+                    }
+                    else if (!loggedInUser.getPassword().equals(oldPassword)){
+                        url = "/updateUser.jsp";
+                    }
+                    else{
+                        loggedInUser.setEmail(newEmail);
+                        loggedInUser.setUsername(newUserName);
+                        loggedInUser.setPassword(newPassword);
+                        MovieDB.updateUser(loggedInUser);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
             }
             case "deleteAccount": {
-                int userID = 3;
-                /*try {
+                /*int userID = 0;
+                try {
                     userID = loggedInUser.getUserID();
                 } catch (Exception e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
-                }*/
+                }
                 try {
                     MovieDB.deleteUser(userID);
                     url = "/login.jsp";
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                }*/
                 
                 break;
             }
