@@ -64,7 +64,11 @@ public class Private extends HttpServlet {
             }
             case "updateUser": {
                 url= "/userPage.jsp";
-                MovieDB.UpdateUser(loggedInUser);
+            try {
+                MovieDB.updateUser(loggedInUser);
+            } catch (SQLException ex) {
+                Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+            }
                 break;
             }
             case "deleteAccount": {

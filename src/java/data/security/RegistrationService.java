@@ -1,7 +1,11 @@
 package data.security;
 
+import business.User;
+import data.MovieDB;
 import data.security.SecurityUtil;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RegistrationService {
     public static RegistrationService shared = new RegistrationService();
@@ -12,7 +16,11 @@ public class RegistrationService {
         User user = new User();
         user.setEmail(email);
         user.setUsername(username);
-        user.setPassword(SecurityUtil.hashPassword(password));
+        try {
+            user.setPassword(SecurityUtil.hashPassword(password));
+        } catch (Exception ex) {
+            Logger.getLogger(RegistrationService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         try {
             MovieDB.insertUser(user);
