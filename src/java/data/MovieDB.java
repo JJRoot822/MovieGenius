@@ -53,15 +53,14 @@ public class MovieDB {
         PreparedStatement ps = null;
 
         String query
-                = "INSERT INTO users (userID, username, password, email, userType) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                = "INSERT INTO users (username, password, email, userType) "
+                + "VALUES (?, ?, ?, ?)";
         try {
             ps = connection.prepareStatement(query);
-            ps.setInt(1, user.getUserID());
-            ps.setString(2, user.getUsername());
-            ps.setString(3, user.getPassword());
-            ps.setString(4, user.getEmail());
-            ps.setString(5, (user.getUserType()));
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, (user.getUserType()));
             return ps.executeUpdate();
 
         } catch (SQLException e) {

@@ -38,7 +38,7 @@
                             <input type="password" id="verify-password-field" name="verify-password" class="form-control">
                             <br>
                             <button type="submit" class="btn btn-success">Create Account</button>
-                            <input type="hidden" name="action" value="login">
+                            <input type="hidden" name="action" value="register">
                         </form>
                     </div>
                     

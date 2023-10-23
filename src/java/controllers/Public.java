@@ -40,15 +40,11 @@ public class Public extends HttpServlet {
             action = "default";
         }
 
-        switch (action) {
-            case "login":
-                login(request);
-                getServletContext().getRequestDispatcher(url).forward(request, response);
-                break;
-            case "register":
-                register(request, response);
-                break;
+        if (action.equals("register")) {
+            register(request);
         }
+        
+        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -91,9 +87,8 @@ public class Public extends HttpServlet {
     }// </editor-fold>
 
     
-    private void register(HttpServletRequest request, HttpServletResponse response) 
+    private void register(HttpServletRequest request) 
             throws ServletException, IOException {
-        getServletContext().getRequestDispatcher(url).forward(request, response);
         String email = ((String) request.getParameter("email"));
         String username = ((String) request.getParameter("username"));
         String password = ((String) request.getParameter("password"));
