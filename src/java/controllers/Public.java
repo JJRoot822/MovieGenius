@@ -43,12 +43,14 @@ public class Public extends HttpServlet {
         switch (action) {
             case "login":
                 login(request);
-                getServletContext().getRequestDispatcher(url).forward(request, response);
                 break;
             case "register":
                 register(request);
                 break;
         }
+        
+        getServletContext().getRequestDispatcher(url).forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -92,7 +94,6 @@ public class Public extends HttpServlet {
 
     
     private void register(HttpServletRequest request) {
-        getServletContext().getRequestDispatcher(url).forward(request, response);
         String email = ((String) request.getParameter("email"));
         String username = ((String) request.getParameter("username"));
         String password = ((String) request.getParameter("password"));
@@ -119,7 +120,7 @@ public class Public extends HttpServlet {
     }
     
     private void login(HttpServletRequest request) {
-        String usernameOrEmail = ((String) request.getParameter("email-or-password"));
+        String usernameOrEmail = ((String) request.getParameter("email-or-username"));
         String password = ((String) request.getParameter("password"));
                 
         boolean wasLogInSuccessful = AuthenticationService.shared.login(usernameOrEmail, password);

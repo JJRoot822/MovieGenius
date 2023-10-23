@@ -58,6 +58,14 @@ a                <button class="navbar-toggler" type="button" data-toggle="colla
                     <div class="col-4"></div>
                     
                     <div class="col-4">
+                        <c:if test="${not empty errors}">
+                            <ul class="list-unstyled">
+                                <c:forEach items="${errors}" var="error">
+                                    <li class="text-danger">${error}</li>
+                                </c:forEach>
+                            </ul>
+                        </c:if> 
+                        
                         <form method="post" action="Public">
                             <label for="email-field">Email</label>
                             <br>
