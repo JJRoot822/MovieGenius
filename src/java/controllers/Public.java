@@ -112,7 +112,11 @@ public class Public extends HttpServlet {
             url = "/register.jsp";
             request.setAttribute("errors", errors);
         } else {
-            RegistrationService.shared.register(email, username, password);
+            try {
+                RegistrationService.shared.register(email, username, password);
+            } catch (SQLException ex) {
+                Logger.getLogger(Public.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             url = "/login.jsp";
         }
