@@ -104,17 +104,23 @@ public class Public extends HttpServlet {
             errors.add("The password and password verification fields don't match.");
         }
         
+        
+        
         if (errors.size() > 0) {
             url = "/register.jsp";
             request.setAttribute("errors", errors);
         } else {
             try {
                 RegistrationService.shared.register(email, username, password);
+                url = "/login.jsp";
             } catch (SQLException ex) {
+                url = "/register.jsp";
+                errors.add("Something went wrong when registering the user: " + ex.getMessage());
+        request.setAttribute("errors", errors);        ;
                 Logger.getLogger(Public.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            url = "/login.jsp";
+            
         }
     }
     
