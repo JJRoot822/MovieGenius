@@ -19,7 +19,7 @@
                     <a href="movies.jsp" class="nav-link">Movies</a>
                 </li>
                 
-                <c:if test="not empty sessionScope.loggedInUser">
+                <c:if test="${not empty loggedInUser || loggedInUser != null}">
                     <li class="nav-item">
                         <form action="Private" method="post">
                             <input type="hidden" value="logout" name="action" />

@@ -28,7 +28,7 @@
 
                             <label for="email-or-username-field">Username or Email</label>
                             <br>
-                            <input type="email" id="email-or-username-field" name="email-or-username" class="form-control">
+                            <input type="text" id="email-or-username-field" name="email-or-username" class="form-control">
 
                             <br>
 
@@ -37,7 +37,7 @@
                             <input type="password" id="password-field" name="password" class="form-control">
                             <br>
                             
-                            <input type="hidden" name=action" value="login">
+                            <input type="hidden" name="action" value="login">
                             <button type="submit" class="btn btn-success">Log In</button>
                         </form>
                     </div>

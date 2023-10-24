@@ -1,16 +1,10 @@
 package controllers;
 
-import data.MovieDB;
-import data.security.SecurityUtil;
-import data.security.AuthenticationService;
-import business.Validation;
-import business.User;
-import data.security.AuthenticationService;
-import data.security.RegistrationService;
+import data.*;
+import business.*;
+import data.security.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -20,12 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.catalina.realm.SecretKeyCredentialHandler;
 
-/**
- *
- * @author tmdel
- */
 public class Public extends HttpServlet {
     String url = "";
     User loggedInUser = null;
@@ -34,7 +23,6 @@ public class Public extends HttpServlet {
             throws ServletException, IOException {
         Logger LOG = Logger.getLogger(Public.class.getName());
         
-        url = "/index.jsp";
         String action = request.getParameter("action");
         if (action == null) {
             action = "default";
@@ -43,6 +31,12 @@ public class Public extends HttpServlet {
         if (action.equals("register")) {
             register(request);
         }
+        
+        if (action.equals("login")) {
+            login(request);
+        }
+        
+        
         
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
@@ -125,12 +119,28 @@ public class Public extends HttpServlet {
     }
     
     private void login(HttpServletRequest request) {
-        String usernameOrEmail = ((String) request.getParameter("email-or-password"));
+        String usernameOrEmail = ((String) request.getParameter("email-or-username"));
         String password = ((String) request.getParameter("password"));
-                
+        
+        List<String> errors = new ArrayList<String>();
+        
+        
+if (usernameOrEmail == null) {
+    errors.add("Username/email is null.");
+    url = "/login.jsp";
+    request.setAttribute("errors", errors);
+    return;
+}        
+
+if (password == null) {
+    errors.add("Password is null.");
+    url = "/login.jsp";
+    request.setAttribute("errors", errors);
+    return;
+}
+        
         boolean wasLogInSuccessful = AuthenticationService.shared.login(usernameOrEmail, password);
                 
-        List<String> errors = new ArrayList<String>();
                 
         if (wasLogInSuccessful) {
             try {
