@@ -1,4 +1,16 @@
+<%@page import="business.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%
+    //code to direct users out off of the page if they're not logged in
+    User jspUser = (User) request.getSession().getAttribute("loggedInUser");
+    if (jspUser == null) {
+        response.sendRedirect("Public");
+        return;
+    }
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,8 +23,9 @@
     <body>
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
-            <h1>User Name</h1>
-            <h2>First Name and Last Name</h2>
+            <header>
+                <h1>Welcome <c:out value="${loggedInUser.username}"/></h1>
+            </header>
             <form action="Private" method="post">
                 <input type="hidden" name="action" value="logout">
                 <input type="submit" value="Logout">

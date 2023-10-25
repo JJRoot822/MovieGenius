@@ -13,13 +13,16 @@
         <div class="collapse navbar-collapse" id="movie-genius-navbar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item text-dark">
-                    <a href="index.jsp" class="nav-link">Home</a>
+                    <a href="index.jsp" class="nav-link text-dark">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="movies.jsp" class="nav-link">Movies</a>
+                    <a href="movies.jsp" class="nav-link text-dark">Movies</a>
                 </li>
                 
                 <c:if test="${not empty loggedInUser || loggedInUser != null}">
+                    <li class="nav-item">
+                        <a href="userPage.jsp" class="nav-link text-dark">User Page</a>
+                    </li>
                     <li class="nav-item">
                         <form action="Private" method="post">
                             <input type="hidden" value="logout" name="action" />
@@ -27,14 +30,12 @@
                         </form>
                     </li>
                 </c:if>
-
                 <c:if test="${empty sessionScope.loggedInUser}">
                     <li class="nav-item">
-                        <a href="login.jsp" class="nav-link text-dark">Log In</a>
-                    </li>
-
-                    <li class="nav-item">
                         <a href="register.jsp" class="nav-link text-dark">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="login.jsp" class="nav-link text-dark">Log In</a>
                     </li>
                 </c:if>
             </ul>
