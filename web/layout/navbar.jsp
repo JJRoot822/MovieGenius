@@ -18,7 +18,9 @@
                 <li class="nav-item">
                     <a href="movies.jsp" class="nav-link text-dark">Movies</a>
                 </li>
-                
+                <li class="nav-item">
+                        <a href="test.jsp" class="nav-link text-dark">Test</a>
+                </li>
                 <c:if test="${not empty loggedInUser || loggedInUser != null}">
                     <li class="nav-item">
                         <a href="userPage.jsp" class="nav-link text-dark">User Page</a>
@@ -37,6 +39,7 @@
                     <li class="nav-item">
                         <a href="login.jsp" class="nav-link text-dark">Log In</a>
                     </li>
+                    
                 </c:if>
             </ul>
         </div>

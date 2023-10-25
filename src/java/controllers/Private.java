@@ -1,5 +1,6 @@
 package controllers;
 
+import business.Movie;
 import business.User;
 import data.MovieDB;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import java.time.LocalDate;
 public class Private extends HttpServlet {
     String url = "";
 
@@ -83,15 +84,15 @@ public class Private extends HttpServlet {
                 
                 break;
             }
-            case "deleteUser": {
+            case "test": {
+                Movie movie = new Movie(3, "Hello", "Hi", LocalDate.parse("2005-12-12"));
                 try {
-                    MovieDB.deleteUser(4);
+                    MovieDB.insertMovie(movie);
                 } catch (SQLException e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
                 url = "/test.jsp";
                 break;
-                
             }
         }
 

@@ -13,10 +13,10 @@
         <jsp:include page="layout/navbar.jsp" />
     <main id="main-content">
         <h1>Test</h1>
-        
+        <text>Make sure you're logged in</text>
         <form action="Private" method="post">
-            <input type="hidden" name="action" value="deleteUser">
-            <input type="submit" value="Delete User">
+            <input type="hidden" name="action" value="test">
+            <input type="submit" value="Test">
         </form>
     </main>
     </body>
