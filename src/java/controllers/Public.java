@@ -151,7 +151,11 @@ if (password == null) {
                 loggedInUser = MovieDB.getUserInfo(usernameOrEmail);
                 request.getSession().setAttribute("loggedInUser", loggedInUser);
                 
-                url = "/userPage.jsp";
+                if (loggedInUser.getUserType().equals("admin")) {
+                    url = "/adminPage.jsp";
+                } else {
+                    url = "/userPage.jsp";
+                }
             } catch (Exception e) {
                 errors.add("A user with the provided details does not exist.");
                         
