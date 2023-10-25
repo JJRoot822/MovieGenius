@@ -1,4 +1,4 @@
 /build/
 /dist/
 /nbproject/private/
-/META-INF/Context.xml
+/web/META-INF/Context.xml
