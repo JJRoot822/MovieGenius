@@ -83,7 +83,16 @@ public class Private extends HttpServlet {
                 
                 break;
             }
-            
+            case "deleteUser": {
+                try {
+                    MovieDB.deleteUser(4);
+                } catch (SQLException e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+                url = "/test.jsp";
+                break;
+                
+            }
         }
 
         getServletContext().getRequestDispatcher(url).forward(request, response);
