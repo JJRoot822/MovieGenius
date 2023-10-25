@@ -397,7 +397,7 @@ public class MovieDB {
         if (Validation.isEmail(usernameOrEmail)) {
             query = "SELECT * FROM users WHERE email = ? AND password = ?";
         } else {
-            query = "SELECT * FROM Users WHERE username = ? AND password = ?";
+            query = "SELECT * FROM users WHERE username = ? AND password = ?";
         }
 
         try {
@@ -430,20 +430,23 @@ public class MovieDB {
         }
     }
 
-    public static User getUserInfo(String username) throws SQLException {
+    public static User getUserInfo(String usernameOrEmail) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String query
-                = "SELECT * "
-                + "FROM users "
-                + "WHERE username = ?";
+        String query = "";
+        
+        if (Validation.isEmail(usernameOrEmail)) {
+            query = "SELECT * FROM users WHERE email = ?";
+        } else {
+            query = "SELECT * FROM users WHERE username = ?";
+        }
 
         try {
             ps = connection.prepareStatement(query);
-            ps.setString(1, username);
+            ps.setString(1, usernameOrEmail);
             rs = ps.executeQuery();
             User user = null;
             if (rs.next()) {

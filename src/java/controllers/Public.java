@@ -27,6 +27,10 @@ public class Public extends HttpServlet {
         if (action == null) {
             action = "default";
         }
+        
+        if (action.equals("gotoIndex")) {
+            url = "/index.jsp";
+        }
 
         if (action.equals("register")) {
             register(request);

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controllers;
 
 import business.User;
@@ -17,21 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author tmdel
- */
 public class Private extends HttpServlet {
+    String url = "";
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
@@ -39,9 +23,7 @@ public class Private extends HttpServlet {
             response.sendRedirect("Public");
             return;
         }
-
-        String url = ""; //insert logged in url here later.
-
+         
         String action = request.getParameter("action");
         if (action == null) {
             action = "default";
@@ -54,11 +36,7 @@ public class Private extends HttpServlet {
                 break;
             }
             case "logout": {
-                HttpSession session;
-                session = request.getSession();
-                session.invalidate();
-                
-                url = "/Public?action=gotoIndex";
+                logout(request);
                 
                 break;
             }
@@ -110,8 +88,14 @@ public class Private extends HttpServlet {
 
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
+    
+    private void logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+        url = "/Public?action=gotoIndex";
+    }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -151,3 +135,20 @@ public class Private extends HttpServlet {
     }// </editor-fold>
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
