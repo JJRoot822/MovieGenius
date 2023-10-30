@@ -283,7 +283,6 @@ public class MovieDB {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
-        ResultSet rs = null;
 
         String query
                 = "UPDATE users "
@@ -296,14 +295,13 @@ public class MovieDB {
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getEmail());
             ps.setInt(4, user.getUserID());
-            rs = ps.executeQuery();
+            ps.executeUpdate();
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "*** get user", e);
             throw e;
         } finally {
             try {
                 ps.close();
-                rs.close();
                 pool.freeConnection(connection);
             } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** delete user null pointer?", e);

@@ -1,4 +1,14 @@
+<%@page import="business.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    //code to direct users out off of the page if they're not logged in
+    User jspUser = (User) request.getSession().getAttribute("loggedInUser");
+    if (jspUser == null) {
+        response.sendRedirect("Public");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,23 +21,33 @@
     <body>
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
+
             <form action="Private" method="post">
                 <input type="hidden" name="action" value="updateUser">
                 <h1>Update Information</h1>
                 <label>Email:</label>
-                <input type="text" name="email">
+                <input type="text" name="email" value="${loggedInUser.email}">
+                <c:forEach items="${errorEmail}" var="errorEmail">
+                    <label>${errorEmail}</label>
+                </c:forEach>
                 <br><br>
                 <label>User Name:</label>
-                <input type="text" name="userName">
+                <input type="text" name="userName" value="${loggedInUser.username}">
                 <br><br>
                 <label>Enter New Password:</label>
                 <input type="text" name="newPassword">
                 <br><br>
                 <label>Enter Re-enter New Password:</label>
                 <input type="text" name="checkNewPassword">
+                <c:forEach items="${errorNewPassword}" var="errorNewPassword">
+                    <label>${errorNewPassword}</label>
+                </c:forEach>
                 <br><br>
                 <label>Enter Old Password:</label>
                 <input type="text" name="oldPassword">
+                <c:forEach items="${errorOldPassword}" var="errorOldPassword">
+                    <label>${errorOldPassword}</label>
+                </c:forEach>
                 <br><br>
                 <label>Viewable: </label>
                 <br>
