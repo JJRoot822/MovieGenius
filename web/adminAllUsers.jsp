@@ -23,7 +23,12 @@
                     <div class="col-4">
                         <h1>Admin all users page</h1>
                     </div>
-                    
+                    <c:forEach var="user" items="${users}">
+                        <form action="Private" method="post">
+                            <input type="hidden" name="action" value="allUsers">
+                            
+                        </form>
+                    </c:forEach>
                     <div class="col-4"></div>
                 </div>
             </div>
