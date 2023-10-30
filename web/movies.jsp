@@ -1,3 +1,8 @@
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.Statement" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.DriverManager" %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -11,17 +16,68 @@
     </head>
     <body>
         <jsp:include page="layout/navbar.jsp" />
-    <main id="main-content">
-        <h1>Movie List</h1>
-        <h2>Upcoming Movies</h2>
-        <h2>Current Movies</h2>
-        <c:forEach var="movie" items="${movies}">
-            <input type="hidden" name="movieID" value="${movie.value.movieID}">
-        </c:forEach>
-        <form action="Private" method="post">
-            <input type="hidden" name="action" value="review">
-            <input type="submit" value="Review">
-        </form>
-    </main>
+        <main id="main-content">
+            <h1>Movie List</h1>
+            <h2>Current Movies</h2>
+
+            <form method="post">
+                <style>
+                    table, th, td {
+                        border: 1px solid black;
+                        border-collapse: collapse;
+                        padding: 5px;
+                    }
+                </style>
+                <table border="1" column="1">
+                    <tr>
+                        <th>Title</th>
+                        <th>Summary</th>
+                        <th>Release Date</th>
+                    </tr>
+                    <%
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver");
+                            String url = "jdbc:mysql://localhost:3306/moviedb";
+                            String username = "root";
+                            String password = "";
+                            String query = "select * from movies";
+                            Connection conn = DriverManager.getConnection(url, username, password);
+                            Statement stmt = conn.createStatement();
+                            ResultSet rs = stmt.executeQuery(query);
+                            while (rs.next()) {
+                    %>
+                    <tr>
+                        <td><%=rs.getString("title")%></td>
+                        <td><%=rs.getString("summary")%></td>
+                        <td><%=rs.getDate("releaseDate").toLocalDate()%></td>
+                        <td>
+                            <input type="hidden" name="action" value="review">
+                            <input type="submit" value="Review">
+                        </td>
+                    </tr>
+                    <%
+                        }
+                    %>
+                </table>
+                <%
+                        rs.close();
+                        stmt.close();
+                        conn.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                %>
+            </form>
+            <br>
+            <%--<c:forEach var="movie" items="${movies}">
+                <form action="Private" method="post">
+                    <input type="hidden" name="action" value="allMovies">
+                </form>
+            </c:forEach>
+            <form action="Private" method="post">
+                <input type="hidden" name="action" value="review">
+                <input type="submit" value="Review">
+            </form>--%>
+        </main>
     </body>
 </html>
