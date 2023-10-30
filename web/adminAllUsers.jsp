@@ -23,12 +23,12 @@
                     <div class="col-4">
                         <h1>Admin all users page</h1>
                     </div>
-                    <c:forEach var="user" items="${users}">
-                        <form action="Private" method="post">
-                            <input type="hidden" name="action" value="allUsers">
-                            
-                        </form>
-                    </c:forEach>
+                    <ul>
+                        <c:forEach var="user" items="${allUsers}">
+                            <li><a href="Private?action=adminUserAction&name=<c:out value="${user.value.username}"/>&id=<c:out value="${user.value.userID}"/>">
+                                    <c:out value="${user.value.username}"/></a>:      <c:out value="${user.value.email}"/></li>
+                        </c:forEach>
+                    </ul>
                     <div class="col-4"></div>
                 </div>
             </div>
