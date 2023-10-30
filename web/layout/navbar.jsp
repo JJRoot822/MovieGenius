@@ -15,12 +15,6 @@
                 <li class="nav-item text-dark">
                     <a href="index.jsp" class="nav-link text-dark">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a href="movies.jsp" class="nav-link text-dark">Movies</a>
-                </li>
-                <li class="nav-item">
-                        <a href="test.jsp" class="nav-link text-dark">Test</a>
-                </li>
                 <c:if test="${loggedInUser.userType eq 'admin'}">
                     <li class="nav-item">
                         <a href="adminPage.jsp" class="nav-link text-dark">Admin Page</a>
@@ -32,6 +26,12 @@
                         <a href="adminAllUsers.jsp" class="nav-link text-dark">Admin Users</a>
                     </li>
                 </c:if>
+                <li class="nav-item">
+                    <a href="movies.jsp" class="nav-link text-dark">Movies</a>
+                </li>
+                <li class="nav-item">
+                        <a href="test.jsp" class="nav-link text-dark">Test</a>
+                </li>
                 <c:if test="${not empty loggedInUser || loggedInUser != null}">
                     <li class="nav-item">
                         <a href="userPage.jsp" class="nav-link text-dark">User Page</a>
