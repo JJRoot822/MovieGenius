@@ -108,6 +108,11 @@ public class Private extends HttpServlet {
 
                 break;
             }
+            case "adminUserAction": {
+                url = "/adminAllUsers.jsp";
+                
+                break;
+            }
             case "test": {
                 Movie movie = new Movie(3, "Hello", "Hi", LocalDate.parse("2005-12-12"));
                 try {

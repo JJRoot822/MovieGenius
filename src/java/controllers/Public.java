@@ -5,7 +5,6 @@ import business.*;
 import data.security.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -96,6 +95,18 @@ public class Public extends HttpServlet {
         
         if (!Validation.isEmail(email)) {
             errors.add("The email you entered is not a valid format. A valid format looks like this: example@somesite.com");
+        }
+        
+         if (Validation.isValidEmail(email)) {
+            errors.add("The email you entered is already tied with an account.");
+        }
+        
+        if (!Validation.isValidUsername(username)) {
+            errors.add("The username you entered is already taken.");
+        }
+        
+        if (!Validation.isValidPassword(password)) {
+            errors.add("Your password must be longer than 10 characters.");
         }
         
         if (!password.equals(verifyPassword)) {

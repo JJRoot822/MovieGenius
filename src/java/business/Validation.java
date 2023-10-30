@@ -2,7 +2,8 @@ package business;
 
 import data.MovieDB;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -11,84 +12,57 @@ import java.util.regex.Matcher;
  * @author tmdel
  */
 public class Validation {
+
+    private static final Logger LOG = Logger.getLogger(MovieDB.class.getName());
+
     // Simply used for determining if the user entered a username or email in the log in form so the login process can proceed in accordance with which was entered.
     // NOT used for Validating data, with errors and all that comes with it.
     public static boolean isEmail(String email) {
         String emailPattern = "^[A-Za-z0-9+_.-]+@(.+)$";
-Pattern pattern = Pattern.compile(emailPattern);
-Matcher matcher = pattern.matcher(email);
+        Pattern pattern = Pattern.compile(emailPattern);
+        Matcher matcher = pattern.matcher(email);
 
         return matcher.matches();
     }
-    
-    public static String isValidUsername (String username, String label, HashMap<String, String> errors) {
-        // username must be between 4-30 characters inclusive and must be unique for all users
-        
+
+    public static boolean isValidUsername(String username) {
+        // must be unique for all users
+
         boolean result = false;
+        boolean rs = false;
         try {
-            result = MovieDB.validateUsername(username);
+            rs = MovieDB.validateUsername(username);
         } catch (SQLException e) {
-            errors.put(label, "SQL error while checking username.");
+            LOG.log(Level.SEVERE, "*** SQL error in checking username.");
         }
-        
-        if ("".equals(username) || username.length() < 4 || username.length() > 30) {
-            errors.put(label, Validation.capFirstLetter(label) + " must be between 4-30 characters long.");
-            username = null;
-        } else if (result) { // this is where it will check to see if the username is already in database.
-            errors.put(label, Validation.capFirstLetter(label) + " is already taken. Please select another username.");
-            username = null;
+
+        if (!rs) {
+            result = true;
         }
-        return username;
+        return result;
     }
-    
-    public static String isValidEmail (String email, String label, HashMap<String, String> errors) {
+
+    public static boolean isValidEmail(String email) {
         // must have more than 5 characters and contain a @ and a . after the @ and must be unique for all users
         boolean result = false;
         try {
             result = MovieDB.validateEmail(email);
         } catch (SQLException e) {
-            errors.put(label, "SQL error while checking email.");
+            LOG.log(Level.SEVERE, "*** SQL error in checking email.");
         }
-        // gets int values for the index of the @ symbol and the last index of the . symbol
-        int atIndex = email.indexOf("@");
-        int dotIndex = email.lastIndexOf(".");
 
-        if (email.length() <= 5) {
-            errors.put(label, Validation.capFirstLetter(label) +  " must be longer than 5 characters.");
-            email = null;
-        } else if (atIndex == -1 || dotIndex == -1) { //if -1 no @ or . was in email
-            errors.put(label, Validation.capFirstLetter(label) + " must have a @ symbol and a . after the @ symbol.");
-            email = null;
-        } else if (dotIndex < atIndex) { //if dotIndex < atIndex the last . came before the @ symbol
-            errors.put(label, Validation.capFirstLetter(label) + " must follow the a xxxx@xxx.com structure");
-            email = null;
-        } else if (result) { // this is where it will check to see if the email is already in the database.
-             errors.put(label, Validation.capFirstLetter(label) + " already tied to an account please use a different email.");
-             email = null;
-        }
-        
-        return email;
+        return result;
     }
-    
-    public static String isValidPassword (String password, String label, HashMap<String, String> errors) {
+
+    public static boolean isValidPassword(String password) {
         // password must be more than 10 characters long
-        
-        if (password.length() <= 10) {
-            errors.put(label, Validation.capFirstLetter(label) + " must be longer than 10 characters.");
-            password = null;
+
+        boolean result = false;
+
+        if (password.length() > 10) {
+            result = true;
         }
-        
-        return password;
-    }
-    
-    private static String capFirstLetter(String input) {
-        if (input == null) {
-            return null;
-        } else if (input.length() == 1) {
-            return input.toUpperCase();
-        } else {
-            return input.substring(0, 1).toUpperCase() + input.substring(1);
-        }
+
+        return result;
     }
 }
-
