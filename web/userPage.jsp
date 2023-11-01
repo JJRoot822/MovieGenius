@@ -1,14 +1,12 @@
-<%@page import="business.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
-    //code to direct users out off of the page if they're not logged in
-    User jspUser = (User) request.getSession().getAttribute("loggedInUser");
-    if (jspUser == null) {
-        response.sendRedirect("Public");
-        return;
-    }
+if (session.getAttribute("loggedInUser") == null) {
+    // Redirect to a different page if loggedInUser is not in the session
+    response.sendRedirect("login.jsp"); // Replace "login.jsp" with the desired redirection URL
+    return; // To stop further executio     n of JSP
+}
 %>
 
 <!DOCTYPE html>
