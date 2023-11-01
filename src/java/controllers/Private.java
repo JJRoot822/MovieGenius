@@ -120,6 +120,19 @@ public class Private extends HttpServlet {
                 request.setAttribute("allUsers", allUsers);
                 break;
             }
+            case "movieList": {
+                url = "/movies.jsp";
+                ArrayList<Movie> allMovies = new ArrayList();
+                
+                try {
+                    allMovies = MovieDB.selectAllMovies();
+                } catch (SQLException e) {
+                    Logger.getLogger(MovieDB.class.getName()).log(Level.SEVERE, null, e);
+                }
+                
+                request.setAttribute("allMovies", allMovies);
+                break;
+            }
             case "test": {
                 try {
                     ArrayList<Movie> top10Movies = MovieDB.getTop10();

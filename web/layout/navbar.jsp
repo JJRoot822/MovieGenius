@@ -9,7 +9,7 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#movie-genius-navbar" aria-controls="movie-genius-navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-      
+
         <div class="collapse navbar-collapse" id="movie-genius-navbar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item text-dark">
@@ -26,13 +26,14 @@
                         <a href="Private?action=adminUserAction" class="nav-link text-dark">Admin Users</a>
                     </li>
                 </c:if>
+
                 <li class="nav-item">
-                    <a href="movies.jsp" class="nav-link text-dark">Movies</a>
-                </li>
-                <li class="nav-item">
-                        <a href="test.jsp" class="nav-link text-dark">Test</a>
+                    <a href="test.jsp" class="nav-link text-dark">Test</a>
                 </li>
                 <c:if test="${not empty loggedInUser || loggedInUser != null}">
+                    <li class="nav-item">
+                        <a href="Private?action=movieList" class="nav-link text-dark">Movies</a>
+                    </li>
                     <li class="nav-item">
                         <a href="userPage.jsp" class="nav-link text-dark">User Page</a>
                     </li>
@@ -50,7 +51,7 @@
                     <li class="nav-item">
                         <a href="login.jsp" class="nav-link text-dark">Log In</a>
                     </li>
-                    
+
                 </c:if>
             </ul>
         </div>

@@ -686,9 +686,10 @@ public class MovieDB {
         ResultSet rs = null;
         String query
                 = "SELECT *"
-                + "FROM movies";
+                + " FROM movies";
         try {
             ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
             while (rs.next()) {
                 int movieID = rs.getInt("movieID");
                 String title = rs.getString("title");
