@@ -15,14 +15,12 @@
         <main id="main-content">
             <h1>Test</h1>
             <text>Make sure you're logged in</text>
-            <form action="Private" method="post">
-                <input type="hidden" name="action" value="test">
-                <input type="submit" value="Test">
-            </form>
             <ul class="list-unstyled">
-                <c:forEach var="top10movie" items="${top10movies}" >
-                    <li>${top10movie.title}</li>
-                </c:forEach>
+
+                
+                <li> <c:out value="${top10movies[1].title}" /></li>
+                <li>1. ${top10movies[0].title} avg rating ${avgRatings[var]}</li>
+                
             </ul>
         </main>
     </body>

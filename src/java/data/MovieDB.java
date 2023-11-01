@@ -253,7 +253,7 @@ public class MovieDB {
 
         String query
                 = "UPDATE users "
-                + "SET username = ?, password = ?, email = ?, userType = ?"
+                + "SET username = ?, password = ?, email = ?, userType = ? "
                 + "WHERE userID = ?";
 
         try {
@@ -279,22 +279,77 @@ public class MovieDB {
         }
     }
 
-    public static void updateUser(User user) throws SQLException {
+    public static void updateUserUsername(User user) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
 
         String query
                 = "UPDATE users "
-                + "SET username = ?, password = ?, email = ?"
+                + "SET username = ? "
                 + "WHERE userID = ?";
 
         try {
             ps = connection.prepareStatement(query);
             ps.setString(1, user.getUsername());
-            ps.setString(2, user.getPassword());
-            ps.setString(3, user.getEmail());
-            ps.setInt(4, user.getUserID());
+            ps.setInt(2, user.getUserID());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get user", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    public static void updateUserPassword(User user) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "UPDATE users "
+                + "SET password = ? "
+                + "WHERE userID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, user.getPassword());
+            ps.setInt(2, user.getUserID());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get user", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static void updateUserEmail(User user) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "UPDATE users "
+                + "SET email = ? "
+                + "WHERE userID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, user.getEmail());
+            ps.setInt(2, user.getUserID());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "*** get user", e);
@@ -572,8 +627,8 @@ public class MovieDB {
         String query
                 = "SELECT genreName "
                 + "FROM moviegenre "
-                + "INNER JOIN genres"
-                + "ON moviegenre.genreID = genres.genreID"
+                + "INNER JOIN genres "
+                + "ON moviegenre.genreID = genres.genreID "
                 + "WHERE movieID = ?";
         try {
             ps = connection.prepareStatement(query);
@@ -640,6 +695,44 @@ public class MovieDB {
             }
         }
     }
+    
+    public static ArrayList<Double> getTop10Avgs() throws SQLException {
+        ArrayList<Double> avgRatings = new ArrayList();
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String query
+                = "SELECT AVG(rating) as avgRating "
+                + "FROM movies "
+                + "INNER JOIN reviews "
+                + "ON movies.movieID = reviews.movieID "
+                + "GROUP BY reviews.movieID "
+                + "ORDER BY AVG(rating) desc "
+                + "LIMIT 10";
+        try {
+
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Double avgRating = rs.getDouble("avgRating");
+                avgRatings.add(avgRating);
+            }
+            return avgRatings;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get password", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** get password null pointer?", e);
+                throw e;
+            }
+        }
+    }
 
     public static ArrayList<Double> getAvgRatingForMovie(ArrayList<Movie> movies) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
@@ -648,12 +741,12 @@ public class MovieDB {
         ResultSet rs = null;
         ArrayList<Double> avgRatings = new ArrayList();
         String query
-                = "SELECT AVG(Rating) as avgRating"
-                + "FROM movies"
-                + "INNER JOIN reviews"
-                + "ON movies.movieID = reviews.movieID"
-                + "GROUP BY reviews.movieID"
-                + "ORDER BY AVG(rating) desc"
+                = "SELECT AVG(Rating) as avgRating "
+                + "FROM movies "
+                + "INNER JOIN reviews "
+                + "ON movies.movieID = reviews.movieID" 
+                + "GROUP BY reviews.movieID "
+                + "ORDER BY AVG(rating) desc "
                 + "LIMIT 10";
         try {
             ps = connection.prepareStatement(query);

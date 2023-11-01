@@ -74,7 +74,7 @@ public class Private extends HttpServlet {
                             loggedInUser.setEmail(newEmail);
                             loggedInUser.setUsername(newUserName);
                             loggedInUser.setPassword(newPassword);
-                            MovieDB.updateUser(loggedInUser);
+                            //MovieDB.updateUser(loggedInUser);
                             url = "/userPage.jsp";
                         }
                     }
@@ -134,13 +134,20 @@ public class Private extends HttpServlet {
                 break;
             }
             case "test": {
+                url = "/test.jsp";
+                ArrayList<Movie> top10Movies = new ArrayList();
+                ArrayList<Double> top10Ratings = new ArrayList();
                 try {
-                    ArrayList<Movie> top10Movies = MovieDB.getTop10();
-                    request.getSession().setAttribute("top10Movies", top10Movies);
+                    
+                    top10Movies = MovieDB.getTop10();
+                    top10Ratings = MovieDB.getTop10Avgs();
                 } catch (SQLException e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
-                url = "/test.jsp";
+                
+                
+                request.setAttribute("top10Movies", top10Movies);
+                request.setAttribute("top10Ratings", top10Ratings);
                 break;
             }
         }

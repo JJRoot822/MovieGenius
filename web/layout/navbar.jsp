@@ -25,11 +25,10 @@
                     <li class="nav-item">
                         <a href="Private?action=adminUserAction" class="nav-link text-dark">Admin Users</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="test.jsp" class="nav-link text-dark">Test</a>
+                    </li>
                 </c:if>
-
-                <li class="nav-item">
-                    <a href="test.jsp" class="nav-link text-dark">Test</a>
-                </li>
                 <c:if test="${not empty loggedInUser || loggedInUser != null}">
                     <li class="nav-item">
                         <a href="Private?action=movieList" class="nav-link text-dark">Movies</a>
