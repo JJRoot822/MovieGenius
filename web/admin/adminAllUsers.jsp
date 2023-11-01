@@ -2,11 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
-if (session.getAttribute("loggedInUser") == null) {
-    // Redirect to a different page if loggedInUser is not in the session
-    response.sendRedirect("login.jsp"); // Replace "login.jsp" with the desired redirection URL
-    return; // To stop further executio     n of JSP
-}
+    if (session.getAttribute("loggedInUser") == null) {
+        // Redirect to a different page if loggedInUser is not in the session
+        response.sendRedirect("login.jsp"); // Replace "login.jsp" with the desired redirection URL
+        return; // To stop further executio     n of JSP
+    }
 %>
 
 <!-- Your regular JSP content for the loggedInUser being present -->
@@ -31,14 +31,13 @@ if (session.getAttribute("loggedInUser") == null) {
             <div class="container">
                 <div class="row">
                     <div class="col-4"></div>
-                    
+
                     <div class="col-4">
                         <h1>Admin all users page</h1>
                     </div>
                     <ul>
                         <c:forEach var="user" items="${allUsers}">
-                            <li><a href="Private?action=adminUserAction&name=<c:out value="${user.value.username}"/>&id=<c:out value="${user.value.userID}"/>">
-                                    <c:out value="${user.value.username}"/></a>:      <c:out value="${user.value.email}"/></li>
+                            <li>${user.value.username}</li>
                         </c:forEach>
                     </ul>
                     <div class="col-4"></div>

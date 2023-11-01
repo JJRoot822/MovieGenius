@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 public class Private extends HttpServlet {
 
     String url = "";
@@ -104,6 +105,19 @@ public class Private extends HttpServlet {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
+                break;
+            }
+            case "adminUserAction": {
+                url = "/admin/adminAllUsers.jsp";
+                LinkedHashMap<String, User> allUsers = new LinkedHashMap();
+                
+                try {
+                    allUsers = MovieDB.selectAllUsers();
+                } catch (SQLException e) {
+                    Logger.getLogger(MovieDB.class.getName()).log(Level.SEVERE, null, e);
+                }
+                
+                request.setAttribute("allUsers", allUsers);
                 break;
             }
             case "test": {

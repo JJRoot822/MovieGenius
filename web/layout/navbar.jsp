@@ -17,13 +17,13 @@
                 </li>
                 <c:if test="${loggedInUser.userType eq 'admin'}">
                     <li class="nav-item">
-                        <a href="adminPage.jsp" class="nav-link text-dark">Admin Page</a>
+                        <a href="admin/adminPage.jsp" class="nav-link text-dark">Admin Page</a>
                     </li>
                     <li class="nav-item">
-                        <a href="adminMovies.jsp" class="nav-link text-dark">Admin Movies</a>
+                        <a href="admin/adminMovies.jsp" class="nav-link text-dark">Admin Movies</a>
                     </li>
                     <li class="nav-item">
-                        <a href="adminAllUsers.jsp" class="nav-link text-dark">Admin Users</a>
+                        <a href="Private?action=adminUserAction" class="nav-link text-dark">Admin Users</a>
                     </li>
                 </c:if>
                 <li class="nav-item">
