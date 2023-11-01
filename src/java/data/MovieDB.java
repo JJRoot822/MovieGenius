@@ -278,7 +278,7 @@ public class MovieDB {
             }
         }
     }
-    
+
     public static void updateUser(User user) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -435,7 +435,7 @@ public class MovieDB {
         ResultSet rs = null;
 
         String query = "";
-        
+
         if (Validation.isEmail(usernameOrEmail)) {
             query = "SELECT * FROM users WHERE email = ?";
         } else {
@@ -606,23 +606,63 @@ public class MovieDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String query
-                = "SELECT *"
+                = "SELECT * "
+                + "FROM movies "
+                + "INNER JOIN reviews "
+                + "ON movies.movieID = reviews.movieID "
+                + "GROUP BY reviews.movieID "
+                + "ORDER BY AVG(rating) desc "
+                + "LIMIT 10";
+        try {
+
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int movieID = rs.getInt("movieID");
+                String title = rs.getString("title");
+                String summary = rs.getString("summary");
+                LocalDate releaseDate = rs.getDate("releaseDate").toLocalDate();
+                Movie movie = new Movie(movieID, title, summary, releaseDate);
+                movies.add(movie);
+            }
+            return movies;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get password", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** get password null pointer?", e);
+                throw e;
+            }
+        }
+    }
+
+    public static ArrayList<Double> getAvgRatingForMovie(ArrayList<Movie> movies) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        ArrayList<Double> avgRatings = new ArrayList();
+        String query
+                = "SELECT AVG(Rating) as avgRating"
                 + "FROM movies"
                 + "INNER JOIN reviews"
                 + "ON movies.movieID = reviews.movieID"
-                + "GROUP BY movieID"
+                + "GROUP BY reviews.movieID"
                 + "ORDER BY AVG(rating) desc"
                 + "LIMIT 10";
         try {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
-            int movieID = rs.getInt("movieID");
-            String title = rs.getString("title");
-            String summary = rs.getString("summary");
-            LocalDate releaseDate = rs.getDate("releaseDate").toLocalDate();
-            Movie movie = new Movie(movieID, title, summary, releaseDate);
-            movies.add(movie);
-            return movies;
+            while (rs.next()) {
+                double avgRating = rs.getDouble("avgRating");
+                avgRatings.add(avgRating);
+            }
+            return avgRatings;
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "*** get password", e);
             throw e;
@@ -648,6 +688,7 @@ public class MovieDB {
                 = "SELECT *"
                 + "FROM movies";
         try {
+            ps = connection.prepareStatement(query);
             while (rs.next()) {
                 int movieID = rs.getInt("movieID");
                 String title = rs.getString("title");
@@ -782,7 +823,7 @@ public class MovieDB {
             }
         }
     }
-    
+
     public static ArrayList<Movie> movieSearchByName(String titleSearch) throws SQLException {
         ArrayList<Movie> Movies = new ArrayList();
         ConnectionPool pool = ConnectionPool.getInstance();

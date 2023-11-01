@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="business.Movie"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,13 +12,18 @@
     </head>
     <body>
         <jsp:include page="layout/navbar.jsp" />
-    <main id="main-content">
-        <h1>Test</h1>
-        <text>Make sure you're logged in</text>
-        <form action="Private" method="post">
-            <input type="hidden" name="action" value="test">
-            <input type="submit" value="Test">
-        </form>
-    </main>
+        <main id="main-content">
+            <h1>Test</h1>
+            <text>Make sure you're logged in</text>
+            <form action="Private" method="post">
+                <input type="hidden" name="action" value="test">
+                <input type="submit" value="Test">
+            </form>
+            <ul class="list-unstyled">
+                <c:forEach var="top10movie" items="${top10movies}" >
+                    <li>${top10movie.title}</li>
+                </c:forEach>
+            </ul>
+        </main>
     </body>
 </html>

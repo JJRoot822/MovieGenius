@@ -17,8 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-
 public class Private extends HttpServlet {
 
     String url = "";
@@ -108,15 +106,10 @@ public class Private extends HttpServlet {
 
                 break;
             }
-            case "adminUserAction": {
-                url = "/adminAllUsers.jsp";
-                
-                break;
-            }
             case "test": {
-                Movie movie = new Movie(3, "Hello", "Hi", LocalDate.parse("2005-12-12"));
                 try {
-                    MovieDB.insertMovie(movie);
+                    ArrayList<Movie> top10Movies = MovieDB.getTop10();
+                    request.getSession().setAttribute("top10Movies", top10Movies);
                 } catch (SQLException e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
