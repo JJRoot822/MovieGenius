@@ -163,7 +163,7 @@ if (password == null) {
                 request.getSession().setAttribute("loggedInUser", loggedInUser);
                 
                 if (loggedInUser.getUserType().equals("admin")) {
-                    url = "/adminPage.jsp";
+                    url = "/admin/adminPage.jsp";
                 } else {
                     url = "/userPage.jsp";
                 }

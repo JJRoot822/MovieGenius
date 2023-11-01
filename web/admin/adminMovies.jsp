@@ -20,7 +20,7 @@ if (session.getAttribute("loggedInUser") == null) {
         <link href="MovieGenius.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <jsp:include page="layout/navbar.jsp" />
+        <jsp:include page="/layout/navbar.jsp" />
         <main id="main-content">
             <h1>Admin Movie Page</h1>
             <br>
