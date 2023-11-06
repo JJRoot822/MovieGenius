@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package business;
 
-/**
- *
- * @author tmdel
- */
 public class Review {
     private int reviewID, rating, userID, movieID;
     private String comment;

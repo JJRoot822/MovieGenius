@@ -7,16 +7,10 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-/**
- *
- * @author tmdel
- */
 public class Validation {
 
     private static final Logger LOG = Logger.getLogger(MovieDB.class.getName());
 
-    // Simply used for determining if the user entered a username or email in the log in form so the login process can proceed in accordance with which was entered.
-    // NOT used for Validating data, with errors and all that comes with it.
     public static boolean isEmail(String email) {
         String emailPattern = "^[A-Za-z0-9+_.-]+@(.+)$";
         Pattern pattern = Pattern.compile(emailPattern);

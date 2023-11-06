@@ -159,6 +159,32 @@ public class Private extends HttpServlet {
         request.getSession().invalidate();
         url = "/Public?action=gotoIndex";
     }
+    
+    private void updateReview(HttpServletRequest request) {
+        int reviewId = ((int) request.getParameter("reviewId"));
+        int movieId = ((int) request.getParameter("movieId"));
+        int userId = ((int) request.getParameter("userID"));
+        int reviewRating = ((int) request.getParameter("review-rating"));
+        String reviewComments = ((String) request.getParameter("review-comments"));
+        
+        List<String> errors = new ArrayList<String>();
+        
+        if reviewCcomments.equals("")) {
+            errors.add("You must enter a comment.");
+        }
+        
+        try {
+            Review review = new Review();
+            review.setReviewID(reviewId);
+            review.setMovieID(movieId);
+            review.setUserID(userId);
+            review.setRating(reviewRating);
+            review.setComment(reviewComments);
+            MovieDB.updateReview(review);
+        } catch (SQLException e) {
+            errors.add("Failed to update your review. Please try again.");
+        }
+    }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

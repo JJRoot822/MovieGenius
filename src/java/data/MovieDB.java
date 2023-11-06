@@ -956,4 +956,37 @@ public class MovieDB {
             }
         }
     }
+
+    public static void updateReview(Review review) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query
+                = "UPDATE reviews "
+                + "SET rating = ?, comment = ?"
+                + "WHERE reviewID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, review.getRating());
+            ps.setString(2, review.getComment());
+            ps.setInt(3, review.getReviewID());
+            ps.setInt(4, movie.getMovieID());
+            rs = ps.executeQuery();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get movie", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** delete movie null pointer?", e);
+                throw e;
+            }
+        }
+    }
 }

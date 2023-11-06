@@ -33,7 +33,9 @@ if (session.getAttribute("loggedInUser") == null) {
                                 <p class="text-danger">${error}</p>
                             </c:forEach>
                             
-                            <input type="hidden" value="<c:out value='${review.reviewId}' />" name="id" />
+                            <input type="hidden" value="<c:out value='${review.reviewID}' />" name="reviewId" />
+                            <input type="hidden" value="<c:out value='${review.movieID}' />" name="movieId" />
+                            <input type="hidden" value="<c:out value='${review.userID}' />" name="userId" />
                             <input type="hidden" value="update-review" name="action" />
 
                             <label for="review-rating-field">Rating</label>
