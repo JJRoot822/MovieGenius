@@ -31,6 +31,11 @@ if (session.getAttribute("loggedInUser") == null) {
                 <input type="hidden" name="action" value="gotoUpdatePage">
                 <input type="submit" value="Update Profile">
             </form>
+            
+            <form action="Private" method="post">
+                <input type="hidden" name="action" value="gotoUserReview">
+                <input type="submit" value="User Review">
+            </form>
         </main>
     </body>
 </html>
