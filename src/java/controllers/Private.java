@@ -18,6 +18,8 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+
 public class Private extends HttpServlet {
 
     String url = "";
@@ -47,89 +49,97 @@ public class Private extends HttpServlet {
                 break;
             }
             case "updateUser": {
-                String errorEmail = "";
-                String errorNewPassword = "";
-                String errorOldPassword = "";
-                url = "/updateUser.jsp";
                 try {
                     String newEmail = request.getParameter("email");
                     String newUserName = request.getParameter("userName");
-                    if (!Validation.isEmail(newEmail)) {
-                        errorEmail = "The email you entered is not a valid format. A valid format looks like this: example@somesite.com";
-                        request.setAttribute("errorEmail", errorEmail);  
-                        break;
-                    }
                     String newPassword = request.getParameter("newPassword");
                     String re_enterPassword = request.getParameter("checkNewPassword");
-                    String oldPassword = request.getParameter("oldPassword");
-                    if (newPassword.equals(re_enterPassword)) {
-                        newPassword = SecurityUtil.hashPassword(newPassword);
-                        if (newPassword.equals(loggedInUser.getPassword())) {
-                            url = "/updateUser.jsp";
-                        } else if (!SecurityUtil.isMatchingPassword(oldPassword, loggedInUser.getPassword())) {
-                            url = "/updateUser.jsp";
-                            errorOldPassword = "The password must be the same as the old password";
-                            request.setAttribute("errorOldPassword", errorOldPassword);
-                        } else {
+                    List<String> errors = new ArrayList<String>();
+
+                    if (!newEmail.equals("")) {
+                        if (!Validation.isEmail(newEmail)) {
+                            errors.add("The email you entered is not a valid format. A valid format looks like this: example@somesite.com");
+                        }
+
+                        if (!Validation.isValidEmail(newEmail)) {
                             loggedInUser.setEmail(newEmail);
-                            loggedInUser.setUsername(newUserName);
-                            loggedInUser.setPassword(newPassword);
-                            //MovieDB.updateUser(loggedInUser);
-                            url = "/userPage.jsp";
+                            MovieDB.updateUserEmail(loggedInUser);
+                            
+                        } else {
+                            errors.add("Email is already tied to an account please use a different email.");
                         }
                     }
-                    else{
-                        errorNewPassword = "The re-enter password must be the same as the New Password";
-                        request.setAttribute("errorNewPassword", errorNewPassword);
-                        
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception e) {
-                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
-                }
-                break;
-            }
-            case "deleteAccount": {
-                int userID = 0;
-                try {
-                    userID = loggedInUser.getUserID();
-                } catch (Exception e) {
-                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
-                }
-                try {
-                    MovieDB.deleteUser(userID);
-                    url = "/login.jsp";
-                    request.getSession().invalidate();
-                } catch (SQLException ex) {
-                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
-                }
 
+                    if (!newUserName.equals("")) {
+                        if (Validation.isValidUsername(newUserName)) {
+                            loggedInUser.setUsername(newUserName);
+                            MovieDB.updateUserUsername(loggedInUser);
+                        } else {
+                            
+                            errors.add("The user name is already taken.");
+                        }
+
+                    }
+
+                    if (!newPassword.equals("") && !re_enterPassword.equals("")) {
+
+                        if (!newPassword.equals(re_enterPassword)) {
+                            errors.add("The password and password verification fields don't match.");
+                        } else if (!Validation.isValidPassword(newPassword)) {
+                            errors.add("Password must be longer than 10 characters.");
+                        } else {
+                            newPassword = SecurityUtil.hashPassword(newPassword);
+
+                            loggedInUser.setPassword(newPassword);
+                            MovieDB.updateUserPassword(loggedInUser);
+                        }
+
+                    } else if (!newPassword.equals("") && re_enterPassword.equals("")) {
+                        errors.add("You must enter re-enter your password.");
+                    } else if (newPassword.equals("") && !re_enterPassword.equals("")) {
+                        errors.add("You must enter your new password if you want to change it.");
+                    }
+
+                    if (errors.isEmpty()) {
+
+                        url = "/userPage.jsp";
+
+                    } else {
+                        url = "/updateUser.jsp";
+                        request.setAttribute("errors", errors);
+                    }
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
                 break;
             }
+
             case "adminUserAction": {
                 url = "/admin/adminAllUsers.jsp";
                 LinkedHashMap<String, User> allUsers = new LinkedHashMap();
-                
+
                 try {
                     allUsers = MovieDB.selectAllUsers();
                 } catch (SQLException e) {
                     Logger.getLogger(MovieDB.class.getName()).log(Level.SEVERE, null, e);
                 }
-                
+
                 request.setAttribute("allUsers", allUsers);
                 break;
             }
             case "movieList": {
                 url = "/movies.jsp";
                 ArrayList<Movie> allMovies = new ArrayList();
-                
+
                 try {
                     allMovies = MovieDB.selectAllMovies();
                 } catch (SQLException e) {
                     Logger.getLogger(MovieDB.class.getName()).log(Level.SEVERE, null, e);
                 }
-                
+
                 request.setAttribute("allMovies", allMovies);
                 break;
             }
@@ -138,14 +148,13 @@ public class Private extends HttpServlet {
                 ArrayList<Movie> top10Movies = new ArrayList();
                 ArrayList<Double> top10Ratings = new ArrayList();
                 try {
-                    
+
                     top10Movies = MovieDB.getTop10();
                     top10Ratings = MovieDB.getTop10Avgs();
                 } catch (SQLException e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
-                
-                
+
                 request.setAttribute("top10Movies", top10Movies);
                 request.setAttribute("top10Ratings", top10Ratings);
                 break;
@@ -159,20 +168,20 @@ public class Private extends HttpServlet {
         request.getSession().invalidate();
         url = "/Public?action=gotoIndex";
     }
-    
+
     private void updateReview(HttpServletRequest request) {
         int reviewId = ((int) request.getParameter("reviewId"));
         int movieId = ((int) request.getParameter("movieId"));
         int userId = ((int) request.getParameter("userID"));
         int reviewRating = ((int) request.getParameter("review-rating"));
         String reviewComments = ((String) request.getParameter("review-comments"));
-        
+
         List<String> errors = new ArrayList<String>();
-        
+
         if reviewCcomments.equals("")) {
             errors.add("You must enter a comment.");
         }
-        
+
         try {
             Review review = new Review();
             review.setReviewID(reviewId);
