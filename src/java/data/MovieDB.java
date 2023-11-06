@@ -76,6 +76,36 @@ public class MovieDB {
             }
         }
     }
+    
+    public static int insertReview(Review review) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "INSERT INTO reviews (userID, movieID, rating, comment) "
+                + "VALUES (?, ?, ?, ?)";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, review.getUserID());
+            ps.setInt(2, review.getMovieID());
+            ps.setInt(3, review.getRating());
+            ps.setString(4, (review.getComment()));
+            return ps.executeUpdate();
+
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** insert sql", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** insert null pointer?", e);
+                throw e;
+            }
+        }
+    }
 
     public static int deleteUser(int userID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();

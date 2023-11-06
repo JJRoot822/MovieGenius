@@ -44,6 +44,17 @@ public class Private extends HttpServlet {
 
                 break;
             }
+            case "gotoUserReview": {
+                url = "/userReview.jsp";
+                try {
+                    ArrayList<Movie> movies = MovieDB.selectAllMovies();
+                    request.setAttribute("movies", movies);
+                } catch(SQLException ex){
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                break;
+            }
             case "logout": {
                 logout(request);
 
@@ -65,7 +76,7 @@ public class Private extends HttpServlet {
                         if (!Validation.isValidEmail(newEmail)) {
                             loggedInUser.setEmail(newEmail);
                             MovieDB.updateUserEmail(loggedInUser);
-                            
+
                         } else {
                             errors.add("Email is already tied to an account please use a different email.");
                         }
@@ -76,7 +87,7 @@ public class Private extends HttpServlet {
                             loggedInUser.setUsername(newUserName);
                             MovieDB.updateUserUsername(loggedInUser);
                         } else {
-                            
+
                             errors.add("The user name is already taken.");
                         }
 
@@ -160,6 +171,38 @@ public class Private extends HttpServlet {
                 request.setAttribute("top10Ratings", top10Ratings);
                 break;
             }
+            case "submitReview": {
+                List<String> errors = new ArrayList<String>();
+                String comment = request.getParameter("comment");
+                int rating = Integer.parseInt(request.getParameter("rating"));
+                int movieID = Integer.parseInt(request.getParameter("movieID"));
+                if (!comment.equals("")) {
+                    try {
+                        url = "/userPage.jsp";
+                        Review newReview = new Review(rating, loggedInUser.getUserID(), movieID, comment);
+                        MovieDB.insertReview(newReview);
+                    } catch (SQLException e) {
+                        Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                        url = "/userReview.jsp";
+                        errors.add("There was an error with the database please try again at a later time");
+                        request.setAttribute("errors", errors);
+                    }
+
+                } else {
+                    try {
+                        ArrayList<Movie> movies = MovieDB.selectAllMovies();
+                        request.setAttribute("movies", movies);
+                        errors.add("You need to to have a comment.");
+                        request.setAttribute("errors", errors);
+                        url = "/userReview.jsp";
+                    } catch (SQLException e) {
+                        Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                    }
+                }
+
+                break;
+            }
+
         }
 
         getServletContext().getRequestDispatcher(url).forward(request, response);
