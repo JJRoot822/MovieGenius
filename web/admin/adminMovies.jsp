@@ -29,7 +29,21 @@ if (session.getAttribute("loggedInUser") == null) {
                     <div class="col-4"></div>
                     
                     <div class="col-4">
-                        <h1>Admin movie page</h1>
+                        <form action="Private" method="post">
+                            <input type="hidden" name="action" value="addMovie">
+                            <label for="title-field">Movie Title</label>
+                            <br>
+                            <input type="text" id="title-field" name="title" class="form-control">
+                            <br>
+                            <label for="summary-field">Movie Summary</label>
+                            <br>
+                            <textarea id="summary-field" name="summary" rows="5" cols="50" class="form-control"></textarea>
+                            <br>
+                            <label for="release-date-field">Release Date</label>
+                            <br>
+                            <input type="date"
+                            <button type="submit" class="btn btn-success">Add Movie</button>
+                        </form>
                     </div>
                     
                     <div class="col-4"></div>

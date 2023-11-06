@@ -37,7 +37,12 @@
                     </div>
                     <ul>
                         <c:forEach var="user" items="${allUsers}">
-                            <li>${user.value.username}</li>
+                            <li>${user.value.username} 
+                                <form action="Private" method="post">
+                                    <input type="hidden" name="action" value="adminDeleteUser" class="form-control">
+                                    <button type="submit" class="btn btn-success">Delete User</button>
+                                </form>
+                            </li>
                         </c:forEach>
                     </ul>
                     <div class="col-4"></div>
