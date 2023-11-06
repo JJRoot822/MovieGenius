@@ -28,28 +28,27 @@ if (session.getAttribute("loggedInUser") == null) {
                 <div class="row">
                     <div class="col-3"></div>
                     <div class="6">
-                        <Form action="Private" method="put">
+                        <form action="Private" method="put">
                             <c:forEach items="${requestScope.errors}" var="error">
                                 <p class="text-danger">${error}</p>
                             </c:forEach>
                             
-                            int reviewID, rating, userID, movieID
-<input type="hidden" value="<c:out value='${review.reviewId}' />" name="id" />
-<input type="hidden" value="update-review" name="action" />
+                            <input type="hidden" value="<c:out value='${review.reviewId}' />" name="id" />
+                            <input type="hidden" value="update-review" name="action" />
 
-<label for="review-rating-field">Rating</label>
-<br>
-<input type="number" id="review-rating-field" class="form-control" min="1" max="5" step="1" value="<c:out value='${review.rating}' />" name="review-rating" />
+                            <label for="review-rating-field">Rating</label>
+                            <br>
+                            <input type="number" id="review-rating-field" class="form-control" min="1" max="5" step="1" value="<c:out value='${review.rating}' />" name="review-rating" />
 
-<br>
+                            <br>
 
-<label for="review-content-field">Comments</label>
-<textarea id="review-content-field" class="form-control" name="review-comments" maxlength="255">${review.comment}</textarea>
+                            <label for="review-content-field">Comments</label>
+                            <textarea id="review-content-field" class="form-control" name="review-comments" maxlength="255">${review.comment}</textarea>
 
-<br>
+                            <br>
 
-<input type="submit" value="Update" id="update-review-btn" class="btn btn-success">
-                        </Form>
+                            <input type="submit" value="Update" id="update-review-btn" class="btn btn-success">
+                        </form>
                     </div>
                     <div class="col-3"></div>
                 </div>
