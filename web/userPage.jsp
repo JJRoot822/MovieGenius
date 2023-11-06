@@ -21,9 +21,7 @@ if (session.getAttribute("loggedInUser") == null) {
     <body>
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
-            <header>
-                <h1>Welcome <c:out value="${loggedInUser.username}"/></h1>
-            </header>
+            <h1>Welcome <c:out value="${loggedInUser.username}"/></h1>
             <form action="Private" method="post">
                 <input type="hidden" name="action" value="logout">
                 <input type="submit" value="Logout">

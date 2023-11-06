@@ -16,18 +16,28 @@
                     <a href="index.jsp" class="nav-link text-dark">Home</a>
                 </li>
                 <c:if test="${loggedInUser.userType eq 'admin'}">
-                    <li class="nav-item">
-                        <a href="admin/adminPage.jsp" class="nav-link text-dark">Admin Page</a>
+                    <!-- Begin Admin Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Admin
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item">
+                                <a href="admin/adminPage.jsp" class="nav-link text-dark">Admin Page</a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="admin/adminMovies.jsp" class="nav-link text-dark">Admin Movies</a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="Private?action=adminUserAction" class="nav-link text-dark">Admin Users</a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="test.jsp" class="nav-link text-dark">Test</a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a href="admin/adminMovies.jsp" class="nav-link text-dark">Admin Movies</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="Private?action=adminUserAction" class="nav-link text-dark">Admin Users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="test.jsp" class="nav-link text-dark">Test</a>
-                    </li>
+                    <!-- End Admin Dropdown -->
+                    
                 </c:if>
                 <c:if test="${not empty loggedInUser || loggedInUser != null}">
                     <li class="nav-item">
