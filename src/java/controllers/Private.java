@@ -1,6 +1,7 @@
 package controllers;
 
 import business.Movie;
+import business.Review;
 import business.User;
 import business.Validation;
 import data.MovieDB;
@@ -170,15 +171,15 @@ public class Private extends HttpServlet {
     }
 
     private void updateReview(HttpServletRequest request) {
-        int reviewId = ((int) request.getParameter("reviewId"));
-        int movieId = ((int) request.getParameter("movieId"));
-        int userId = ((int) request.getParameter("userID"));
-        int reviewRating = ((int) request.getParameter("review-rating"));
+        int reviewId = (Integer.parseInt(request.getParameter("reviewId")));
+        int movieId = (Integer.parseInt(request.getParameter("movieId")));
+        int userId = (Integer.parseInt(request.getParameter("userID")));
+        int reviewRating = (Integer.parseInt(request.getParameter("review-rating")));
         String reviewComments = ((String) request.getParameter("review-comments"));
 
         List<String> errors = new ArrayList<String>();
 
-        if reviewCcomments.equals("")) {
+        if (reviewComments.equals("")) {
             errors.add("You must enter a comment.");
         }
 
