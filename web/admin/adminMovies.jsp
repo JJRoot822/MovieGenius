@@ -41,7 +41,7 @@ if (session.getAttribute("loggedInUser") == null) {
                             <br>
                             <label for="release-date-field">Release Date</label>
                             <br>
-                            <input type="date"
+                            <input type="date" id="release-date-field" name="releasedate"
                             <button type="submit" class="btn btn-success">Add Movie</button>
                         </form>
                     </div>

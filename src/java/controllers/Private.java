@@ -39,6 +39,11 @@ public class Private extends HttpServlet {
         }
 
         switch (action) {
+            case "gotoUserPage": {
+                url = "/userPage.jsp";
+                
+                break;
+            }
             case "gotoUpdatePage": {
                 url = "/updateUser.jsp";
 
@@ -129,6 +134,17 @@ public class Private extends HttpServlet {
                 break;
             }
 
+            case "gotoAdminMovie": {
+                url = "/admin/adminMovies.jsp";
+                
+                break;
+            }
+            
+            case "gotoAdminPage": {
+                url = "/admin/adminPage.jsp";
+                
+                break;
+            }
             case "adminUserAction": {
                 url = "/admin/adminAllUsers.jsp";
                 LinkedHashMap<String, User> allUsers = new LinkedHashMap();

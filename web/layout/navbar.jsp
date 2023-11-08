@@ -23,10 +23,10 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-item">
-                                <a href="admin/adminPage.jsp" class="nav-link text-dark">Admin Page</a>
+                                <a href="Private?action=gotoAdminPage" class="nav-link text-dark">Admin Page</a>
                             </li>
                             <li class="dropdown-item">
-                                <a href="admin/adminMovies.jsp" class="nav-link text-dark">Admin Movies</a>
+                                <a href="Private?action=gotoAdminMovie" class="nav-link text-dark">Admin Movies</a>
                             </li>
                             <li class="dropdown-item">
                                 <a href="Private?action=adminUserAction" class="nav-link text-dark">Admin Users</a>
@@ -44,7 +44,7 @@
                         <a href="Private?action=movieList" class="nav-link text-dark">Movies</a>
                     </li>
                     <li class="nav-item">
-                        <a href="userPage.jsp" class="nav-link text-dark">User Page</a>
+                        <a href="Private?action=gotoUserPage" class="nav-link text-dark">User Page</a>
                     </li>
                     <li class="nav-item">
                         <form action="Private" method="post">
