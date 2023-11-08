@@ -31,13 +31,13 @@
                             <li class="dropdown-item">
                                 <a href="Private?action=adminUserAction" class="nav-link text-dark">Admin Users</a>
                             </li>
-                            <li class="dropdown-item">
-                                <a href="test.jsp" class="nav-link text-dark">Test</a>
+                            <li class="nav-item">
+                                <a href="Private?action=top10movies" class="nav-link text-dark">Top 10 Movies</a>
                             </li>
                         </ul>
                     </li>
                     <!-- End Admin Dropdown -->
-                    
+
                 </c:if>
                 <c:if test="${not empty loggedInUser || loggedInUser != null}">
                     <li class="nav-item">

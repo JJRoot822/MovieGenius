@@ -171,8 +171,8 @@ public class Private extends HttpServlet {
                 request.setAttribute("allMovies", allMovies);
                 break;
             }
-            case "test": {
-                url = "/test.jsp";
+            case "top10movies": {
+                url = "/top10movies.jsp";
                 ArrayList<Movie> top10Movies = new ArrayList();
                 ArrayList<Double> top10Ratings = new ArrayList();
                 try {
@@ -182,9 +182,11 @@ public class Private extends HttpServlet {
                 } catch (SQLException e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
-
-                request.setAttribute("top10Movies", top10Movies);
-                request.setAttribute("top10Ratings", top10Ratings);
+                LinkedHashMap<Movie, Double> top10map = new LinkedHashMap();
+                for (int i=0; i < top10Movies.size(); i++) {
+                    top10map.put(top10Movies.get(i), top10Ratings.get(i));
+                }
+                request.setAttribute("top10list", top10map);
                 break;
             }
             case "submitReview": {

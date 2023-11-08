@@ -14,13 +14,13 @@
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
             <h1>Test</h1>
-            <text>Make sure you're logged in</text>
+            <text>Make sure you're logged in.</text>
             <ul class="list-unstyled">
 
-                
-                <li> <c:out value="${top10movies[1].title}" /></li>
-                <li>1. ${top10movies[0].title} avg rating ${avgRatings[var]}</li>
-                
+                <c:forEach var="movie" items="${top10list}">
+                    <li>${movie.key.title} ${movie.value}</li>
+                    </c:forEach>
+
             </ul>
         </main>
     </body>
