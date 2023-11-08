@@ -1139,4 +1139,32 @@ public class MovieDB {
             }
         }
     }
+    
+    public static int insertMovieGenre(int movieID, int genreID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "INSERT INTO moviegenre (movieID, genreID) "
+                + "VALUES (?, ?)";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, movieID);
+            ps.setInt(2, genreID);
+            return ps.executeUpdate();
+
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** insert sql", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** insert null pointer?", e);
+                throw e;
+            }
+        }
+    }
 }
