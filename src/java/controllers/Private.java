@@ -1,5 +1,6 @@
 package controllers;
 
+import business.Genre;
 import business.Movie;
 import business.Review;
 import business.User;
@@ -46,7 +47,27 @@ public class Private extends HttpServlet {
             }
             case "gotoMovieFilter": {
                 url = "/movieFilter.jsp";
-                
+                try {
+                    ArrayList<Genre> genres = MovieDB.selectAllGenres();
+                    request.setAttribute("genres", genres);
+                } catch(SQLException ex){
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            }
+            case "filter": {
+                url = "/movieFilter.jsp";
+                try {
+                    ArrayList<Genre> genres = MovieDB.selectAllGenres();
+                    int genreID = Integer.parseInt(request.getParameter("genreID"));
+                    if(genreID != 0){
+                        ArrayList<Movie> movies = MovieDB.getMoviesByGenreID(genreID);
+                        request.setAttribute("movies", movies);
+                    }
+                    request.setAttribute("genres", genres);
+                } catch(SQLException ex){
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
             }
             case "gotoUpdatePage": {
