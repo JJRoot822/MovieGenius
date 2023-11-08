@@ -21,8 +21,18 @@
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
             <h1>My Reviews</h1>
-            
-            
+
+            <div class="container">
+                <div class="row">
+                    <form action="Private" method="get">
+                        <label class="col-1" for="movie-search-field">Search for a Movie</label>
+                        <input type="search" id="movie-search-field" class="col-3 form-control" name="search-term" placeholder="Search..." />
+                        <input type="hidden" name="action" value="moviereviewsearch" />
+                        <input type="submit" class="col-1 btn btn-dark" value="Go" />
+                    </form>
+                    <div class="col-7"></div>
+                </div>
+            </div>
         </main>
     </body>
 </html>
