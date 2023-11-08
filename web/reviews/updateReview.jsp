@@ -40,7 +40,7 @@ if (session.getAttribute("loggedInUser") == null) {
 
                             <label for="review-rating-field">Rating</label>
                             <br>
-                            <input type="number" id="review-rating-field" class="form-control" min="1" max="5" step="1" value="<c:out value='${review.rating}' />" name="review-rating" />
+                            <input type="number" id="review-rating-field" class="form-control" min="1" max="10" step="1" value="<c:out value='${review.rating}' />" name="review-rating" />
 
                             <br>
 
