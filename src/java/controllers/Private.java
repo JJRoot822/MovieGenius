@@ -1,5 +1,6 @@
 package controllers;
 
+import business.Genre;
 import business.Movie;
 import business.Review;
 import business.User;
@@ -140,7 +141,45 @@ public class Private extends HttpServlet {
             }
 
             case "gotoAdminMovie": {
+                
+                List<Genre> genres = new ArrayList();
+                try {
+                    genres = MovieDB.selectAllGenres();
+                } catch (SQLException e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+                
+                request.setAttribute("genres", genres);
+                
                 url = "/admin/adminMovies.jsp";
+                break;
+            }
+            
+            case "addMovie": {
+                String title = request.getParameter("title");
+                String summary = request.getParameter("summary");
+                LocalDate releaseDate = LocalDate.parse(request.getParameter("releasedate"));
+                int genre = Integer.parseInt(request.getParameter("genre"));
+                
+                Movie movie = new Movie(title, summary, releaseDate);
+                
+                try {
+                    MovieDB.insertMovie(movie);
+                } catch(SQLException e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+                
+                try {
+                    int movieID = MovieDB.getMovieIDByTitle(title);
+                } catch(SQLException e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+                
+//                try {
+//                    
+//                } catch(SQLException e) {
+//                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+//                }
                 
                 break;
             }
