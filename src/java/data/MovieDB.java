@@ -76,7 +76,7 @@ public class MovieDB {
             }
         }
     }
-    
+
     public static int insertReview(Review review) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -337,6 +337,7 @@ public class MovieDB {
             }
         }
     }
+
     public static void updateUserPassword(User user) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -365,7 +366,7 @@ public class MovieDB {
             }
         }
     }
-    
+
     public static void updateUserEmail(User user) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -585,6 +586,44 @@ public class MovieDB {
         }
     }
 
+    public static int getMovieIDByTitle(String title) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query
+                = "SELECT MovieID "
+                + "FROM movies "
+                + "WHERE title = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, title);
+            rs = ps.executeQuery();
+            int movieID = 0;
+            if (rs.next()) {
+                movieID = rs.getInt("userID");
+            }
+            return movieID;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get movie", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** delete movie null pointer?", e);
+                throw e;
+            }
+        }
+    }
+
+    
+
+    
+
     public static int deleteMovie(int movieID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -725,7 +764,7 @@ public class MovieDB {
             }
         }
     }
-    
+
     public static ArrayList<Double> getTop10Avgs() throws SQLException {
         ArrayList<Double> avgRatings = new ArrayList();
         ConnectionPool pool = ConnectionPool.getInstance();
@@ -774,7 +813,7 @@ public class MovieDB {
                 = "SELECT AVG(Rating) as avgRating "
                 + "FROM movies "
                 + "INNER JOIN reviews "
-                + "ON movies.movieID = reviews.movieID" 
+                + "ON movies.movieID = reviews.movieID"
                 + "GROUP BY reviews.movieID "
                 + "ORDER BY AVG(rating) desc "
                 + "LIMIT 10";
@@ -837,22 +876,24 @@ public class MovieDB {
         }
     }
 
-    public static ArrayList<String> selectAllGenres() throws SQLException {
-        ArrayList<String> genres = new ArrayList();
+    public static ArrayList<Genre> selectAllGenres() throws SQLException {
+        ArrayList<Genre> genres = new ArrayList();
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         String query
-                = "SELECT genreName "
+                = "SELECT * "
                 + "FROM genres ";
         try {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
+                int genreID = rs.getInt("genreID");
                 String genreName = rs.getString("genreName");
-                genres.add(genreName);
+                Genre genre = new Genre(genreID, genreName);
+                genres.add(genre);
             }
             return genres;
         } catch (SQLException e) {
@@ -1019,6 +1060,7 @@ public class MovieDB {
             }
         }
     }
+
     public static ArrayList<Movie> getNewReleases() throws SQLException {
         ArrayList<Movie> movies = new ArrayList();
         ConnectionPool pool = ConnectionPool.getInstance();
@@ -1056,6 +1098,7 @@ public class MovieDB {
             }
         }
     }
+
     public static ArrayList<Review> getMovieReviews(int movieID) throws SQLException {
         ArrayList<Review> Reviews = new ArrayList();
         ConnectionPool pool = ConnectionPool.getInstance();
