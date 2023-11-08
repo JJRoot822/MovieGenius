@@ -959,7 +959,9 @@ public class MovieDB {
 
         String query
                 = "SELECT * "
-                + "FROM movies "
+                + "FROM moviegenre "
+                + "INNER JOIN movies "
+                + "ON moviegenre.movieID = movies.movieID"
                 + "WHERE genreID = ?";
         try {
             ps = connection.prepareStatement(query);
