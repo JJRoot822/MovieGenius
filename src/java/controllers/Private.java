@@ -44,6 +44,11 @@ public class Private extends HttpServlet {
                 
                 break;
             }
+            case "gotoMovieFilter": {
+                url = "/movieFilter.jsp";
+                
+                break;
+            }
             case "gotoUpdatePage": {
                 url = "/updateUser.jsp";
 

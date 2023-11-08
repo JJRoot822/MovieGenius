@@ -44,6 +44,9 @@
                         <a href="Private?action=movieList" class="nav-link text-dark">Movies</a>
                     </li>
                     <li class="nav-item">
+                        <a href="Private?action=gotoMovieFilter" class="nav-link text-dark">Movie Filter</a>
+                    </li>
+                    <li class="nav-item">
                         <a href="Private?action=gotoUserPage" class="nav-link text-dark">User Page</a>
                     </li>
                     <li class="nav-item">
