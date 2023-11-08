@@ -32,6 +32,16 @@
                     </form>
                     <div class="col-7"></div>
                 </div>
+                <div class="row">
+                    <c:choose>
+                        <c:when test="${not empty searchResults}">
+<!-- Display reviews for movies who's title contains the search term -->
+                        </c:when>
+                        <c:otherwise>
+                            <!-- Show all user's reviews -->
+                        </c:otherwise>
+                    </c:choose>
+                </div>
             </div>
         </main>
     </body>
