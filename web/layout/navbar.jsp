@@ -31,9 +31,6 @@
                             <li class="dropdown-item">
                                 <a href="Private?action=adminUserAction" class="nav-link text-dark">Admin Users</a>
                             </li>
-                            <li class="nav-item">
-                                <a href="Private?action=top10movies" class="nav-link text-dark">Top 10 Movies</a>
-                            </li>
                         </ul>
                     </li>
                     <!-- End Admin Dropdown -->
@@ -53,10 +50,12 @@
                         <a href="Private?action=gotouserreviews" class="nav-link text-dark">My Reviews</a>
                     </li>
                     <li class="nav-item">
-                        <form action="Private" method="post">
-                            <input type="hidden" value="logout" name="action" />
-                            <button role="link" type="submit" class="nav-link text-dark">Log Out</button>
-                        </form>
+                        <a href="Private?action=top10movies" class="nav-link text-dark">Top 10 Movies</a>
+                    </li>
+                    <form action="Private" method="post">
+                        <input type="hidden" value="logout" name="action" />
+                        <button role="link" type="submit" class="nav-link text-dark">Log Out</button>
+                    </form>
                     </li>
                 </c:if>
                 <c:if test="${empty sessionScope.loggedInUser}">
