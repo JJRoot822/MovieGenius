@@ -47,6 +47,9 @@
                         <a href="Private?action=gotoUserPage" class="nav-link text-dark">User Page</a>
                     </li>
                     <li class="nav-item">
+                        <a href="Private?action=gotouserreviews" class="nav-link text-dark">My Reviews</a>
+                    </li>
+                    <li class="nav-item">
                         <form action="Private" method="post">
                             <input type="hidden" value="logout" name="action" />
                             <button role="link" type="submit" class="nav-link text-dark">Log Out</button>
