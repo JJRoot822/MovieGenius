@@ -2,11 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
-if (session.getAttribute("loggedInUser") == null) {
-    // Redirect to a different page if loggedInUser is not in the session
-    response.sendRedirect("login.jsp"); // Replace "login.jsp" with the desired redirection URL
-    return; // To stop further executio     n of JSP
-}
+    if (session.getAttribute("loggedInUser") == null) {
+        // Redirect to a different page if loggedInUser is not in the session
+        response.sendRedirect("login.jsp"); // Replace "login.jsp" with the desired redirection URL
+        return; // To stop further executio     n of JSP
+    }
 %>
 
 <!DOCTYPE html>
@@ -21,21 +21,29 @@ if (session.getAttribute("loggedInUser") == null) {
     <body>
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
-            <h1>Welcome <c:out value="${loggedInUser.username}"/></h1>
-            <form action="Private" method="post">
-                <input type="hidden" name="action" value="logout">
-                <input type="submit" value="Logout">
-            </form>
-            
-            <form action="Private" method="post">
-                <input type="hidden" name="action" value="gotoUpdatePage">
-                <input type="submit" value="Update Profile">
-            </form>
-            
-            <form action="Private" method="post">
-                <input type="hidden" name="action" value="gotoUserReview">
-                <input type="submit" value="User Review">
-            </form>
+            <div class="container">
+                <div class="row">
+                    <div class="col-4"></div>
+
+                    <div class="col-4">
+                        <h1>Welcome <c:out value="${loggedInUser.username}"/></h1>
+                        <form action="Private" method="post">
+                            <input type="hidden" name="action" value="logout">
+                            <button type="submit" class="btn btn-success">Logout</button>
+                        </form><br>
+
+                        <form action="Private" method="post">
+                            <input type="hidden" name="action" value="gotoUpdatePage">
+                            <button type="submit" class="btn btn-success">Update Profile</button>
+                        </form><br>
+
+                        <form action="Private" method="post">
+                            <button type="submit" class="btn btn-success">User Review</button>
+                            <input type="hidden" name="action" value="gotoUserReview">
+                        </form>
+                        <div class="col-4"></div>
+                    </div>
+                </div>
         </main>
     </body>
 </html>

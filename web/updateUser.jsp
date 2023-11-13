@@ -1,11 +1,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-if (session.getAttribute("loggedInUser") == null) {
-    // Redirect to a different page if loggedInUser is not in the session
-    response.sendRedirect("login.jsp"); // Replace "login.jsp" with the desired redirection URL
-    return; // To stop further executio     n of JSP
-}
+    if (session.getAttribute("loggedInUser") == null) {
+        // Redirect to a different page if loggedInUser is not in the session
+        response.sendRedirect("login.jsp"); // Replace "login.jsp" with the desired redirection URL
+        return; // To stop further executio     n of JSP
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -19,49 +19,46 @@ if (session.getAttribute("loggedInUser") == null) {
     <body>
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-4"></div>
 
-            <form action="Private" method="post">
-                <input type="hidden" name="action" value="updateUser">
-                <h1>Update Information</h1>
-                <label>Email:</label>
-                <input type="text" name="email" value="${loggedInUser.email}">
-                <c:forEach items="${errorEmail}" var="errorEmail">
-                    <label>${errorEmail}</label>
-                </c:forEach>
-                <br><br>
-                <label>User Name:</label>
-                <input type="text" name="userName" value="${loggedInUser.username}">
-                <br><br>
-                <label>Enter New Password:</label>
-                <input type="text" name="newPassword">
-                <br><br>
-                <label>Enter Re-enter New Password:</label>
-                <input type="text" name="checkNewPassword">
-                <c:forEach items="${errorNewPassword}" var="errorNewPassword">
-                    <label>${errorNewPassword}</label>
-                </c:forEach>
-                <br><br>
-                <label>Enter Old Password:</label>
-                <input type="text" name="oldPassword">
-                <c:forEach items="${errorOldPassword}" var="errorOldPassword">
-                    <label>${errorOldPassword}</label>
-                </c:forEach>
-                <br><br>
-                <label>Viewable: </label>
-                <br>
-                <input type="radio" id="public" name="viewable" value="drill" checked="true">
-                <label>Public</label>
-                <br>
-                <input type="radio" id="private" name="viewable" value="test">
-                <label>Private</label>
-                <br><br>
-                <input type="submit" value="Update">
-            </form>
-            <br><br><br>
-            <form action="Private" method="post">
-                <input type="hidden" name="action" value="deleteAccount">
-                <input type="submit" value="Delete Account">
-            </form>
+                    <div class="col-4">
+                        <c:if test="${not empty errors}">
+                            <ul class="list-unstyled">
+                                <c:forEach items="${errors}" var="error">
+                                    <li class="text-danger">${error}</li>
+                                    </c:forEach>
+                            </ul>
+                        </c:if>
+                        <form action="Private" method="post">
+                            <input type="hidden" name="action" value="updateUser">
+                            <h1>Update Information</h1>
+                            <label>Email:</label><br>
+                            <input type="text" name="email">
+                            <br><br>
+                            <label>User Name:</label><br>
+                            <input type="text" name="userName">
+                            <br><br>
+                            <label>Enter New Password:</label><br>
+                            <input type="text" name="newPassword">
+                            <br><br>
+                            <label>Enter Re-enter New Password:</label><br>
+                            <input type="text" name="checkNewPassword">
+                            <br><br>
+                            <label>Enter Old Password:</label><br>
+                            <input type="text" name="oldPassword">
+                            <br><br>
+                            <button type="submit" class="btn btn-success">Update Account</button>
+                        </form>
+                        <br><br><br>
+                        <form action="Private" method="post">
+                            <button type="submit" class="btn btn-success">Delete Account</button>
+                            <input type="hidden" name="action" value="deleteAccount">
+                        </form>
+                        <div class="col-4"></div>
+                    </div>
+                </div>
         </main>
     </body>
 </html>
