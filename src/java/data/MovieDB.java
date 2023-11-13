@@ -604,7 +604,7 @@ public class MovieDB {
             rs = ps.executeQuery();
             int movieID = 0;
             if (rs.next()) {
-                movieID = rs.getInt("userID");
+                movieID = rs.getInt("movieID");
             }
             return movieID;
         } catch (SQLException e) {
@@ -799,7 +799,7 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** get password null pointer?", e);
                 throw e;
             }
@@ -836,7 +836,7 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** get password null pointer?", e);
                 throw e;
             }
@@ -873,7 +873,7 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** get movies null pointer?", e);
                 throw e;
             }
@@ -908,7 +908,7 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** get password null pointer?", e);
                 throw e;
             }
@@ -963,9 +963,7 @@ public class MovieDB {
 
         String query
                 = "SELECT * "
-                + "FROM genres "
-                + "INNER JOIN movies "
-                + "ON genres.genreID = movies.genre "
+                + "FROM movies "
                 + "WHERE genreID = ?";
         try {
             ps = connection.prepareStatement(query);
