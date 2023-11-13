@@ -36,9 +36,45 @@
                     <c:choose>
                         <c:when test="${not empty searchResults}">
 <!-- Display reviews for movies who's title contains the search term -->
+<c:forEach items="${searchResults}" var="reviewResult">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="card w-100">
+                <div class="card-body">
+                    <h5 class="card-title">${reviewResult.movieTitle}</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">You rated this movie ${reviewResult.reviewRating} out of 10</h6>
+
+                    <p>
+                        ${reviewResult.reviewComment}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</c:forEach>
                         </c:when>
                         <c:otherwise>
                             <!-- Show all user's reviews -->
+                            <c:forEach items="${searchResults}" var="reviewResult">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="card w-100">
+                <div class="card-body">
+                    <h5 class="card-title">${movieReview.movieTitle}</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">You rated this movie ${movieReview.reviewRating} out of 10</h6>
+
+                    <p>
+                        ${movieReview.reviewComment}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</c:forEach>
                         </c:otherwise>
                     </c:choose>
                 </div>
