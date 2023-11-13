@@ -2,13 +2,8 @@ package data;
 
 import business.*;
 import java.sql.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import business.User;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -1143,5 +1138,46 @@ public class MovieDB {
             }
         }
     }
+
+    public LinkedHashMap<Integer, MovieReviewVM> getMovieReviews() {
+    LinkedHashMap<Integer, MovieReviewVM> movieReviewsMap = new LinkedHashMap<>();
+
+    ConnectionPool pool = ConnectionPool.getInstance();
+    Connection connection = pool.getConnection();
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+
+    String query = "SELECT r.reviewID AS id, m.title AS title, r.rating AS rating, r.comment AS comment " +
+            "FROM reviews AS r " +
+            "JOIN movies AS m ON m.movieID = r.movieID";
+
+    try {
+        ps = connection.prepareStatement(query);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            int reviewID = rs.getInt("id");
+            String title = rs.getString("title");
+            int rating = rs.getInt("rating");
+            String comment = rs.getString("comment");
+
+            MovieReviewVM movieReview = new MovieReviewVM(reviewID, title, rating, comment);
+            movieReviewsMap.put(reviewID, movieReview);
+        }
+    } catch (SQLException e) {
+        LOG.log(Level.SEVERE, "*** get movie reviews sql", e);
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            pool.freeConnection(connection);
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get movie reviews close", e);
+        }
+    }
+
+    return movieReviewsMap;
+}
+
     
 }
