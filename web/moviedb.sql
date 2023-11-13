@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2023 at 08:36 PM
+-- Generation Time: Nov 13, 2023 at 09:05 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -68,7 +68,8 @@ CREATE TABLE `movies` (
 INSERT INTO `movies` (`movieID`, `title`, `summary`, `releaseDate`, `genreID`) VALUES
 (1, 'Avengers: Endgame', 'They fight Thanos', '2023-10-04', 1),
 (2, 'John Wick', 'John Wick fights', '2023-10-20', 1),
-(3, 'Hello', 'Hi', '2005-12-12', 2);
+(3, 'Hello', 'Hi', '2005-12-12', 2),
+(5, 'Drama Movie', 'this is a drama', '2000-01-01', 5);
 
 -- --------------------------------------------------------
 
@@ -90,11 +91,7 @@ CREATE TABLE `reviews` (
 
 INSERT INTO `reviews` (`reviewID`, `userID`, `movieID`, `rating`, `comment`) VALUES
 (1, 3, 1, 10, ''),
-(2, 3, 1, 10, ''),
-(3, 5, 2, 9, 'adsf'),
-(4, 5, 2, 5, ''),
-(5, 5, 3, 8, ''),
-(6, 5, 3, 8, '');
+(2, 3, 1, 10, '');
 
 -- --------------------------------------------------------
 
@@ -115,8 +112,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userID`, `username`, `password`, `userType`, `email`) VALUES
-(3, 'admin1', '90f5a26d3651a9fa9dde2856b7e692a7$4096$96e5c606ca712d32a0e966f46757d879d85df26cdd4d6fb8c7fd942c2fd1d99c', 'admin', 'admin@gmail.com'),
-(5, 'user1', 'ffa7838ef1269d9caee7e3c2612b8abe$4096$0bc7294e193ab082ef242e54cce00b859cd7f4612188a9628ce032391bf567ed', 'user', 'user@gmail.com');
+(3, 'admin1', '90f5a26d3651a9fa9dde2856b7e692a7$4096$96e5c606ca712d32a0e966f46757d879d85df26cdd4d6fb8c7fd942c2fd1d99c', 'admin', 'admin@gmail.com');
 
 --
 -- Indexes for dumped tables
@@ -139,8 +135,8 @@ ALTER TABLE `movies`
 --
 ALTER TABLE `reviews`
   ADD PRIMARY KEY (`reviewID`),
-  ADD KEY `fk_user` (`userID`),
-  ADD KEY `fk_moviereview` (`movieID`);
+  ADD KEY `fk_movie` (`movieID`),
+  ADD KEY `fk_user` (`userID`);
 
 --
 -- Indexes for table `users`
@@ -162,7 +158,7 @@ ALTER TABLE `genres`
 -- AUTO_INCREMENT for table `movies`
 --
 ALTER TABLE `movies`
-  MODIFY `movieID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `movieID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -174,7 +170,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -184,8 +180,8 @@ ALTER TABLE `users`
 -- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `fk_moviereview` FOREIGN KEY (`movieID`) REFERENCES `movies` (`movieID`),
-  ADD CONSTRAINT `fk_user` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`);
+  ADD CONSTRAINT `fk_movie` FOREIGN KEY (`movieID`) REFERENCES `movies` (`movieID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
