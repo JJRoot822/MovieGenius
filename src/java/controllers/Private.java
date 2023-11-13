@@ -189,6 +189,7 @@ public class Private extends HttpServlet {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
                 
+                url = "/Private?action=gotoAdminMovie";
                 break;
             }
 
