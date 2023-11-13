@@ -12,40 +12,39 @@
     <body>
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
-            <h1>Movie List</h1>
-            <h2>Current Movies</h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <h1>Movie List</h1>
+                        <h2>Current Movies</h2>
+                        <form method="post">
 
-            <form method="post">
-                
-                <table border="1" column="1">
-                    <tr>
-                        <th>Title</th>
-                        <th>Summary</th>
-                        <th>Release Date</th>
-                    </tr>
-                    <c:forEach var="movie" items="${allMovies}">
-                    <tr>
-                        <td>${movie.title}</td>
-                        <td>${movie.summary}</td>
-                        <td>${movie.releaseDate}</td>
-                        <td>
-                            <input type="hidden" name="action" value="review">
-                            <input type="submit" value="Review">
-                        </td>
-                    </tr>
-                    </c:forEach>
-                </table>
-            </form>
-            <br>
-            <%--<c:forEach var="movie" items="${movies}">
-                <form action="Private" method="post">
-                    <input type="hidden" name="action" value="allMovies">
-                </form>
-            </c:forEach>
-            <form action="Private" method="post">
-                <input type="hidden" name="action" value="review">
-                <input type="submit" value="Review">
-            </form>--%>
+                            <table border="1" column="1">
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Summary</th>
+                                    <th>Release Date</th>
+                                </tr>
+                                <c:forEach var="movie" items="${allMovies}">
+                                    <tr>
+                                        <td>${movie.title}</td>
+                                        <td>${movie.summary}</td>
+                                        <td>${movie.releaseDate}</td>
+                                        <td>
+                                            <input type="hidden" name="action" value="review">
+                                            <button type="submit" class="btn btn-success">Review</button>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </form>
+                        <br>
+                        <div class="col-4"></div>
+                    </div>
+                </div>
+
+            </div>
         </main>
     </body>
 </html>
