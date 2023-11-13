@@ -57,15 +57,15 @@ public class Private extends HttpServlet {
             }
             case "filter": {
                 url = "/movieFilter.jsp";
+                ArrayList<Movie> movies = new ArrayList();
+                ArrayList<Genre> genres = new ArrayList();
                 try {
-                    ArrayList<Genre> genres = MovieDB.selectAllGenres();
+                    genres = MovieDB.selectAllGenres();
                     int genreID = Integer.parseInt(request.getParameter("genreID"));
-                    if(genreID != 0){
-                        ArrayList<Movie> movies = MovieDB.getMoviesByGenreID(genreID);
-                        request.setAttribute("movies", movies);
-                    }
+                    movies = MovieDB.getMoviesByGenreID(genreID);
+                    request.setAttribute("movies", movies);
                     request.setAttribute("genres", genres);
-                } catch(SQLException ex){
+                } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
