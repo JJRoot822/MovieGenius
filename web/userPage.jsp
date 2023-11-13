@@ -27,10 +27,6 @@
 
                     <div class="col-4">
                         <h1>Welcome <c:out value="${loggedInUser.username}"/></h1>
-                        <form action="Private" method="post">
-                            <input type="hidden" name="action" value="logout">
-                            <button type="submit" class="btn btn-success">Logout</button>
-                        </form><br>
 
                         <form action="Private" method="post">
                             <input type="hidden" name="action" value="gotoUpdatePage">

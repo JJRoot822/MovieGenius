@@ -43,7 +43,7 @@ if (session.getAttribute("loggedInUser") == null) {
                             <br>
                             <input type="date" id="release-date-field" name="releasedate" class="form-control">
                             <br>
-                            <label for="genre-field">Rating</label>
+                            <label for="genre-field">Genre</label>
                             <br>
                             <select id="genre-field" name="genre" class="form-control">
                                 <option value="" disabled selected>Select a movie genre.</option>
@@ -54,14 +54,8 @@ if (session.getAttribute("loggedInUser") == null) {
                             <br>
                             <button type="submit" class="btn btn-success">Add Movie</button>
                         </form>
-                    </div>
-                    
-                    <c:forEach var="genre" items="${genres}">
-                        <p>${genre.genreID} ${genre.genreName}</p>
-                    </c:forEach>
-                        
-                        
-                    
+                    </div>                    
+                                           
                     <div class="col-4"></div>
                 </div>
             </div>
