@@ -11,26 +11,28 @@ import java.time.LocalDate;
  * @author tmdel
  */
 public class Movie {
-    private int movieID;
+    private int movieID, genreID;
     private String title, summary;
     private LocalDate releaseDate;
 
     public Movie() {
     }
 
-    public Movie(String title, String summary, LocalDate releaseDate) {
+    public Movie(String title, String summary, LocalDate releaseDate, int genreID) {
         this.title = title;
         this.summary = summary;
         this.releaseDate = releaseDate;
+        this.genreID = genreID;
     }
 
     
     
-    public Movie(int movieID, String title, String summary, LocalDate releaseDate) {
+    public Movie(int movieID, String title, String summary, LocalDate releaseDate, int genreID) {
         this.movieID = movieID;
         this.title = title;
         this.summary = summary;
         this.releaseDate = releaseDate;
+        this.genreID = genreID;
     }
 
     public int getMovieID() {
@@ -64,6 +66,13 @@ public class Movie {
     public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
-    
+
+    public int getGenreID() {
+        return genreID;
+    }
+
+    public void setGenreID(int genreID) {
+        this.genreID = genreID;
+    }
     
 }

@@ -563,13 +563,14 @@ public class MovieDB {
         PreparedStatement ps = null;
 
         String query
-                = "INSERT INTO movies (title, summary, releaseDate) "
-                + "VALUES (?, ?, ?)";
+                = "INSERT INTO movies (title, summary, releaseDate, genreID) "
+                + "VALUES (?, ?, ?, ?)";
         try {
             ps = connection.prepareStatement(query);
             ps.setString(1, movie.getTitle());
             ps.setString(2, movie.getSummary());
             ps.setDate(3, Date.valueOf(movie.getReleaseDate()));
+            ps.setInt(4, movie.getGenreID());
             return ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -661,7 +662,7 @@ public class MovieDB {
 
         String query
                 = "UPDATE movies "
-                + "SET title = ?, summary = ?, releaseDate = ?"
+                + "SET title = ?, summary = ?, releaseDate = ?, genreID = ?"
                 + "WHERE movieID = ?";
 
         try {
@@ -670,6 +671,7 @@ public class MovieDB {
             ps.setString(2, movie.getSummary());
             ps.setDate(3, Date.valueOf(movie.getReleaseDate()));
             ps.setInt(4, movie.getMovieID());
+            ps.setInt(5, movie.getGenreID());
             rs = ps.executeQuery();
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "*** get movie", e);
@@ -686,8 +688,8 @@ public class MovieDB {
         }
     }
 
-    public static ArrayList<String> getMovieGenres(int movieID) throws SQLException {
-        ArrayList<String> genres = new ArrayList();
+    public static String getMovieGenres(int movieID) throws SQLException {
+        String genre = "";
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
@@ -695,9 +697,9 @@ public class MovieDB {
 
         String query
                 = "SELECT genreName "
-                + "FROM moviegenre "
+                + "FROM movies "
                 + "INNER JOIN genres "
-                + "ON moviegenre.genreID = genres.genreID "
+                + "ON movies.genreID = genres.genreID "
                 + "WHERE movieID = ?";
         try {
             ps = connection.prepareStatement(query);
@@ -705,9 +707,9 @@ public class MovieDB {
             rs = ps.executeQuery();
             while (rs.next()) {
                 String genreName = rs.getString("genreName");
-                genres.add(genreName);
+                genre = genreName;
             }
-            return genres;
+            return genre;
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "*** get password", e);
             throw e;
@@ -746,7 +748,8 @@ public class MovieDB {
                 String title = rs.getString("title");
                 String summary = rs.getString("summary");
                 LocalDate releaseDate = rs.getDate("releaseDate").toLocalDate();
-                Movie movie = new Movie(movieID, title, summary, releaseDate);
+                int genreID = rs.getInt("genreID");
+                Movie movie = new Movie(movieID, title, summary, releaseDate, genreID);
                 movies.add(movie);
             }
             return movies;
@@ -857,7 +860,8 @@ public class MovieDB {
                 String title = rs.getString("title");
                 String summary = rs.getString("summary");
                 LocalDate releaseDate = rs.getDate("releaseDate").toLocalDate();
-                Movie movie = new Movie(movieID, title, summary, releaseDate);
+                int genreID = rs.getInt("genreID");
+                Movie movie = new Movie(movieID, title, summary, releaseDate, genreID);
                 movies.add(movie);
             }
             return movies;
@@ -959,9 +963,9 @@ public class MovieDB {
 
         String query
                 = "SELECT * "
-                + "FROM moviegenre "
+                + "FROM genres "
                 + "INNER JOIN movies "
-                + "ON moviegenre.movieID = movies.movieID "
+                + "ON genres.genreID = movies.genre "
                 + "WHERE genreID = ?";
         try {
             ps = connection.prepareStatement(query);
@@ -972,7 +976,7 @@ public class MovieDB {
                 String title = rs.getString("title");
                 String summary = rs.getString("summary");
                 LocalDate releaseDate = rs.getDate("releaseDate").toLocalDate();
-                Movie movie = new Movie(movieID, title, summary, releaseDate);
+                Movie movie = new Movie(movieID, title, summary, releaseDate, genreID);
                 Movies.add(movie);
             }
             return Movies;
@@ -1011,7 +1015,8 @@ public class MovieDB {
                 String title = rs.getString("title");
                 String summary = rs.getString("summary");
                 LocalDate releaseDate = rs.getDate("releaseDate").toLocalDate();
-                Movie movie = new Movie(movieID, title, summary, releaseDate);
+                int genreID = rs.getInt("genreID");
+                Movie movie = new Movie(movieID, title, summary, releaseDate, genreID);
                 Movies.add(movie);
             }
             return Movies;
@@ -1082,7 +1087,8 @@ public class MovieDB {
                 String title = rs.getString("title");
                 String summary = rs.getString("summary");
                 LocalDate releaseDate = rs.getDate("releaseDate").toLocalDate();
-                Movie movie = new Movie(movieID, title, summary, releaseDate);
+                int genreID = rs.getInt("genreID");
+                Movie movie = new Movie(movieID, title, summary, releaseDate, genreID);
                 movies.add(movie);
             }
             return movies;
@@ -1140,31 +1146,4 @@ public class MovieDB {
         }
     }
     
-    public static int insertMovieGenre(int movieID, int genreID) throws SQLException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
-        PreparedStatement ps = null;
-
-        String query
-                = "INSERT INTO moviegenre (movieID, genreID) "
-                + "VALUES (?, ?)";
-        try {
-            ps = connection.prepareStatement(query);
-            ps.setInt(1, movieID);
-            ps.setInt(2, genreID);
-            return ps.executeUpdate();
-
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "*** insert sql", e);
-            throw e;
-        } finally {
-            try {
-                ps.close();
-                pool.freeConnection(connection);
-            } catch (Exception e) {
-                LOG.log(Level.SEVERE, "*** insert null pointer?", e);
-                throw e;
-            }
-        }
-    }
 }
