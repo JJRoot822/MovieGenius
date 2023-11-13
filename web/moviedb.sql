@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 09, 2023 at 09:24 PM
+-- Generation Time: Nov 13, 2023 at 09:05 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -38,27 +38,14 @@ CREATE TABLE `genres` (
 
 INSERT INTO `genres` (`genreID`, `genreName`) VALUES
 (1, 'Action'),
-(2, 'Comedy');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `moviegenre`
---
-
-CREATE TABLE `moviegenre` (
-  `movieID` int(11) NOT NULL,
-  `genreID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `moviegenre`
---
-
-INSERT INTO `moviegenre` (`movieID`, `genreID`) VALUES
-(1, 1),
-(1, 2),
-(2, 1);
+(2, 'Comedy'),
+(3, 'Romance'),
+(4, 'Crime'),
+(5, 'Drama'),
+(6, 'Fantasy'),
+(7, 'Sci-fi'),
+(8, 'Horror'),
+(9, 'Crime');
 
 -- --------------------------------------------------------
 
@@ -70,16 +57,19 @@ CREATE TABLE `movies` (
   `movieID` int(11) NOT NULL,
   `title` text NOT NULL,
   `summary` text NOT NULL,
-  `releaseDate` date NOT NULL
+  `releaseDate` date NOT NULL,
+  `genreID` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `movies`
 --
 
-INSERT INTO `movies` (`movieID`, `title`, `summary`, `releaseDate`) VALUES
-(1, 'Avengers: Endgame', 'They fight Thanos', '0000-00-00'),
-(2, 'John Wick', 'John Wick fights', '0000-00-00');
+INSERT INTO `movies` (`movieID`, `title`, `summary`, `releaseDate`, `genreID`) VALUES
+(1, 'Avengers: Endgame', 'They fight Thanos', '2023-10-04', 1),
+(2, 'John Wick', 'John Wick fights', '2023-10-20', 1),
+(3, 'Hello', 'Hi', '2005-12-12', 2),
+(5, 'Drama Movie', 'this is a drama', '2000-01-01', 5);
 
 -- --------------------------------------------------------
 
@@ -92,7 +82,7 @@ CREATE TABLE `reviews` (
   `userID` int(11) NOT NULL,
   `movieID` int(11) NOT NULL,
   `rating` int(10) NOT NULL,
-  `comment` text NOT NULL
+  `comment` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -100,8 +90,8 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`reviewID`, `userID`, `movieID`, `rating`, `comment`) VALUES
-(1, 2, 1, 10, 'It was great!'),
-(2, 2, 2, 8, 'It was alright');
+(1, 3, 1, 10, ''),
+(2, 3, 1, 10, '');
 
 -- --------------------------------------------------------
 
@@ -122,8 +112,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userID`, `username`, `password`, `userType`, `email`) VALUES
-(1, 'admin1', 'admin1', 'admin', 'admin@gmail.com'),
-(2, 'user1', 'user1', 'user', 'user@gmail.com');
+(3, 'admin1', '90f5a26d3651a9fa9dde2856b7e692a7$4096$96e5c606ca712d32a0e966f46757d879d85df26cdd4d6fb8c7fd942c2fd1d99c', 'admin', 'admin@gmail.com');
 
 --
 -- Indexes for dumped tables
@@ -136,13 +125,6 @@ ALTER TABLE `genres`
   ADD PRIMARY KEY (`genreID`);
 
 --
--- Indexes for table `moviegenre`
---
-ALTER TABLE `moviegenre`
-  ADD KEY `fk_genre` (`genreID`),
-  ADD KEY `fk_movie` (`movieID`);
-
---
 -- Indexes for table `movies`
 --
 ALTER TABLE `movies`
@@ -153,8 +135,8 @@ ALTER TABLE `movies`
 --
 ALTER TABLE `reviews`
   ADD PRIMARY KEY (`reviewID`),
-  ADD KEY `fk_user` (`userID`),
-  ADD KEY `fk_moviereview` (`movieID`);
+  ADD KEY `fk_movie` (`movieID`),
+  ADD KEY `fk_user` (`userID`);
 
 --
 -- Indexes for table `users`
@@ -170,43 +152,36 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `genres`
 --
 ALTER TABLE `genres`
-  MODIFY `genreID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `genreID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `movies`
 --
 ALTER TABLE `movies`
-  MODIFY `movieID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `movieID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `reviewID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `reviewID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `moviegenre`
---
-ALTER TABLE `moviegenre`
-  ADD CONSTRAINT `fk_genre` FOREIGN KEY (`GenreID`) REFERENCES `genres` (`GenreID`),
-  ADD CONSTRAINT `fk_movie` FOREIGN KEY (`MovieID`) REFERENCES `genres` (`GenreID`);
-
---
 -- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `fk_moviereview` FOREIGN KEY (`movieID`) REFERENCES `movies` (`movieID`),
-  ADD CONSTRAINT `fk_user` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`);
+  ADD CONSTRAINT `fk_movie` FOREIGN KEY (`movieID`) REFERENCES `movies` (`movieID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

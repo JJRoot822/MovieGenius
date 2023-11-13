@@ -180,28 +180,15 @@ public class Private extends HttpServlet {
                 String summary = request.getParameter("summary");
                 LocalDate releaseDate = LocalDate.parse(request.getParameter("releasedate"));
                 int genreID = Integer.parseInt(request.getParameter("genre"));
-                int movieID = 0;
-
-                Movie movie = new Movie(title, summary, releaseDate);
-
+                
+                Movie movie = new Movie(title, summary, releaseDate, genreID);
+                
                 try {
                     MovieDB.insertMovie(movie);
                 } catch (SQLException e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
-
-                try {
-                    movieID = MovieDB.getMovieIDByTitle(title);
-                } catch (SQLException e) {
-                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
-                }
-
-                try {
-                    MovieDB.insertMovieGenre(movieID, genreID);
-                } catch (SQLException e) {
-                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
-                }
-
+                
                 break;
             }
 
@@ -275,7 +262,7 @@ public class Private extends HttpServlet {
                 break;
             }
             case "submitReview": {
-                List<String> errors = new ArrayList<String>();
+                List<String> errors = new ArrayList();
                 String comment = request.getParameter("comment");
                 int rating = Integer.parseInt(request.getParameter("rating"));
                 int movieID = Integer.parseInt(request.getParameter("movieID"));

@@ -18,37 +18,47 @@
     </head>
     <body>
         <jsp:include page="layout/navbar.jsp" />
-        <form action="Private" method="post">
-            <input type="hidden" name="action" value="filter">
-            <select name="genreID" id="genreID">
-                <c:forEach var="genres" items="${genres}">
-                    <option value="${genres.genreID}">${genres.genreName}</option>
-                </c:forEach>
-            </select>
-            <br>
-            <input type="submit" value="Filter">
-        </form>
-        <br>
-        <c:if test="${not empty movies}">
-            <table border="1" column="1">
-                <tr>
-                    <th>Title</th>
-                    <th>Summary</th>
-                    <th>Release Date</th>
-                </tr>
-                <c:forEach var="movies" items="${movies}">
-                    <tr>
-                        <td>${movies.title}</td>
-                        <td>${movies.summary}</td>
-                        <td>${movies.releaseDate}</td>
-                        <td>
-                            <input type="hidden" name="action" value="review">
-                            <input type="submit" value="Review">
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
-        </c:if>
-
+        <main id="main-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <form action="Private" method="post">
+                            <input type="hidden" name="action" value="filter">
+                            <select name="genreID" id="genreID">
+                                <c:forEach var="genres" items="${genres}">
+                                    <option value="${genres.genreID}">${genres.genreName}</option>
+                                </c:forEach>
+                            </select>
+                            <br>
+                            <button type="submit" class="btn btn-success">Filter</button>
+                        </form>
+                        <br>
+                        <c:if test="${not empty movies}">
+                            <table border="1" column="1">
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Summary</th>
+                                    <th>Release Date</th>
+                                </tr>
+                                <c:forEach var="movies" items="${movies}">
+                                    <tr>
+                                        <td>${movies.title}</td>
+                                        <td>${movies.summary}</td>
+                                        <td>${movies.releaseDate}</td>
+                                        <td>
+                                            <input type="hidden" name="action" value="review">
+                                             <button type="submit" class="btn btn-success">Review</button>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </c:if>
+                        <div class="col-4"></div>
+                    </div>
+                </div>
+                
+            </div>
+        </main>
     </body>
 </html>
