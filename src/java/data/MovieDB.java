@@ -603,7 +603,7 @@ public class MovieDB {
             rs = ps.executeQuery();
             int movieID = 0;
             if (rs.next()) {
-                movieID = rs.getInt("userID");
+                movieID = rs.getInt("movieID");
             }
             return movieID;
         } catch (SQLException e) {

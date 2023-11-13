@@ -42,7 +42,7 @@ public class Private extends HttpServlet {
         switch (action) {
             case "gotoUserPage": {
                 url = "/userPage.jsp";
-                
+
                 break;
             }
             case "gotoMovieFilter": {
@@ -50,7 +50,7 @@ public class Private extends HttpServlet {
                 try {
                     ArrayList<Genre> genres = MovieDB.selectAllGenres();
                     request.setAttribute("genres", genres);
-                } catch(SQLException ex){
+                } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
@@ -80,7 +80,7 @@ public class Private extends HttpServlet {
                 try {
                     ArrayList<Movie> movies = MovieDB.selectAllMovies();
                     request.setAttribute("movies", movies);
-                } catch(SQLException ex){
+                } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
@@ -161,54 +161,53 @@ public class Private extends HttpServlet {
             }
 
             case "gotoAdminMovie": {
-                
+
                 List<Genre> genres = new ArrayList();
                 try {
                     genres = MovieDB.selectAllGenres();
                 } catch (SQLException e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
-                
+
                 request.setAttribute("genres", genres);
-                
+
                 url = "/admin/adminMovies.jsp";
                 break;
             }
-            
+
             case "addMovie": {
                 String title = request.getParameter("title");
                 String summary = request.getParameter("summary");
                 LocalDate releaseDate = LocalDate.parse(request.getParameter("releasedate"));
                 int genreID = Integer.parseInt(request.getParameter("genre"));
                 int movieID = 0;
-                
-                
+
                 Movie movie = new Movie(title, summary, releaseDate);
-                
+
                 try {
                     MovieDB.insertMovie(movie);
-                } catch(SQLException e) {
+                } catch (SQLException e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
-                
+
                 try {
                     movieID = MovieDB.getMovieIDByTitle(title);
-                } catch(SQLException e) {
+                } catch (SQLException e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
-                
+
                 try {
                     MovieDB.insertMovieGenre(movieID, genreID);
-                } catch(SQLException e) {
+                } catch (SQLException e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
-                
+
                 break;
             }
-            
+
             case "gotoAdminPage": {
                 url = "/admin/adminPage.jsp";
-                
+
                 break;
             }
             case "adminUserAction": {
@@ -223,6 +222,26 @@ public class Private extends HttpServlet {
 
                 request.setAttribute("allUsers", allUsers);
                 break;
+            }
+
+            case "adminDeleteUser": {
+                int userID = 0;
+                try {
+                    userID = Integer.parseInt(request.getParameter("userID"));
+                } catch (Exception e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                try {
+                    MovieDB.deleteUser(userID);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                url = "/Private?action=adminUserAction";
+                break;
+                
+                
             }
             case "movieList": {
                 url = "/movies.jsp";
@@ -249,7 +268,7 @@ public class Private extends HttpServlet {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
                 LinkedHashMap<Movie, Double> top10map = new LinkedHashMap();
-                for (int i=0; i < top10Movies.size(); i++) {
+                for (int i = 0; i < top10Movies.size(); i++) {
                     top10map.put(top10Movies.get(i), top10Ratings.get(i));
                 }
                 request.setAttribute("top10list", top10map);
