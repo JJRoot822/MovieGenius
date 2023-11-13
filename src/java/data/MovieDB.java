@@ -1139,7 +1139,7 @@ public class MovieDB {
         }
     }
 
-    public LinkedHashMap<Integer, MovieReviewVM> getMovieReviews() {
+    public LinkedHashMap<Integer, MovieReviewVM> getMovieReviews(int userId) {
     LinkedHashMap<Integer, MovieReviewVM> movieReviewsMap = new LinkedHashMap<>();
 
     ConnectionPool pool = ConnectionPool.getInstance();
@@ -1149,10 +1149,14 @@ public class MovieDB {
 
     String query = "SELECT r.reviewID AS id, m.title AS title, r.rating AS rating, r.comment AS comment " +
             "FROM reviews AS r " +
-            "JOIN movies AS m ON m.movieID = r.movieID";
+            "JOIN movies AS m ON m.movieID = r.movieID"
+            + "WHERE userID = ?";
 
     try {
         ps = connection.prepareStatement(query);
+
+        ps.setInt(1, userId);
+
         rs = ps.executeQuery();
 
         while (rs.next()) {
