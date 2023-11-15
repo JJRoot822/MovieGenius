@@ -55,6 +55,17 @@ public class Private extends HttpServlet {
                 }
                 break;
             }
+            case "movieReviews": {
+                url = "/movieReviews.jsp";
+                try {
+                    int movieID = Integer.parseInt(request.getParameter("movieID"));
+                    Movie movie = MovieDB.SelectedMoive(movieID);
+                    request.setAttribute("movie", movie);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            }
             case "filter": {
                 url = "/movieFilter.jsp";
                 ArrayList<Movie> movies = new ArrayList();

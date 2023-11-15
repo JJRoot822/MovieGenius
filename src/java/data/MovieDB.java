@@ -269,6 +269,46 @@ public class MovieDB {
             }
         }
     }
+    
+    public static Movie SelectedMoive(int ID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query
+                = "SELECT * "
+                + "FROM movies "
+                + "WHERE movieID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, ID);
+            rs = ps.executeQuery();
+            Movie movie = null;
+            if (rs.next()) {
+                int movieID = rs.getInt("movieID");
+                String title = rs.getString("title");
+                String summary = rs.getString("summary");
+                LocalDate releaseDate = rs.getDate("releaseDate").toLocalDate();
+                int genreID = rs.getInt("genreID");
+                movie = new Movie(movieID, title, summary, releaseDate, genreID);
+            }
+            return movie;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get movie", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** delete movie null pointer?", e);
+                throw e;
+            }
+        }
+    }
 
     public static void adminUpdateUser(User user) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();

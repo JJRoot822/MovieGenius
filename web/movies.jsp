@@ -18,7 +18,7 @@
                     <div class="col-4">
                         <h1>Movie List</h1>
                         <h2>Current Movies</h2>
-                        <form method="post">
+                        <form method="post" action="Private">
 
                             <table border="1" column="1">
                                 <tr>
@@ -34,6 +34,13 @@
                                         <td>
                                             <input type="hidden" name="action" value="review">
                                             <button type="submit" class="btn btn-success">Review</button>
+                                        </td>
+                                        <td>
+                                            <form action="Private" method="post">
+                                                <input type="hidden" name="action" value="movieReviews">
+                                                <input type="hidden" name="movieID" value="${movies.movieID}">
+                                                <button type="submit" class="btn btn-success">Movie Reviews</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 </c:forEach>
