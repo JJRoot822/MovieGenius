@@ -52,6 +52,9 @@
                     <li class="nav-item">
                         <a href="Private?action=top10movies" class="nav-link text-dark">Top 10 Movies</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="Private?action=newReleases" class="nav-link text-dark">New Releases</a>
+                    </li>
                     <form action="Private" method="post">
                         <input type="hidden" value="logout" name="action" />
                         <button role="link" type="submit" class="nav-link text-dark">Log Out</button>

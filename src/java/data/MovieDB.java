@@ -840,6 +840,84 @@ public class MovieDB {
             }
         }
     }
+    
+    public static ArrayList<Movie> getNewReleases() throws SQLException {
+        ArrayList<Movie> movies = new ArrayList();
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String query
+                = "SELECT * "
+                + "FROM movies "
+                + "WHERE DATEDIFF(CURRENT_TIMESTAMP, releaseDate) BETWEEN 0 AND 90 "
+                + "ORDER BY releaseDate desc";
+        try {
+
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int movieID = rs.getInt("movieID");
+                String title = rs.getString("title");
+                String summary = rs.getString("summary");
+                LocalDate releaseDate = rs.getDate("releaseDate").toLocalDate();
+                int genreID = rs.getInt("genreID");
+                Movie movie = new Movie(movieID, title, summary, releaseDate, genreID);
+                movies.add(movie);
+            }
+            return movies;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get password", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** get recent movies null pointer?", e);
+                throw e;
+            }
+        }
+    }
+
+    public static ArrayList<Double> getNewReleaseRatings() throws SQLException {
+        ArrayList<Double> ratings = new ArrayList();
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String query
+                = "SELECT AVG(Rating) as avgRating "
+                + "FROM movies "
+                + "LEFT OUTER JOIN reviews "
+                + "ON movies.movieID = reviews.movieID "
+                + "WHERE DATEDIFF(CURRENT_TIMESTAMP, releaseDate) BETWEEN 0 AND 90 "
+                + "GROUP BY reviews.movieID "
+                + "ORDER BY releaseDate desc";
+        try {
+
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Double rating = rs.getDouble("avgRating");
+                ratings.add(rating);
+            }
+            return ratings;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get password", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                rs.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** get recent movies null pointer?", e);
+                throw e;
+            }
+        }
+    }
 
     public static ArrayList<Double> getAvgRatingForMovie(ArrayList<Movie> movies) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();

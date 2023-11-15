@@ -285,6 +285,28 @@ public class Private extends HttpServlet {
                 request.setAttribute("top10list", top10map);
                 break;
             }
+            case "newReleases": {
+                url = "/newReleases.jsp";
+                ArrayList<Movie> newReleases = new ArrayList();
+                ArrayList<Double> newReleasesRatings = new ArrayList();
+                try {
+
+                    newReleases = MovieDB.getNewReleases();
+                    newReleasesRatings = MovieDB.getNewReleaseRatings();
+                } catch (SQLException e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+                LinkedHashMap<Movie, String> newMap = new LinkedHashMap();
+                for (int i = 0; i < newReleases.size(); i++) {
+                    String ratingString = newReleasesRatings.get(i).toString();
+                    if(newReleasesRatings.get(i) == 0) {
+                        ratingString = "N/A";
+                    }
+                    newMap.put(newReleases.get(i), ratingString);
+                }
+                request.setAttribute("newReleases", newMap);
+                break;
+            }
             case "review": {
                 url = "/reviews/addReview.jsp";
 
