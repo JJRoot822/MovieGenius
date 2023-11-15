@@ -2,6 +2,7 @@ package business;
 
 public class MovieReviewVM {
     private String movieTitle;
+    private int reviewId;
     private int reviewRating;
     private String reviewComment;
 
@@ -31,6 +32,14 @@ public class MovieReviewVM {
 
     public int getReviewRating() {
         return reviewRating;
+    }
+
+    public void setReviewId(int reviewId) {
+        this.reviewId = reviewId;
+    }
+
+    public int getReviewId() {
+        return reviewId;
     }
 
     public void setReviewComment(String reviewComment) {
