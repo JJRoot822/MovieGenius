@@ -47,8 +47,10 @@
                                         <td>${movies.summary}</td>
                                         <td>${movies.releaseDate}</td>
                                         <td>
-                                            <input type="hidden" name="action" value="review">
-                                             <button type="submit" class="btn btn-success">Review</button>
+                                            <form action="Private" method="post">
+                                                <input type="hidden" name="action" value="review">
+                                                <button type="submit" class="btn btn-success">Review</button>
+                                            </form>
                                         </td>
                                         <td>
                                             <form action="Private" method="post">
@@ -64,7 +66,7 @@
                         <div class="col-4"></div>
                     </div>
                 </div>
-                
+
             </div>
         </main>
     </body>
