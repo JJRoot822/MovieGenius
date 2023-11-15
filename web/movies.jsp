@@ -18,34 +18,36 @@
                     <div class="col-4">
                         <h1>Movie List</h1>
                         <h2>Current Movies</h2>
-                        <form method="post" action="Private">
 
-                            <table border="1" column="1">
+
+                        <table border="1" column="1">
+                            <tr>
+                                <th>Title</th>
+                                <th>Summary</th>
+                                <th>Release Date</th>
+                            </tr>
+                            <c:forEach var="movie" items="${allMovies}">
                                 <tr>
-                                    <th>Title</th>
-                                    <th>Summary</th>
-                                    <th>Release Date</th>
-                                </tr>
-                                <c:forEach var="movie" items="${allMovies}">
-                                    <tr>
-                                        <td>${movie.title}</td>
-                                        <td>${movie.summary}</td>
-                                        <td>${movie.releaseDate}</td>
-                                        <td>
+                                    <td>${movie.title}</td>
+                                    <td>${movie.summary}</td>
+                                    <td>${movie.releaseDate}</td>
+                                    <td>
+                                        <form method="post" action="Private">
                                             <input type="hidden" name="action" value="review">
                                             <button type="submit" class="btn btn-success">Review</button>
-                                        </td>
-                                        <td>
-                                            <form action="Private" method="post">
-                                                <input type="hidden" name="action" value="movieReviews">
-                                                <input type="hidden" name="movieID" value="${movies.movieID}">
-                                                <button type="submit" class="btn btn-success">Movie Reviews</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </form>
+                                        </form>
+
+                                    </td>
+                                    <td>
+                                        <form action="Private" method="post">
+                                            <input type="hidden" name="action" value="movieReviews">
+                                            <input type="hidden" name="movieID" value="${movies.movieID}">
+                                            <button type="submit" class="btn btn-success">Movie Reviews</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
                         <br>
                         <div class="col-4"></div>
                     </div>
