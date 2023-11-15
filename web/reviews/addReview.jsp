@@ -22,9 +22,7 @@
     <body>
         <jsp:include page="/layout/navbar.jsp" />
         <main id="main-content">
-            <c:forEach var="movies" items="${movies}">
             <h1>Submit a Review for ${movie.title}</h1>
-            </c:forEach>
             <c:forEach items="${requestScope.errors}" var="error">
                 <p class="text-danger">${error}</p>
             </c:forEach>
