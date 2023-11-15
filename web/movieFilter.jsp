@@ -48,14 +48,14 @@
                                         <td>${movies.releaseDate}</td>
                                         <td>
                                             <form action="Private" method="post">
-                                                <input type="hidden" name="action" value="review">
+                                                <input type="hidden" name="action" value="review"/>
                                                 <button type="submit" class="btn btn-success">Review</button>
                                             </form>
                                         </td>
                                         <td>
                                             <form action="Private" method="post">
-                                                <input type="hidden" name="action" value="movieReviews">
-                                                <input type="hidden" name="movieID" value="${movies.movieID}">
+                                                <input type="hidden" name="action" value="movieReviews"/>
+                                                <input type="hidden" name="movieID" value="${movies.movieID}"/>
                                                 <button type="submit" class="btn btn-success">Movie Reviews</button>
                                             </form>
                                         </td>
