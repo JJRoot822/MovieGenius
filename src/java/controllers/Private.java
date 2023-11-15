@@ -57,13 +57,23 @@ public class Private extends HttpServlet {
             }
             case "movieReviews": {
                 url = "/movieReviews.jsp";
+
+                Movie movie = new Movie();
+                int movieID = 0;
                 try {
-                    int movieID = Integer.parseInt(request.getParameter("movieID"));
-                    Movie movie = MovieDB.SelectedMoive(movieID);
-                    request.setAttribute("movie", movie);
+                    movieID = Integer.parseInt(request.getParameter("movieID"));
+                } catch(NumberFormatException en) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, en);
+                }
+
+                try {
+                    movie = MovieDB.SelectedMoive(movieID);
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
+                request.setAttribute("movie", movie);
+
                 break;
             }
             case "filter": {
@@ -191,15 +201,15 @@ public class Private extends HttpServlet {
                 String summary = request.getParameter("summary");
                 LocalDate releaseDate = LocalDate.parse(request.getParameter("releasedate"));
                 int genreID = Integer.parseInt(request.getParameter("genre"));
-                
+
                 Movie movie = new Movie(title, summary, releaseDate, genreID);
-                
+
                 try {
                     MovieDB.insertMovie(movie);
                 } catch (SQLException e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
-                
+
                 url = "/Private?action=gotoAdminMovie";
                 break;
             }
@@ -236,11 +246,10 @@ public class Private extends HttpServlet {
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
                 url = "/Private?action=adminUserAction";
                 break;
-                
-                
+
             }
             case "movieList": {
                 url = "/movies.jsp";
@@ -275,6 +284,52 @@ public class Private extends HttpServlet {
             }
             case "review": {
                 url = "/reviews/addReview.jsp";
+
+                Movie movie = new Movie();
+                int movieID = 0;
+                try {
+                    movieID = Integer.parseInt(request.getParameter("movieID"));
+                } catch(NumberFormatException en) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, en);
+                }
+
+                try {
+                    movie = MovieDB.SelectedMoive(movieID);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                request.setAttribute("movieID", movieID);
+                request.setAttribute("movie", movie);
+                
+                break;
+            }
+            case "submitReview": {
+                int movieID = 0;
+                
+                try {
+                    movieID = Integer.parseInt(request.getAttribute("movieID").toString());
+                } catch(NumberFormatException en) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, en);
+                }
+                int rating = 0;
+                String comment = request.getParameter("comment");
+                
+                try {
+                    rating = Integer.parseInt(request.getParameter("rating"));
+                    
+                } catch (NumberFormatException en) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, en);
+                    
+                }
+                
+                Review review = new Review(loggedInUser.getUserID(), movieID, rating, comment);
+                
+                try {
+                    MovieDB.insertReview(review);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
 //                List<String> errors = new ArrayList();
 //                String comment = request.getParameter("comment");
@@ -303,7 +358,6 @@ public class Private extends HttpServlet {
 //                        Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
 //                    }
 //                }
-
                 break;
             }
 

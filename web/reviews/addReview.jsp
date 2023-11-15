@@ -32,16 +32,16 @@
                     <div class="6">
                         <form action="Private" method="put">
                             <input type="hidden" name="action" value="submitReview">
-                            <label for="review-rating-field">Rating</label>
-                            <select id="rating-field" name="selectedNumber" class="form-control">
+                            <label for="rating-field">Rating</label>
+                            <select id="rating-field" name="rating" class="form-control">
                                 <option value="" disabled selected>Select a rating number</option>
                                 <% for (int i = 1; i <= 10; i++) {%>
                                 <option value="<%= i%>"><%= i%></option>
                                 <% }%>
                             </select>
                             </br>
-                            <label for="comment">Comments</label>
-                            <textarea id="comment" class="form-control" name="review-comments" maxlength="255">${review.comment}</textarea>
+                            <label for="comment-field">Comments</label>
+                            <textarea id="comment-field" class="form-control" name="comment" maxlength="255">${review.comment}</textarea>
                             <br>
                             <input type="submit" value="Submit" id="submit-review-btn" class="btn btn-success">
                         </form>
