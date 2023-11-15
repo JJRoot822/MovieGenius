@@ -57,9 +57,11 @@ public class Private extends HttpServlet {
             }
             case "movieReviews": {
                 url = "/movieReviews.jsp";
+                
+                Movie movie = new Movie();
                 try {
                     int movieID = Integer.parseInt(request.getParameter("movieID"));
-                    Movie movie = MovieDB.SelectedMoive(movieID);
+                    movie = MovieDB.SelectedMoive(movieID);
                     request.setAttribute("movie", movie);
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
