@@ -8,13 +8,15 @@ public class MovieReviewVM {
 
     public MovieReviewVM() {
         this.movieTitle = "";
+        this.reviewId = 1;
         this.reviewRating = 0;
         this.reviewComment = "";
     }
 
-    public MovieReviewVM(String movieTitle, int reviewRating, String reviewComment) {
+    public MovieReviewVM(String movieTitle, int reviewRating, int reviewId, String reviewComment) {
         this.movieTitle = movieTitle;
         this.reviewRating = reviewRating;
+        this.reviewId = reviewId;
         this.reviewComment = reviewComment;
     }
 
