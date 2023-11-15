@@ -34,21 +34,18 @@
                         <form action="Private" method="post">
                             <input type="hidden" name="action" value="updateUser">
                             <h1>Update Information</h1>
-                            <label>Email:</label><br>
-                            <input type="text" name="email">
-                            <br><br>
-                            <label>User Name:</label><br>
-                            <input type="text" name="userName">
-                            <br><br>
-                            <label>Enter New Password:</label><br>
-                            <input type="text" name="newPassword">
-                            <br><br>
-                            <label>Enter Re-enter New Password:</label><br>
-                            <input type="text" name="checkNewPassword">
-                            <br><br>
-                            <label>Enter Old Password:</label><br>
-                            <input type="text" name="oldPassword">
-                            <br><br>
+                            <label for="email-field">Email</label><br>
+                            <input type="text" name="email" id="email-field" class="form-control"/>
+                            <br>
+                            <label for="username-field">Username</label><br>
+                            <input type="text" name="userName" id="username-field" class="form-control"/>
+                            <br>
+                            <label for="new-password-field">New Password</label><br>
+                            <input type="text" name="newPassword" id="new-password-field" class="form-control"/>
+                            <br>
+                            <label for="verify-new-password-field">Verify New Password</label><br>
+                            <input type="text" name="checkNewPassword" id="verify-password-field" class="form-control"/>
+                            <br>
                             <button type="submit" class="btn btn-success">Update Account</button>
                         </form>
                         <br><br><br>
