@@ -32,14 +32,14 @@
                         <table border="1" column="1">
                             <tr>
                                 <th>Username</th>
-                                <th>Review</th>
+                                <th>Comment</th>
                                 <th>Rating</th>
                             </tr>
                             <c:forEach var="userReviews" items="${userReviews}">
                                 <tr>
-                                    <td>${userReviews}</td>
-                                    <td>${userReviews}</td>
-                                    <td>${userReviews}</td>
+                                    <td>${userReviews.username}</td>
+                                    <td>${userReviews.comment}</td>
+                                    <td>${userReviews.rating}</td>
                                 </tr>
                             </c:forEach>
                         </table>

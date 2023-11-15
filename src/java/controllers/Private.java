@@ -5,6 +5,7 @@ import business.Movie;
 import business.Review;
 import business.User;
 import business.Validation;
+import business.userReview;
 import data.MovieDB;
 import data.security.SecurityUtil;
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class Private extends HttpServlet {
             }
             case "movieReviews": {
                 url = "/movieReviews.jsp";
-
+                ArrayList<userReview> userReviews = new ArrayList();
                 Movie movie = new Movie();
                 int movieID = 0;
                 try {
@@ -68,11 +69,13 @@ public class Private extends HttpServlet {
 
                 try {
                     movie = MovieDB.SelectedMoive(movieID);
+                    userReviews = MovieDB.getMovieUserReview(movieID);
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
                 request.setAttribute("movie", movie);
+                request.setAttribute("userReviews", userReviews);
 
                 break;
             }
