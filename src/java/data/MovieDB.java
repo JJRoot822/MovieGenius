@@ -950,44 +950,7 @@ public class MovieDB {
         }
     }
 
-    public static ArrayList<Review> getUserReviews(int userID) throws SQLException {
-        ArrayList<Review> Reviews = new ArrayList();
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        String query
-                = "SELECT * "
-                + "FROM reviews "
-                + "WHERE userID = ?";
-        try {
-            ps = connection.prepareStatement(query);
-            ps.setInt(1, userID);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                int reviewID = rs.getInt("reviewID");
-                int movieID = rs.getInt("movieID");
-                int rating = rs.getInt("rating");
-                String comment = rs.getString("comment");
-                Review review = new Review(reviewID, rating, userID, movieID, comment);
-                Reviews.add(review);
-            }
-            return Reviews;
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "*** get password", e);
-            throw e;
-        } finally {
-            try {
-                ps.close();
-                rs.close();
-                pool.freeConnection(connection);
-            } catch (Exception e) {
-                LOG.log(Level.SEVERE, "*** get password null pointer?", e);
-                throw e;
-            }
-        }
-    }
+    
 
     public static ArrayList<Movie> getMoviesByGenreID(int genreID) throws SQLException {
         ArrayList<Movie> Movies = new ArrayList();
