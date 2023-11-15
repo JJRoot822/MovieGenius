@@ -1194,7 +1194,7 @@ public class MovieDB {
         String query = "SELECT r.reviewID AS id, m.title AS title, r.rating AS rating, r.comment AS comment " +
                 "FROM reviews AS r " +
                 "JOIN movies AS m ON m.movieID = r.movieID "
-                + "WHERE userID = ? AND title = ?";
+                + "WHERE userID = ? AND title LIKE %?%";
 
         try {
             ps = connection.prepareStatement(query);
