@@ -69,6 +69,7 @@
                                         <td>
                                             <form action="Private" method="post">
                                                 <input type="hidden" value="<c:out value='${review.key}' />" name="reviewId" />
+                                                <input type="hidden" value="update-review" name="action"
 
                                                 <button class="btn btn-light" type="submit">
                                                     Edit
@@ -84,6 +85,13 @@
 
                                     <div class="alert alert-danger alert-dismissible fade" role="alert">
                                         <h5>Are you sure you want to delete your review for ${review.value.movieTitle}</h5>
+                                        
+                                        <hr>
+                                        
+                                        <form action="Private" method="delete">
+                                            <input type="hidden" value="<c:out value='${review.key}' />" name="reviewId" />
+                                            <button type="submit" class="btn btn-danger">Yes, Delete It</button>
+                                        </form>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
                                 </c:forEach>
@@ -91,7 +99,53 @@
                         </table>
                     </c:when>
                     <c:otherwise>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr class="table-dark">
+                                    <th>Movie Title</th>
+                                    <th>Review Rating</th>
+                                    <th>Comments</th>
+                                    <th colspan="2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${searchResults.entrySet}" var="review">
+                                    <tr>
+                                        <td>${review.value.movieTitle}</td>
+                                        <td>${review.value.reviewRating}</td>
+                                        <td>${review.value.reviewComment}</td>
+                                        <td>
+                                            <form action="Private" method="post">
+                                                <input type="hidden" value="<c:out value='${review.key}' />" name="reviewId" />
+                                                <input type="hidden" value="update-review" name="action" />
 
+                                                <button class="btn btn-light" type="submit">
+                                                    Edit
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger">
+                                                Delete Review
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <div class="alert alert-danger alert-dismissible fade" role="alert">
+                                        <h5>Are you sure you want to delete your review for ${review.value.movieTitle}</h5>
+                                        
+                                        <hr>
+                                        
+                                        <form action="Private" method="delete">
+                                            <input type="hidden" value="<c:out value='${review.key}' />" name="reviewId" />
+                                            <button type="submit" class="btn btn-danger">Yes, Delete It</button>
+                                        </form>
+                                            
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                </c:forEach>
+                            </tbody>
+                        </table>
                     </c:otherwise>
                 </c:choose>
             </div>
