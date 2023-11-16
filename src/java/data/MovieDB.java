@@ -1168,7 +1168,7 @@ public class MovieDB {
                 int rating = rs.getInt("rating");
                 String comment = rs.getString("comment");
 
-                MovieReviewVM movieReview = new MovieReviewVM(reviewID, title, rating, comment);
+                MovieReviewVM movieReview = new MovieReviewVM(title, rating, comment);
                 movieReviewsMap.put(reviewID, movieReview);
             }
         } catch (SQLException e) {
@@ -1209,11 +1209,11 @@ public class MovieDB {
 
             while (rs.next()) {
                 int reviewID = rs.getInt("id");
-                String title = rs.getString("title");
+                String movieTitle = rs.getString("title");
                 int rating = rs.getInt("rating");
                 String comment = rs.getString("comment");
 
-                MovieReviewVM movieReview = new MovieReviewVM(reviewID, title, rating, comment);
+                MovieReviewVM movieReview = new MovieReviewVM(title, rating, comment);
                 movieReviewsMap.put(reviewID, movieReview);
             }
         } catch (SQLException e) {

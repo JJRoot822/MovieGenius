@@ -42,17 +42,61 @@
                 </div>
 
                 <div class="row">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <form action="Private" method="get">
-                                <input type="search" id="movie-search-field" class="col-12 form-control" name="search-term" placeholder="Search for a Movie..." />
-                                <input type="hidden" name="action" value="moviereviewsearch" />
-                                <input type="submit" class="col-2 btn btn-dark" value="Go" />
-                            </form> 
-                        </div>
-                    </div>
+                    <form action="Private" method="get">
+                        <input type="search" id="movie-search-field" class="col-10 form-control" name="search-term" placeholder="Search for a Movie..." />
+                        <input type="hidden" name="action" value="moviereviewsearch" />
+                        <input type="submit" class="col-2 btn btn-dark" value="Go" />
+                    </form>
                 </div>
+
+                <c:choose>
+                    <c:when test="${searchResults == null}">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr class="table-dark">
+                                    <th>Movie Title</th>
+                                    <th>Review Rating</th>
+                                    <th>Comments</th>
+                                    <th colspan="2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${reviews.entrySet}" var="review">
+                                    <tr>
+                                        <td>${review.value.movieTitle}</td>
+                                        <td>${review.value.reviewRating}</td>
+                                        <td>${review.value.reviewComment}</td>
+                                        <td>
+                                            <form action="Private" method="post">
+                                                <input type="hidden" value="<c:out value='${review.key}' />" name="reviewId" />
+
+                                                <button class="btn btn-light" type="submit">
+                                                    Edit
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger">
+                                                Delete Review
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <div class="alert alert-danger alert-dismissible fade" role="alert">
+                                        <h5>Are you sure you want to delete your review for ${review.value.movieTitle}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:when>
+                    <c:otherwise>
+
+                    </c:otherwise>
+                </c:choose>
             </div>
         </main>
+
+        <script src="js/alert-dismiss-focus-helper.js"></script>
     </body>
 </html>
