@@ -63,7 +63,7 @@ public class Private extends HttpServlet {
                 int movieID = 0;
                 try {
                     movieID = Integer.parseInt(request.getParameter("movieID"));
-                } catch(NumberFormatException en) {
+                } catch (NumberFormatException en) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, en);
                 }
 
@@ -299,7 +299,7 @@ public class Private extends HttpServlet {
                 LinkedHashMap<Movie, String> newMap = new LinkedHashMap();
                 for (int i = 0; i < newReleases.size(); i++) {
                     String ratingString = newReleasesRatings.get(i).toString();
-                    if(newReleasesRatings.get(i) == 0) {
+                    if (newReleasesRatings.get(i) == 0) {
                         ratingString = "N/A";
                     }
                     newMap.put(newReleases.get(i), ratingString);
@@ -311,10 +311,12 @@ public class Private extends HttpServlet {
                 url = "/reviews/addReview.jsp";
 
                 Movie movie = new Movie();
+
                 int movieID = 0;
+
                 try {
                     movieID = Integer.parseInt(request.getParameter("movieID"));
-                } catch(NumberFormatException en) {
+                } catch (NumberFormatException en) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, en);
                 }
 
@@ -323,69 +325,42 @@ public class Private extends HttpServlet {
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-                request.setAttribute("movieID", movieID);
+
+                HttpSession session = request.getSession();
+                session.setAttribute("movieID", movieID);
                 request.setAttribute("movie", movie);
-                
+
                 break;
             }
             case "submitReview": {
                 int movieID = 0;
-                
+
                 try {
-                    movieID = Integer.parseInt(request.getAttribute("movieID").toString());
-                } catch(NumberFormatException en) {
-                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, en);
-                }
-                int rating = 0;
-                String comment = request.getParameter("comment");
-                
-                try {
-                    rating = Integer.parseInt(request.getParameter("rating"));
-                    
+                    movieID = Integer.parseInt(request.getParameter("movieID"));
                 } catch (NumberFormatException en) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, en);
-                    
                 }
-                
+
+                int rating = 0;
+                String comment = request.getParameter("comment");
+
+                try {
+                    rating = Integer.parseInt(request.getParameter("rating"));
+                } catch (NumberFormatException en) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, en);
+
+                }
+
                 Review review = new Review(loggedInUser.getUserID(), movieID, rating, comment);
-                
+
                 try {
                     MovieDB.insertReview(review);
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-//                List<String> errors = new ArrayList();
-//                String comment = request.getParameter("comment");
-//                int rating = Integer.parseInt(request.getParameter("rating"));
-//                int movieID = Integer.parseInt(request.getParameter("movieID"));
-//                if (!comment.equals("")) {
-//                    try {
-//                        url = "/userPage.jsp";
-//                        Review newReview = new Review(rating, loggedInUser.getUserID(), movieID, comment);
-//                        MovieDB.insertReview(newReview);
-//                    } catch (SQLException e) {
-//                        Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
-//                        url = "/userReview.jsp";
-//                        errors.add("There was an error with the database please try again at a later time");
-//                        request.setAttribute("errors", errors);
-//                    }
-//
-//                } else {
-//                    try {
-//                        ArrayList<Movie> movies = MovieDB.selectAllMovies();
-//                        request.setAttribute("movies", movies);
-//                        errors.add("You need to to have a comment.");
-//                        request.setAttribute("errors", errors);
-//                        url = "/userReview.jsp";
-//                    } catch (SQLException e) {
-//                        Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
-//                    }
-//                }
+
                 break;
             }
-
         }
 
         getServletContext().getRequestDispatcher(url).forward(request, response);

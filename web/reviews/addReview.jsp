@@ -5,7 +5,7 @@
     if (session.getAttribute("loggedInUser") == null) {
         // Redirect to a different page if loggedInUser is not in the session
         response.sendRedirect("login.jsp"); // Replace "login.jsp" with the desired redirection URL
-        return; // To stop further executio     n of JSP
+        return; // To stop further execution of JSP
     }
 %>
 
@@ -30,8 +30,9 @@
                 <div class="row">
                     <div class="col-3"></div>
                     <div class="6">
-                        <form action="Private" method="put">
+                        <form action="Private" method="post">
                             <input type="hidden" name="action" value="submitReview">
+                            <input type="hidden" name="movieID" value="${movie.movieID}">
                             <label for="rating-field">Rating</label>
                             <select id="rating-field" name="rating" class="form-control">
                                 <option value="" disabled selected>Select a rating number</option>
