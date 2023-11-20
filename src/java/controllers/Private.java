@@ -355,7 +355,7 @@ public class Private extends HttpServlet {
 
                 }
 
-                Review review = new Review(loggedInUser.getUserID(), movieID, rating, comment);
+                Review review = new Review(rating, loggedInUser.getUserID(), movieID, comment);
 
                 try {
                     MovieDB.insertReview(review);
