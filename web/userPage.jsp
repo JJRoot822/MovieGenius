@@ -44,7 +44,7 @@
                 <div class="row">
                     <form action="Private" method="get">
                         <input type="search" id="movie-search-field" class="col-10 form-control" name="search-term" placeholder="Search for a Movie..." />
-                        <input type="hidden" name="action" value="moviereviewsearch" />
+                    <input type="hidden" name="action" value="movie-review-search   " />
                         <input type="submit" class="col-2 btn btn-dark" value="Go" />
                     </form>
                 </div>
@@ -91,6 +91,7 @@
                                         <form action="Private" method="delete">
                                             <input type="hidden" value="<c:out value='${review.key}' />" name="reviewId" />
                                             <button type="submit" class="btn btn-danger">Yes, Delete It</button>
+                                        <input type="hidden" name="action" value="delete-review" />
                                         </form>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>

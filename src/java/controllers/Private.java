@@ -93,6 +93,9 @@ public class Private extends HttpServlet {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
+            case "delete-review":
+                deleteReview(request);
+                break;
             }
             case "gotoUpdatePage": {
                 url = "/updateUser.jsp";
@@ -396,6 +399,35 @@ public class Private extends HttpServlet {
             errors.add("Failed to update your review. Please try again.");
         }
     }
+    
+    public void navigateToUpdateReview(HttpServletRequest request) {
+        
+    }
+    
+    public void updateReview(HttpServletRequest request) {
+        
+    }
+    
+    public void deleteReview(HttpServletRequest request) {
+        int reviewId;
+        List<String> errors = new ArrayList<String>();
+        
+        try {
+            reviewId = Integer.parseInt(request.getParameter("reviewId"));
+            
+            MovieDB.deleteReview(reviewId);
+            
+            request.setAttribute("successMessage", "Successfully deleted the review. Just a reminder, this can't be undone, so If you want to have the old review back, you need to rewrite the review.");
+            url = "/userPage.jsp";
+            
+        } catch(NumberFormatException e) {
+            errors.add("Something went wrong with the id of the review, as it's not an integer like it should be.");
+        } catch (SQLException e) {
+            errors.add("Failed to delete the review you tried to delete. Please try again later.");
+        }
+    }
+    
+    public void 
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
