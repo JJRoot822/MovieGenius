@@ -362,7 +362,8 @@ public class Private extends HttpServlet {
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
+                url = "/Private?action=movieList";
+                
                 break;
             }
             case "gotoUpdateReview": {

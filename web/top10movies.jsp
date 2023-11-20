@@ -29,6 +29,21 @@
                                     <td>${movie.key.title}</td>
                                     <td>${movie.value}</td>
                                     <td>${movie.key.releaseDate}</td>
+                                    <td>
+                                        <form method="post" action="Private">
+                                            <input type="hidden" name="movieID" value="${movie.key.movieID}"/>
+                                            <input type="hidden" name="action" value="review">
+                                            <button type="submit" class="btn btn-success">Review</button>
+                                        </form>
+
+                                    </td>
+                                    <td>
+                                        <form action="Private" method="post">
+                                            <input type="hidden" name="action" value="movieReviews">
+                                            <input type="hidden" name="movieID" value="${movie.key.movieID}">
+                                            <button type="submit" class="btn btn-success">Movie Reviews</button>
+                                        </form>
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </table>
