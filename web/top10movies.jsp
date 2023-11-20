@@ -13,11 +13,11 @@
     <body>
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
-            <h1>Top 10 Movies</h1>
             <div class="container">
                 <div class="row">
                     <div class="col-4"></div>
                     <div class="col-4">
+                        <h1>Top 10 Movies</h1>
                         <table border="1" column="1">
                             <tr>
                                 <th>Title</th>

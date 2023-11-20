@@ -13,11 +13,12 @@
     <body>
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
-            <h1>New Releases</h1>
+            
             <div class="container">
                 <div class="row">
                     <div class="col-4"></div>
                     <div class="col-4">
+                        <h1>New Releases</h1>
                         <table border="1" column="1">
                             <tr>
                                 <th>Title</th>
@@ -29,14 +30,6 @@
                                     <td>${movie.key.title}</td>
                                     <td>${movie.value}</td>
                                     <td>${movie.key.releaseDate}</td>
-                                    <td>
-                                        <form method="post" action="Private">
-                                            <input type="hidden" name="movieID" value="${movie.key.movieID}"/>
-                                            <input type="hidden" name="action" value="review">
-                                            <button type="submit" class="btn btn-success">Review</button>
-                                        </form>
-
-                                    </td>
                                     <td>
                                         <form action="Private" method="post">
                                             <input type="hidden" name="action" value="movieReviews">
