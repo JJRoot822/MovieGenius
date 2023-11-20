@@ -1346,7 +1346,7 @@ public class MovieDB {
         try {
             ps = connection.prepareStatement(query);
 
-            ps.setInt(1, reviewId);, reviewId);
+            ps.setInt(1, reviewId);
             
             rs = ps.executeQuery();
             Review review = null;

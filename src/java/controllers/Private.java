@@ -41,7 +41,7 @@ public class Private extends HttpServlet {
         }
 
         switch (action) {
-            case "gotoUserPage":
+            case "gotoUserPage": {
                 url = "/userPage.jsp";
 
                 break;
@@ -55,7 +55,8 @@ public class Private extends HttpServlet {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
-            case "movieReviews":
+            }
+            case "movieReviews": {
                 url = "/movieReviews.jsp";
                 ArrayList<userReview> userReviews = new ArrayList();
                 Movie movie = new Movie();
@@ -77,7 +78,8 @@ public class Private extends HttpServlet {
                 request.setAttribute("userReviews", userReviews);
 
                 break;
-            case "filter":
+            }
+            case "filter": {
                 url = "/movieFilter.jsp";
                 ArrayList<Movie> movies = new ArrayList();
                 ArrayList<Genre> genres = new ArrayList();
@@ -91,13 +93,16 @@ public class Private extends HttpServlet {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
-            case "delete-review":
+            }
+            case "delete-review": {
                 deleteReview(request);
                 break;
-            case "gotoUpdatePage":
+            }
+            case "gotoUpdatePage": {
                 url = "/updateUser.jsp";
 
                 break;
+            }
             case "gotoUserReview": {
                 url = "/userReview.jsp";
                 try {
@@ -359,10 +364,12 @@ public class Private extends HttpServlet {
                 }
 
                 break;
-            case "gotoUpdateReview":
+            }
+            case "gotoUpdateReview": {
                 navigateToUpdateReview(request);
                 break;
-            case "update-review":
+            }
+            case "update-review": {
                 updateReview(request);
                 break;
             }
@@ -400,68 +407,64 @@ public class Private extends HttpServlet {
         } catch (SQLException e) {
             errors.add("Failed to update your review. Please try again.");
         }
-        
+
         if (errors.size() > 0) {
             request.setAttribute("errors", errors);
         }
-        
+
         url = "/userPage.jsp";
     }
-    
-    
-    
+
     private void navigateToUpdateReview(HttpServletRequest request) {
         int reviewId;
         List<String> errors = new ArrayList<String>();
-        
+
         try {
             reviewId = ((int) request.getParameter("reviewId"));
         } catch (NumberFormatException e) {
             url = "/userPage.jsp";
-            
+
             errors.add("The review is not an integer like it should, which means it was tampered with.");
         }
-        
+
         Review review;
-        
+
         try {
             review = MovieDB.getReviewById(reviewId);
         } catch (SQLException e) {
             url = "/userPage.jsp";
             errors.add("Failed to navigate to the update review page. Please try again later.");
         }
-        
+
         if (errors.size() > 0) {
             request.setAttribute("review", review);
         } else {
             request.setAttribute("errors", errors);
         }
     }
-    
+
     private void deleteReview(HttpServletRequest request) {
         int reviewId;
         List<String> errors = new ArrayList<String>();
-        
+
         try {
             reviewId = Integer.parseInt(request.getParameter("reviewId"));
-            
+
             MovieDB.deleteReview(reviewId);
-            
+
             request.setAttribute("successMessage", "Successfully deleted the review. Just a reminder, this can't be undone, so If you want to have the old review back, you need to rewrite the review.");
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             errors.add("Something went wrong with the id of the review, as it's not an integer like it should be.");
         } catch (SQLException e) {
             errors.add("Failed to delete the review you tried to delete. Please try again later.");
         }
-        
+
         if (errors.size() > 0) {
             request.setAttribute("errors", errors);
         }
-        
+
         url = "/userPage.jsp";
     }
-    
-     
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
