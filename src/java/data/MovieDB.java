@@ -30,7 +30,6 @@ getMovieGenres(int movieID) - Returns an arraylist of genres assocated with a mo
 getTop10() - Returns an arraylist of the top 10 movies by rating descending
 selectAllMovies() - Returns an arraylist of all movies
 selectAllGenres() - Returns an arraylist of all genres
-getUserReviews(int userID) - Returns an arraylist of all reviews associated with a user
 getMoviesByGenreID(int genreID) - Returns an arraylist of movies associated with a genre by genreID
 movieSearchByName(String titleSearch) - Returns an arraylist of all the movies that contain the string
  */
@@ -1306,6 +1305,32 @@ public class MovieDB {
                 pool.freeConnection(connection);
             } catch (Exception e) {
                 LOG.log(Level.SEVERE, "*** get reviews for movie null pointer?", e);
+                throw e;
+            }
+        }
+    }
+
+    public static int deleteReview(int reviewID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "DELETE FROM reviews "
+                + "WHERE reviewID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, reviewID);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** delete user sql", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
                 throw e;
             }
         }
