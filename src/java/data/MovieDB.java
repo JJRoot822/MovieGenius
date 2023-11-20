@@ -1350,8 +1350,6 @@ public class MovieDB {
             
             rs = ps.executeQuery();
             Review review = null;
-            LinkedHashMap<String, User> users = new LinkedHashMap();
-
             if (rs.next()) {
                 review = new Review();
                 review.setReviewID(rs.getInt("reviewID"));
