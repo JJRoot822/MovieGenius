@@ -404,11 +404,13 @@ public class Private extends HttpServlet {
         if (errors.size() > 0) {
             request.setAttribute("errors", errors);
         }
+        
+        url = "/userPage.jsp";
     }
     
-    url = "/userPage.jsp";
     
-    public void navigateToUpdateReview(HttpServletRequest request) {
+    
+    private void navigateToUpdateReview(HttpServletRequest request) {
         int reviewId;
         List<String> errors = new ArrayList<String>();
         
@@ -426,7 +428,7 @@ public class Private extends HttpServlet {
             review = MovieDB.getReviewById(reviewId);
         } catch (SQLException e) {
             url = "/userPage.jsp";
-            errors.add("Failed to navigate to the update review page. Please try again later.")
+            errors.add("Failed to navigate to the update review page. Please try again later.");
         }
         
         if (errors.size() > 0) {
@@ -436,7 +438,7 @@ public class Private extends HttpServlet {
         }
     }
     
-    public void deleteReview(HttpServletRequest request) {
+    private void deleteReview(HttpServletRequest request) {
         int reviewId;
         List<String> errors = new ArrayList<String>();
         
@@ -459,7 +461,7 @@ public class Private extends HttpServlet {
         url = "/userPage.jsp";
     }
     
-    public void 
+     
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
