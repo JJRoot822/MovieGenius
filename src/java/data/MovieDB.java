@@ -1335,4 +1335,47 @@ public class MovieDB {
             }
         }
     }
+    
+    public static Review getReviewById(int reviewId) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM reviews WHERE reviewID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+
+            ps.setInt(1, reviewId);, reviewId);
+            
+            rs = ps.executeQuery();
+            Review review = null;
+            LinkedHashMap<String, User> users = new LinkedHashMap();
+
+            if (rs.next()) {
+                review = new Review();
+                review.setReviewID(rs.getInt("reviewID"));
+                review.setRating(rs.getInt("rating"));
+                review.setUserID(rs.getInt("userID"));
+                review.setMovieID(rs.getInt("movieID"));
+                review.setComment(rs.getString("comment"));
+                
+                return review;
+            }
+            
+            return null;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** select all sql", e);
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** select all null pointer?", e);
+                throw e;
+            }
+        }
+    }
 }

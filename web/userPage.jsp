@@ -69,7 +69,7 @@
                                         <td>
                                             <form action="Private" method="post">
                                                 <input type="hidden" value="<c:out value='${review.key}' />" name="reviewId" />
-                                                <input type="hidden" value="update-review" name="action"
+                                                <input type="hidden" value="goto-update-review" name="action"
 
                                                 <button class="btn btn-light" type="submit">
                                                     Edit
