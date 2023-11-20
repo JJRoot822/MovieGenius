@@ -417,18 +417,18 @@ public class Private extends HttpServlet {
     }
 
     private void navigateToUpdateReview(HttpServletRequest request) {
-        int reviewId;
+        int reviewId = 0;
         List<String> errors = new ArrayList<String>();
 
         try {
-            reviewId = ((int) request.getParameter("reviewId"));
+            reviewId = Integer.parseInt(request.getParameter("reviewId"));
         } catch (NumberFormatException e) {
             url = "/userPage.jsp";
 
             errors.add("The review is not an integer like it should, which means it was tampered with.");
         }
 
-        Review review;
+        Review review = null;
 
         try {
             review = MovieDB.getReviewById(reviewId);
