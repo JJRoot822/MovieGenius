@@ -2,7 +2,7 @@
 <Context path="/MovieGenius">
     <Resource name="jdbc/moviedb" auth="Container" 
               driverClassName="com.mysql.jdbc.Driver" 
-              url="jdbc:mysql://localhost:3306/moviedb" 
+              url="jdbc:mysql://localhost:3306/moviedb      " 
               username="root" password="" 
               maxActive="100" maxIdle="30" maxWait="10000" 
               logAbandoned="true" removeAbandoned="true" 

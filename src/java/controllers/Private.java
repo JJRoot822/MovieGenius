@@ -1,27 +1,15 @@
 package controllers;
 
-import business.Genre;
-import business.Movie;
-import business.Review;
-import business.User;
-import business.Validation;
-import business.userReview;
+import business.*;
 import data.MovieDB;
 import data.security.SecurityUtil;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class Private extends HttpServlet {
 
@@ -41,12 +29,11 @@ public class Private extends HttpServlet {
         }
 
         switch (action) {
-            case "gotoUserPage": {
-                url = "/userPage.jsp";
+            case "gotoUserPage":
+                navigateToUserPage(request);
 
                 break;
-            }
-            case "gotoMovieFilter": {
+            case "gotoMovieFilter":
                 url = "/movieFilter.jsp";
                 try {
                     ArrayList<Genre> genres = MovieDB.selectAllGenres();
@@ -78,8 +65,7 @@ public class Private extends HttpServlet {
                 request.setAttribute("userReviews", userReviews);
 
                 break;
-            }
-            case "filter": {
+            case "filter":
                 url = "/movieFilter.jsp";
                 ArrayList<Movie> movies = new ArrayList();
                 ArrayList<Genre> genres = new ArrayList();
@@ -93,17 +79,14 @@ public class Private extends HttpServlet {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
-            }
-            case "delete-review": {
+            case "delete-review":
                 deleteReview(request);
                 break;
-            }
-            case "gotoUpdatePage": {
+            case "gotoUpdatePage":
                 url = "/updateUser.jsp";
 
                 break;
-            }
-            case "gotoUserReview": {
+            case "gotoUserReview":
                 url = "/userReview.jsp";
                 try {
                     ArrayList<Movie> movies = MovieDB.selectAllMovies();
@@ -113,13 +96,11 @@ public class Private extends HttpServlet {
                 }
 
                 break;
-            }
-            case "logout": {
+            case "logout":
                 logout(request);
 
                 break;
-            }
-            case "updateUser": {
+            case "updateUser":
                 try {
                     String newEmail = request.getParameter("email");
                     String newUserName = request.getParameter("userName");
@@ -186,9 +167,7 @@ public class Private extends HttpServlet {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
                 break;
-            }
-
-            case "gotoAdminMovie": {
+            case "gotoAdminMovie":
 
                 List<Genre> genres = new ArrayList();
                 try {
@@ -201,9 +180,7 @@ public class Private extends HttpServlet {
 
                 url = "/admin/adminMovies.jsp";
                 break;
-            }
-
-            case "addMovie": {
+            case "addMovie":
                 String title = request.getParameter("title");
                 String summary = request.getParameter("summary");
                 LocalDate releaseDate = LocalDate.parse(request.getParameter("releasedate"));
@@ -219,14 +196,12 @@ public class Private extends HttpServlet {
 
                 url = "/Private?action=gotoAdminMovie";
                 break;
-            }
-
-            case "gotoAdminPage": {
+            case "gotoAdminPage":
                 url = "/admin/adminPage.jsp";
 
                 break;
             }
-            case "adminUserAction": {
+            case "adminUserAction":
                 url = "/admin/adminAllUsers.jsp";
                 LinkedHashMap<String, User> allUsers = new LinkedHashMap();
 
@@ -238,9 +213,7 @@ public class Private extends HttpServlet {
 
                 request.setAttribute("allUsers", allUsers);
                 break;
-            }
-
-            case "adminDeleteUser": {
+            case "adminDeleteUser":
                 int userID = 0;
                 try {
                     userID = Integer.parseInt(request.getParameter("userID"));
@@ -256,9 +229,7 @@ public class Private extends HttpServlet {
 
                 url = "/Private?action=adminUserAction";
                 break;
-
-            }
-            case "movieList": {
+            case "movieList":
                 url = "/movies.jsp";
                 ArrayList<Movie> allMovies = new ArrayList();
 
@@ -270,8 +241,7 @@ public class Private extends HttpServlet {
 
                 request.setAttribute("allMovies", allMovies);
                 break;
-            }
-            case "top10movies": {
+            case "top10movies":
                 url = "/top10movies.jsp";
                 ArrayList<Movie> top10Movies = new ArrayList();
                 ArrayList<Double> top10Ratings = new ArrayList();
@@ -288,8 +258,7 @@ public class Private extends HttpServlet {
                 }
                 request.setAttribute("top10list", top10map);
                 break;
-            }
-            case "newReleases": {
+            case "newReleases":
                 url = "/newReleases.jsp";
                 ArrayList<Movie> newReleases = new ArrayList();
                 ArrayList<Double> newReleasesRatings = new ArrayList();
@@ -310,8 +279,7 @@ public class Private extends HttpServlet {
                 }
                 request.setAttribute("newReleases", newMap);
                 break;
-            }
-            case "review": {
+            case "review":
                 url = "/reviews/addReview.jsp";
 
                 Movie movie = new Movie();
@@ -335,8 +303,7 @@ public class Private extends HttpServlet {
                 request.setAttribute("movie", movie);
 
                 break;
-            }
-            case "submitReview": {
+            case "submitReview":
                 int movieID = 0;
 
                 try {
@@ -365,12 +332,14 @@ public class Private extends HttpServlet {
                 url = "/Private?action=movieList";
                 
                 break;
-            }
-            case "gotoUpdateReview": {
+            case "gotoUpdateReview":
                 navigateToUpdateReview(request);
                 break;
-            }
-            case "update-review": {
+            case "movie-review-search":
+                navigateToUserPageWithSearchResults(request);
+                break;
+
+            case "update-review":
                 updateReview(request);
                 break;
             }
@@ -467,6 +436,14 @@ public class Private extends HttpServlet {
         url = "/userPage.jsp";
     }
 
+
+
+
+    
+    
+    
+    
+
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -500,6 +477,36 @@ public class Private extends HttpServlet {
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+    }
+
+    private void navigateToUserPage(HttpServletRequest request) {
+        LinkedHashMap<Integer, MovieReviewVM> reviews = null;
+
+        try {
+            reviews = MovieDB.getMovieReviewsForUser(loggedInUser.getUserID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        url = "/userPage.jsp";
+
+        request.setAttribute("reviews", reviews);
+    }
+
+    private void navigateToUserPageWithSearchResults(HttpServletRequest request) {
+        LinkedHashMap<Integer, MovieReviewVM> searchResults = null;
+        String searchTerm = ((String) request.getAttribute("search-term"));
+        int loggedInUserId = loggedInUser.getUserID();
+
+        try {
+            searchResults = MovieDB.getMovieReviewsForUser(loggedInUSerId, searchTerm);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        url = "/userPage.jsp";
+
+        request.setAttribute("searchResults", searchResults);
     }
 
     

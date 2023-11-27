@@ -46,9 +46,7 @@
                     <li class="nav-item">
                         <a href="Private?action=gotoUserPage" class="nav-link text-dark">User Page</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="Private?action=gotouserreviews" class="nav-link text-dark">My Reviews</a>
-                    </li>
+                    
                     <li class="nav-item">
                         <a href="Private?action=top10movies" class="nav-link text-dark">Top 10 Movies</a>
                     </li>

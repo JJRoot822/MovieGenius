@@ -98,24 +98,13 @@
                                                 </form>
                                             </td>
                                             <td>
-                                                <button class="btn btn-danger">
-                                                    Delete Review
-                                                </button>
+                                                <form action="Private" method="delete">
+                                                    <input type="hidden" name="action" value="delete-review">
+                                                    <input type="hidden" value="<c:out value='${review.key}' />" name="reviewId" />
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
                                             </td>
                                         </tr>
-
-                                        <div class="alert alert-danger alert-dismissible fade" role="alert">
-                                            <h5>Are you sure you want to delete your review for ${review.value.movieTitle}</h5>
-                                            
-                                            <hr>
-                                            
-                                            <form action="Private" method="delete">
-                                                <input type="hidden" value="<c:out value='${review.key}' />" name="reviewId" />
-                                                <button type="submit" class="btn btn-danger">Yes, Delete It</button>
-                                            <input type="hidden" name="action" value="delete-review" />
-                                            </form>
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                        </div>
                                     </c:forEach>
                                 </tbody>
                             </table>
@@ -147,24 +136,13 @@
                                                 </form>
                                             </td>
                                             <td>
-                                                <button class="btn btn-danger">
-                                                    Delete Review
-                                                </button>
+                                                <form action="Private" method="delete">
+                                                    <input type="hidden" name="action" value="delete-review">
+                                                    <input type="hidden" value="<c:out value='${review.key}' />" name="reviewId" />
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
                                             </td>
                                         </tr>
-
-                                        <div class="alert alert-danger alert-dismissible fade" role="alert">
-                                            <h5>Are you sure you want to delete your review for ${review.value.movieTitle}</h5>
-                                            
-                                            <hr>
-                                            
-                                            <form action="Private" method="delete">
-                                                <input type="hidden" value="<c:out value='${review.key}' />" name="reviewId" />
-                                                <button type="submit" class="btn btn-danger">Yes, Delete It</button>
-                                            </form>
-                                                
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                        </div>
                                     </c:forEach>
                                 </tbody>
                             </table>
@@ -173,7 +151,5 @@
                 </div
             </div>
         </main>
-
-        <script src="js/alert-dismiss-focus-helper.js"></script>
     </body>
 </html>
