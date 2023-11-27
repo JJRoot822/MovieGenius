@@ -173,7 +173,7 @@ public class Private extends HttpServlet {
                 } catch (Exception e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
-                break; 
+                break;
             }
             case "gotoAdminMovie": {
 
@@ -204,7 +204,7 @@ public class Private extends HttpServlet {
                 }
 
                 url = "/Private?action=gotoAdminMovie";
-                break; 
+                break;
             }
             case "gotoAdminPage": {
                 url = "/admin/adminPage.jsp";
@@ -270,7 +270,7 @@ public class Private extends HttpServlet {
                     top10map.put(top10Movies.get(i), top10Ratings.get(i));
                 }
                 request.setAttribute("top10list", top10map);
-                break; 
+                break;
             }
             case "newReleases": {
                 url = "/newReleases.jsp";
@@ -346,7 +346,7 @@ public class Private extends HttpServlet {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 url = "/Private?action=movieList";
-                
+
                 break;
             }
             case "gotoUpdateReview": {
@@ -454,14 +454,6 @@ public class Private extends HttpServlet {
         url = "/userPage.jsp";
     }
 
-
-
-
-    
-    
-    
-    
-
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -499,11 +491,14 @@ public class Private extends HttpServlet {
 
     private void navigateToUserPage(HttpServletRequest request) {
         LinkedHashMap<Integer, MovieReviewVM> reviews = null;
-int loggedInUserId = ((User) request.getSession().getAttribute("loggedInUser").getUserID();
+        User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+        int loggedInUserId = loggedInUser.getUserID();
         try {
-            reviews = MovieDB.getMovieReviewsForUser(loggedInUserId));
-        } catch (SQLException e) {
-            e.printStackTrace();
+            reviews = MovieDB.getMovieReviewsForUser(loggedInUserId);
+        } catch (SQLException ex) {
+            Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
         }
 
         url = "/userPage.jsp";
@@ -514,20 +509,21 @@ int loggedInUserId = ((User) request.getSession().getAttribute("loggedInUser").g
     private void navigateToUserPageWithSearchResults(HttpServletRequest request) {
         LinkedHashMap<Integer, MovieReviewVM> searchResults = null;
         String searchTerm = ((String) request.getAttribute("search-term"));
-        int loggedInUserId = ((User) request.getSession().getAttribute("loggedInUser")).getUserID();
+        User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+        int loggedInUserId = loggedInUser.getUserID();
 
         try {
-            searchResults = MovieDB.getMovieReviewsForUser(loggedInUSerId, searchTerm);
-        } catch (SQLException e) {
-            e.printStackTrace();
+            searchResults = MovieDB.getMovieReviewsForUser(loggedInUserId, searchTerm);
+        } catch (SQLException ex) {
+            Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
         }
 
         url = "/userPage.jsp";
 
         request.setAttribute("searchResults", searchResults);
     }
-
-    
 
     /**
      * Returns a short description of the servlet.
