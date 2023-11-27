@@ -1180,7 +1180,7 @@ public class MovieDB {
         }
     }
 
-    public LinkedHashMap<Integer, MovieReviewVM> getMovieReviewsForUser(int userId) throws Exception {
+    public static LinkedHashMap<Integer, MovieReviewVM> getMovieReviewsForUser(int userId) throws Exception {
         LinkedHashMap<Integer, MovieReviewVM> movieReviewsMap = new LinkedHashMap<>();
 
         ConnectionPool pool = ConnectionPool.getInstance();
@@ -1224,7 +1224,7 @@ public class MovieDB {
         return movieReviewsMap;
     }
     
-    public LinkedHashMap<Integer, MovieReviewVM> getMovieReviewsForUser(int userId, String title) throws Exception {
+    public static LinkedHashMap<Integer, MovieReviewVM> getMovieReviewsForUser(int userId, String title) throws Exception {
         LinkedHashMap<Integer, MovieReviewVM> movieReviewsMap = new LinkedHashMap<>();
 
         ConnectionPool pool = ConnectionPool.getInstance();
