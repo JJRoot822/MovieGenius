@@ -499,9 +499,9 @@ public class Private extends HttpServlet {
 
     private void navigateToUserPage(HttpServletRequest request) {
         LinkedHashMap<Integer, MovieReviewVM> reviews = null;
-
+int loggedInUserId = ((User) request.getSession().getAttribute("loggedInUser").getUserID();
         try {
-            reviews = MovieDB.getMovieReviewsForUser(loggedInUser.getUserID());
+            reviews = MovieDB.getMovieReviewsForUser(loggedInUserId));
         } catch (SQLException e) {
             e.printStackTrace();
         }
