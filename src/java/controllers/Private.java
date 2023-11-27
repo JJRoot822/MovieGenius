@@ -29,11 +29,12 @@ public class Private extends HttpServlet {
         }
 
         switch (action) {
-            case "gotoUserPage":
+            case "gotoUserPage": {
                 navigateToUserPage(request);
 
                 break;
-            case "gotoMovieFilter":
+            }
+            case "gotoMovieFilter": {
                 url = "/movieFilter.jsp";
                 try {
                     ArrayList<Genre> genres = MovieDB.selectAllGenres();
@@ -65,7 +66,8 @@ public class Private extends HttpServlet {
                 request.setAttribute("userReviews", userReviews);
 
                 break;
-            case "filter":
+            }
+            case "filter": {
                 url = "/movieFilter.jsp";
                 ArrayList<Movie> movies = new ArrayList();
                 ArrayList<Genre> genres = new ArrayList();
@@ -79,14 +81,17 @@ public class Private extends HttpServlet {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
-            case "delete-review":
+            }
+            case "delete-review": {
                 deleteReview(request);
                 break;
-            case "gotoUpdatePage":
+            }
+            case "gotoUpdatePage": {
                 url = "/updateUser.jsp";
 
                 break;
-            case "gotoUserReview":
+            }
+            case "gotoUserReview": {
                 url = "/userReview.jsp";
                 try {
                     ArrayList<Movie> movies = MovieDB.selectAllMovies();
@@ -96,11 +101,13 @@ public class Private extends HttpServlet {
                 }
 
                 break;
-            case "logout":
+            }
+            case "logout": {
                 logout(request);
 
                 break;
-            case "updateUser":
+            }
+            case "updateUser": {
                 try {
                     String newEmail = request.getParameter("email");
                     String newUserName = request.getParameter("userName");
@@ -166,8 +173,9 @@ public class Private extends HttpServlet {
                 } catch (Exception e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
-                break;
-            case "gotoAdminMovie":
+                break; 
+            }
+            case "gotoAdminMovie": {
 
                 List<Genre> genres = new ArrayList();
                 try {
@@ -180,7 +188,8 @@ public class Private extends HttpServlet {
 
                 url = "/admin/adminMovies.jsp";
                 break;
-            case "addMovie":
+            }
+            case "addMovie": {
                 String title = request.getParameter("title");
                 String summary = request.getParameter("summary");
                 LocalDate releaseDate = LocalDate.parse(request.getParameter("releasedate"));
@@ -195,13 +204,14 @@ public class Private extends HttpServlet {
                 }
 
                 url = "/Private?action=gotoAdminMovie";
-                break;
-            case "gotoAdminPage":
+                break; 
+            }
+            case "gotoAdminPage": {
                 url = "/admin/adminPage.jsp";
 
                 break;
             }
-            case "adminUserAction":
+            case "adminUserAction": {
                 url = "/admin/adminAllUsers.jsp";
                 LinkedHashMap<String, User> allUsers = new LinkedHashMap();
 
@@ -213,7 +223,8 @@ public class Private extends HttpServlet {
 
                 request.setAttribute("allUsers", allUsers);
                 break;
-            case "adminDeleteUser":
+            }
+            case "adminDeleteUser": {
                 int userID = 0;
                 try {
                     userID = Integer.parseInt(request.getParameter("userID"));
@@ -229,7 +240,8 @@ public class Private extends HttpServlet {
 
                 url = "/Private?action=adminUserAction";
                 break;
-            case "movieList":
+            }
+            case "movieList": {
                 url = "/movies.jsp";
                 ArrayList<Movie> allMovies = new ArrayList();
 
@@ -241,7 +253,8 @@ public class Private extends HttpServlet {
 
                 request.setAttribute("allMovies", allMovies);
                 break;
-            case "top10movies":
+            }
+            case "top10movies": {
                 url = "/top10movies.jsp";
                 ArrayList<Movie> top10Movies = new ArrayList();
                 ArrayList<Double> top10Ratings = new ArrayList();
@@ -257,8 +270,9 @@ public class Private extends HttpServlet {
                     top10map.put(top10Movies.get(i), top10Ratings.get(i));
                 }
                 request.setAttribute("top10list", top10map);
-                break;
-            case "newReleases":
+                break; 
+            }
+            case "newReleases": {
                 url = "/newReleases.jsp";
                 ArrayList<Movie> newReleases = new ArrayList();
                 ArrayList<Double> newReleasesRatings = new ArrayList();
@@ -279,7 +293,8 @@ public class Private extends HttpServlet {
                 }
                 request.setAttribute("newReleases", newMap);
                 break;
-            case "review":
+            }
+            case "review": {
                 url = "/reviews/addReview.jsp";
 
                 Movie movie = new Movie();
@@ -303,7 +318,8 @@ public class Private extends HttpServlet {
                 request.setAttribute("movie", movie);
 
                 break;
-            case "submitReview":
+            }
+            case "submitReview": {
                 int movieID = 0;
 
                 try {
@@ -332,14 +348,16 @@ public class Private extends HttpServlet {
                 url = "/Private?action=movieList";
                 
                 break;
-            case "gotoUpdateReview":
+            }
+            case "gotoUpdateReview": {
                 navigateToUpdateReview(request);
                 break;
-            case "movie-review-search":
+            }
+            case "movie-review-search": {
                 navigateToUserPageWithSearchResults(request);
                 break;
-
-            case "update-review":
+            }
+            case "update-review": {
                 updateReview(request);
                 break;
             }
