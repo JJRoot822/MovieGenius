@@ -19,6 +19,7 @@
                     <div class="col-4"></div>
                     <div class="col-4">
                         <h1>New Releases</h1>
+                    </div>
                         <table border="1" column="1">
                             <tr>
                                 <th>Title</th>
@@ -40,7 +41,7 @@
                                 </tr>
                             </c:forEach>
                         </table>
-                    </div>
+                    
                     <div class="col-4"></div>
                 </div>
             </div>

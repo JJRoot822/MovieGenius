@@ -18,8 +18,7 @@
                     <div class="col-4">
                         <h1>Movie List</h1>
                         <h2>Current Movies</h2>
-
-
+                    </div>
                         <table border="1" column="1">
                             <tr>
                                 <th>Title</th>
@@ -51,7 +50,6 @@
                         </table>
                         <br>
                         <div class="col-4"></div>
-                    </div>
                 </div>
 
             </div>
