@@ -12,26 +12,43 @@ import java.util.LinkedHashMap;
 Current methods
 ----------------------------------
 insertUsers(User user) - Inserts a user
+insertReview(Review review) - Inserts a review
 deleteUser(User user) - Deletes a user
 selectAllUsers() - Selects all of the users, returns LinkedHashMap with username as the Key
 getPasswordForUsername(String username) - Returns the password for a given username
 getPasswordForEmail(String email) - Returns the password for a given email
 selectUserID(String username) - Returns the userID for a given username
+SelectedMovie(int ID) - Returns a movie based on the movie ID provided
 adminUpdateUser(User user) - Updates a movie, assumes that the userID is not changing and is based on userID for the user.  Also has the ability to change the userType
+updateUserUsername(User user) - Takes in an updated user and sets the new username based on user ID of user
+updateUserPassword(User user) - Takes in an updated user and sets the new password based on user ID of user
+updateUserEmail(User user) - Takes in an updated user and sets the new email based on user ID of user
 updateUser(User user) - Updates a movie, assumes that the userID is not changing and is based on userID for the user
 validateEmail(String email) - Returns a boolean on if an email already exists
 validateUsername(String username) - Returns a boolean on if an username already exists
 getUserInfo(String usernameOrEmail, String password) - Returns a user based on username or email, and the password
 getUserInfo(String username) - Returns a user based on the username
 insertMovie(Movie movie) - Inserts a movie
+getMovieIDByTitle(String title) - Gets a movie ID based on the title provided
 deleteMovie(int movieID) - Deletes a movie based on the movieID
 updateMovie(Movie movie) - Updates a movie, assumes that the movieID is not changing and is based on movieID for the movie
 getMovieGenres(int movieID) - Returns an arraylist of genres assocated with a movie by movieID
 getTop10() - Returns an arraylist of the top 10 movies by rating descending
+getTop10Avgs() - Returns an arraylist of doubles of the top 10 movies by rating descending
+getNewReleases() - Returns an arraylits of all movies released in the past 90 days
+getNewReleaseRatings() - Returns an arraylist of ratings of all of movies released in the past 90 days
+getAvgRatingForMovie(ArrayList<Movie> movies) 
 selectAllMovies() - Returns an arraylist of all movies
 selectAllGenres() - Returns an arraylist of all genres
 getMoviesByGenreID(int genreID) - Returns an arraylist of movies associated with a genre by genreID
 movieSearchByName(String titleSearch) - Returns an arraylist of all the movies that contain the string
+updateReview(Review review) - Updates a review, changes everything based on reviewID
+getMovieReviews(int movieID) - Returns an arraylist of all reviews for a movie based on movieID
+getMovieReviewsForUser(int userId) - Returns a Linked Hashmap of reviews, the reviewID is the key and the Review itself is the value
+getMovieReviewsForUser(int userId, String title) - Returns a Linked Hashmap of reviews, the reviewID is the key and the Review itself is the value where title is similar
+getMovieUserReview(int ID) - Returns an arraylist of user reviews based on movieID
+deleteReview(int reviewID) - Deletes a review based on reviewID
+getReviewById(int reviewId) - returns a review based on reviewID
  */
 /**
  *
@@ -64,7 +81,7 @@ public class MovieDB {
             try {
                 ps.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** insert null pointer?", e);
                 throw e;
             }
@@ -120,7 +137,7 @@ public class MovieDB {
             try {
                 ps.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
                 throw e;
             }
@@ -194,7 +211,7 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** get password null pointer?", e);
                 throw e;
             }
@@ -229,7 +246,7 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** get password null pointer?", e);
                 throw e;
             }
@@ -510,7 +527,7 @@ public class MovieDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String query = "";
+        String query;
 
         if (Validation.isEmail(usernameOrEmail)) {
             query = "SELECT * FROM users WHERE email = ? AND password = ?";
@@ -554,7 +571,7 @@ public class MovieDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String query = "";
+        String query;
 
         if (Validation.isEmail(usernameOrEmail)) {
             query = "SELECT * FROM users WHERE email = ?";
@@ -706,7 +723,7 @@ public class MovieDB {
             ps.setDate(3, Date.valueOf(movie.getReleaseDate()));
             ps.setInt(4, movie.getMovieID());
             ps.setInt(5, movie.getGenreID());
-            rs = ps.executeQuery();
+            ps.executeUpdate();
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "*** get movie", e);
             throw e;
@@ -1125,7 +1142,7 @@ public class MovieDB {
             ps.setString(2, review.getComment());
             ps.setInt(3, review.getReviewID());
             ps.setInt(4, review.getMovieID());
-            rs = ps.executeQuery();
+            ps.executeUpdate();
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "*** get movie", e);
             throw e;
