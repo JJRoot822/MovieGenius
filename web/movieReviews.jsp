@@ -29,21 +29,22 @@
                         <h2>${movie.releaseDate}</h2>
                         <br><br>
                         <h2>Reviews</h2>
-                        <table border="1" column="1">
-                            <tr>
-                                <th>Username</th>
-                                <th>Comment</th>
-                                <th>Rating</th>
-                            </tr>
-                            <c:forEach var="userReviews" items="${userReviews}">
-                                <tr>
-                                    <td>${userReviews.username}</td>
-                                    <td>${userReviews.comment}</td>
-                                    <td>${userReviews.rating}</td>
-                                </tr>
-                            </c:forEach>
-                        </table>
                     </div>
+                    <table border="1" column="1">
+                        <tr>
+                            <th>Username</th>
+                            <th>Comment</th>
+                            <th>Rating</th>
+                        </tr>
+                        <c:forEach var="userReviews" items="${userReviews}">
+                            <tr>
+                                <td>${userReviews.username}</td>
+                                <td>${userReviews.comment}</td>
+                                <td>${userReviews.rating}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+
                     <div class="col-4"></div>
                 </div>
             </div>
