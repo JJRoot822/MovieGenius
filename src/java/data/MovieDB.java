@@ -111,7 +111,7 @@ public class MovieDB {
             try {
                 ps.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** insert null pointer?", e);
                 throw e;
             }
@@ -155,7 +155,7 @@ public class MovieDB {
             ps = connection.prepareStatement(query);
 
             rs = ps.executeQuery();
-            User user = null;
+            User user;
             LinkedHashMap<String, User> users = new LinkedHashMap();
 
             while (rs.next()) {
@@ -463,11 +463,7 @@ public class MovieDB {
             rs = ps.executeQuery();
 
             //String emailCheck = rs.getString("email");
-            if (rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
+            return rs.next();
 
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "*** validate email sql", e);
@@ -500,11 +496,7 @@ public class MovieDB {
             rs = ps.executeQuery();
 
             //String usernameCheck = rs.getString("username");
-            if (rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
+            return rs.next();
 
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "*** validate username sql", e);
@@ -642,7 +634,7 @@ public class MovieDB {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
-        ResultSet rs = null;
+        ResultSet rs;
 
         String query
                 = "SELECT MovieID "
@@ -680,13 +672,10 @@ public class MovieDB {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
-        ResultSet rs = null;
-
         String query
                 = "DELETE "
                 + "FROM movies "
                 + "WHERE movieID = ?";
-
         try {
             ps = connection.prepareStatement(query);
             ps.setInt(1, movieID);
@@ -769,7 +758,7 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** get password null pointer?", e);
                 throw e;
             }
@@ -812,7 +801,7 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** get password null pointer?", e);
                 throw e;
             }
@@ -826,7 +815,7 @@ public class MovieDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String query
-                = "SELECT AVG(rating) as avgRating "
+                = "SELECT ROUND(AVG(rating), 2) as avgRating "
                 + "FROM movies "
                 + "INNER JOIN reviews "
                 + "ON movies.movieID = reviews.movieID "
@@ -890,7 +879,7 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** get recent movies null pointer?", e);
                 throw e;
             }
@@ -904,7 +893,7 @@ public class MovieDB {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String query
-                = "SELECT AVG(Rating) as avgRating "
+                = "SELECT ROUND(AVG(Rating), 2) as avgRating "
                 + "FROM movies "
                 + "LEFT OUTER JOIN reviews "
                 + "ON movies.movieID = reviews.movieID "
@@ -928,7 +917,7 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** get recent movies null pointer?", e);
                 throw e;
             }
@@ -942,7 +931,7 @@ public class MovieDB {
         ResultSet rs = null;
         ArrayList<Double> avgRatings = new ArrayList();
         String query
-                = "SELECT AVG(Rating) as avgRating "
+                = "SELECT ROUND(AVG(Rating), 2) as avgRating "
                 + "FROM movies "
                 + "INNER JOIN reviews "
                 + "ON movies.movieID = reviews.movieID"
@@ -1190,7 +1179,7 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** get reviews for movie null pointer?", e);
                 throw e;
             }
@@ -1320,7 +1309,7 @@ public class MovieDB {
                 ps.close();
                 rs.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** get reviews for movie null pointer?", e);
                 throw e;
             }
@@ -1346,7 +1335,7 @@ public class MovieDB {
             try {
                 ps.close();
                 pool.freeConnection(connection);
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
                 throw e;
             }
@@ -1366,7 +1355,7 @@ public class MovieDB {
             ps.setInt(1, reviewId);
             
             rs = ps.executeQuery();
-            Review review = null;
+            Review review;
             if (rs.next()) {
                 review = new Review();
                 review.setReviewID(rs.getInt("reviewID"));
