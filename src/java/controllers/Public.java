@@ -140,15 +140,15 @@ public class Public extends HttpServlet {
         List<String> errors = new ArrayList<String>();
         
         
-if (usernameOrEmail == null) {
-    errors.add("Username/email is null.");
+if (usernameOrEmail.equals("")) {
+    errors.add("Enter a username or email address.");
     url = "/login.jsp";
     request.setAttribute("errors", errors);
     return;
 }        
 
-if (password == null) {
-    errors.add("Password is null.");
+if (password.equals("")) {
+    errors.add("Enter a password.");
     url = "/login.jsp";
     request.setAttribute("errors", errors);
     return;
@@ -169,11 +169,12 @@ if (password == null) {
                 }
             } catch (Exception e) {
                 errors.add("A user with the provided details does not exist.");
-                        
+                request.setAttribute("errors", errors);
                 url = "/login.jsp";
             }
         } else {
             errors.add("Invalid username/email or password");
+            request.setAttribute("errors", errors);
             url = "/login.jsp";
         }
     }

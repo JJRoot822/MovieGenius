@@ -28,11 +28,14 @@ if (session.getAttribute("loggedInUser")!= null) {
                     <div class="col-4"></div>
                     
                     <div class="col-4">
+                        <c:if test="${not empty errors}">
+                            <ul class="list-unstyled">
+                                <c:forEach items="${errors}" var="error">
+                                    <li class="text-danger">${error}</li>
+                                </c:forEach>
+                            </ul>
+                        </c:if>
                         <form method="post" action="Public">
-                            <c:forEach items="${requestScope.errors}" var="error">
-                                <p class="text-danger">${error}</p>
-                            </c:forEach>
-
                             <label for="email-or-username-field">Username or Email</label>
                             <br>
                             <input type="text" id="email-or-username-field" name="email-or-username" class="form-control">
