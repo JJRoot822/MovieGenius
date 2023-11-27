@@ -514,7 +514,7 @@ public class Private extends HttpServlet {
     private void navigateToUserPageWithSearchResults(HttpServletRequest request) {
         LinkedHashMap<Integer, MovieReviewVM> searchResults = null;
         String searchTerm = ((String) request.getAttribute("search-term"));
-        int loggedInUserId = loggedInUser.getUserID();
+        int loggedInUserId = ((User) request.getSession().getAttribute("loggedInUser")).getUserID();
 
         try {
             searchResults = MovieDB.getMovieReviewsForUser(loggedInUSerId, searchTerm);
