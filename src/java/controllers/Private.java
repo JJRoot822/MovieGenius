@@ -29,11 +29,6 @@ public class Private extends HttpServlet {
         }
 
         switch (action) {
-            case "gotoUserPage": {
-                navigateToUserPage(request);
-
-                break;
-            }
             case "gotoMovieFilter": {
                 url = "/movieFilter.jsp";
                 try {
@@ -359,6 +354,41 @@ public class Private extends HttpServlet {
             }
             case "update-review": {
                 updateReview(request);
+                break;
+            }
+            case "gotoUserPage": {
+                url = "/userPage.jsp";
+                List<UserReviewData> userReview = new ArrayList<>();
+                int userID = loggedInUser.getUserID();
+
+                try {
+                    userReview = MovieDB.selectSpecificUsersDataReview(userID);
+                } catch (SQLException e) {
+                    Logger.getLogger(MovieDB.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                request.setAttribute("userReview", userReview);
+
+                break;
+            }
+            case "userDeleteReview": {
+                int userID = (int) loggedInUser.getUserID();
+                int reviewID = 0;
+
+                try {
+                    reviewID = Integer.parseInt(request.getParameter("reviewID"));
+                } catch (Exception e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                try {
+                    MovieDB.deleteReview(userID, reviewID);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                url = "/Private?action=gotoUserPage";
+
                 break;
             }
         }

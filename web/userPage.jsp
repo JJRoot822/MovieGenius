@@ -33,20 +33,8 @@
                             <button type="submit" class="btn btn-success">Update Profile</button>
                         </form><br>
 
-                        <form action="Private" method="post">
-                            <button type="submit" class="btn btn-success">User Review</button>
-                            <input type="hidden" name="action" value="gotoUserReview">
-                        </form>
                         <div class="col-4"></div>
                     </div>
-                </div>
-
-                <div class="row">
-                    <form action="Private" method="get">
-                        <input type="search" id="movie-search-field" class="col-10 form-control" name="search-term" placeholder="Search for a Movie..." />
-                    <input type="hidden" name="action" value="movie-review-search" />
-                        <input type="submit" class="col-2 btn btn-dark" value="Go" />
-                    </form>
                 </div>
 
                 <div class="row">
@@ -62,93 +50,45 @@
                     </div>
                     <div class="col-4"></div>
                 </div>
+                <c:if test="${not empty userReview}">
+                    <table class="table table-striped" border='1' column='1'>
+                        <thead>
+                            <tr class="table-dark">
+                                <th>Movie Title</th>
+                                <th>User Rating</th>
+                                <th>Comments</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="userData" items="${userReview}">
+                                <tr>
+                                    <td>${userData.movieTitle}</td>
+                                    <td>${userData.rating}</td>
+                                    <td>${userData.comment}</td>
+                                    <td>
+                                        <form action="Private" method="post">
+                                            <input type="hidden" name="userID" value="${userData.userID}"/>
+                                            <input type="hidden" name="reviewID" value="${userData.reviewID}"/>
+                                            <input type="hidden" name="action" value="update-review" class="form-control"/>
+                                            <button type="submit" class="btn btn-success">Edit</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form action="Private" method="post">
+                                            <input type="hidden" name="userID" value="${userData.userID}"/>
+                                            <input type="hidden" name="reviewID" value="${userData.reviewID}"/>
+                                            <input type="hidden" name="action" value="userDeleteReview" class="form-control"/>
+                                            <button type="submit" class="btn btn-success">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </c:if>
 
-                <div class="row">
-                    <div class="col-4"></div>
-                    <p class="col-4 text-success">${successMessage}</p>
-                    <div class="col-4"></div>
-                </div>
-
-                <div class="row">
-                    <c:choose>
-                        <c:when test="${searchResults == null}">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr class="table-dark">
-                                        <th>Movie Title</th>
-                                        <th>Review Rating</th>
-                                        <th>Comments</th>
-                                        <th colspan="2">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach items="${reviews.entrySet}" var="review">
-                                        <tr>
-                                            <td>${review.value.movieTitle}</td>
-                                            <td>${review.value.reviewRating}</td>
-                                            <td>${review.value.reviewComment}</td>
-                                            <td>
-                                                <form action="Private" method="post">
-                                                    <input type="hidden" value="<c:out value='${review.key}' />" name="reviewId" />
-                                                    <input type="hidden" value="goto-update-review" name="action"
-
-                                                    <button class="btn btn-light" type="submit">
-                                                        Edit
-                                                    </button>
-                                                </form>
-                                            </td>
-                                            <td>
-                                                <form action="Private" method="delete">
-                                                    <input type="hidden" name="action" value="delete-review">
-                                                    <input type="hidden" value="<c:out value='${review.key}' />" name="reviewId" />
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
-                        </c:when>
-                        <c:otherwise>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr class="table-dark">
-                                        <th>Movie Title</th>
-                                        <th>Review Rating</th>
-                                        <th>Comments</th>
-                                        <th colspan="2">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach items="${searchResults.entrySet}" var="review">
-                                        <tr>
-                                            <td>${review.value.movieTitle}</td>
-                                            <td>${review.value.reviewRating}</td>
-                                            <td>${review.value.reviewComment}</td>
-                                            <td>
-                                                <form action="Private" method="post">
-                                                    <input type="hidden" value="<c:out value='${review.key}' />" name="reviewId" />
-                                                    <input type="hidden" value="update-review" name="action" />
-
-                                                    <button class="btn btn-light" type="submit">
-                                                        Edit
-                                                    </button>
-                                                </form>
-                                            </td>
-                                            <td>
-                                                <form action="Private" method="delete">
-                                                    <input type="hidden" name="action" value="delete-review">
-                                                    <input type="hidden" value="<c:out value='${review.key}' />" name="reviewId" />
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
-                        </c:otherwise>
-                    </c:choose>
-                </div
             </div>
         </main>
     </body>

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /*
 Current methods
@@ -1378,6 +1379,73 @@ public class MovieDB {
                 pool.freeConnection(connection);
             } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** select all null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    public static List<UserReviewData> selectSpecificUsersDataReview(int userID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT r.reviewID, m.title, r.rating, r.comment "
+                + "FROM reviews r INNER JOIN movies m ON r.movieID = m.movieID "
+                + "WHERE userID = ?";
+     
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, userID);
+            rs = ps.executeQuery();
+            UserReviewData review = null;
+            List<UserReviewData> reviews = new ArrayList<>();
+            
+            while (rs.next()) {
+                int reviewID = rs.getInt("reviewID");
+                String movieTitle = rs.getString("title");
+                int reviewRating = rs.getInt("rating");
+                String reviewComment = rs.getString("comment");
+                
+                review = new UserReviewData(reviewID, movieTitle, reviewRating, reviewComment);
+                reviews.add(review);
+            }
+            return reviews;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** select all sql", e);
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** select all null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    public static int deleteReview(int userID, int reviewID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "DELETE FROM reviews "
+                + "WHERE userID = ? AND reviewID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, userID);
+            ps.setInt(2, reviewID);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** delete review sql", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** delete review null pointer?", e);
                 throw e;
             }
         }
