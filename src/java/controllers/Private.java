@@ -64,8 +64,8 @@ public class Private extends HttpServlet {
             }
             case "filter": {
                 url = "/movieFilter.jsp";
-                ArrayList<Movie> movies = new ArrayList();
-                ArrayList<Genre> genres = new ArrayList();
+                ArrayList<Movie> movies;
+                ArrayList<Genre> genres;
                 try {
                     genres = MovieDB.selectAllGenres();
                     int genreID = Integer.parseInt(request.getParameter("genreID"));
@@ -108,7 +108,7 @@ public class Private extends HttpServlet {
                     String newUserName = request.getParameter("userName");
                     String newPassword = request.getParameter("newPassword");
                     String re_enterPassword = request.getParameter("checkNewPassword");
-                    List<String> errors = new ArrayList<String>();
+                    List<String> errors = new ArrayList<>();
 
                     if (!newEmail.equals("")) {
                         if (!Validation.isEmail(newEmail)) {
@@ -223,7 +223,7 @@ public class Private extends HttpServlet {
                 int userID = 0;
                 try {
                     userID = Integer.parseInt(request.getParameter("userID"));
-                } catch (Exception e) {
+                } catch (NumberFormatException e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
 
@@ -373,7 +373,7 @@ public class Private extends HttpServlet {
 
                 try {
                     reviewID = Integer.parseInt(request.getParameter("reviewID"));
-                } catch (Exception e) {
+                } catch (NumberFormatException e) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
 
@@ -404,7 +404,7 @@ public class Private extends HttpServlet {
         int reviewRating = (Integer.parseInt(request.getParameter("review-rating")));
         String reviewComments = ((String) request.getParameter("review-comments"));
 
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         if (reviewComments.equals("")) {
             errors.add("You must enter a comment.");
@@ -422,7 +422,7 @@ public class Private extends HttpServlet {
             errors.add("Failed to update your review. Please try again.");
         }
 
-        if (errors.size() > 0) {
+        if (!errors.isEmpty()) {
             request.setAttribute("errors", errors);
         }
 
@@ -460,7 +460,7 @@ public class Private extends HttpServlet {
 
     private void deleteReview(HttpServletRequest request) {
         int reviewId;
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         try {
             reviewId = Integer.parseInt(request.getParameter("reviewId"));
@@ -474,7 +474,7 @@ public class Private extends HttpServlet {
             errors.add("Failed to delete the review you tried to delete. Please try again later.");
         }
 
-        if (errors.size() > 0) {
+        if (!errors.isEmpty()) {
             request.setAttribute("errors", errors);
         }
 
@@ -514,42 +514,6 @@ public class Private extends HttpServlet {
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-    }
-
-    private void navigateToUserPage(HttpServletRequest request) {
-        LinkedHashMap<Integer, MovieReviewVM> reviews = null;
-        User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
-        int loggedInUserId = loggedInUser.getUserID();
-        try {
-            reviews = MovieDB.getMovieReviewsForUser(loggedInUserId);
-        } catch (SQLException ex) {
-            Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception e) {
-            Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
-        }
-
-        url = "/userPage.jsp";
-
-        request.setAttribute("reviews", reviews);
-    }
-
-    private void navigateToUserPageWithSearchResults(HttpServletRequest request) {
-        LinkedHashMap<Integer, MovieReviewVM> searchResults = null;
-        String searchTerm = ((String) request.getAttribute("search-term"));
-        User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
-        int loggedInUserId = loggedInUser.getUserID();
-
-        try {
-            searchResults = MovieDB.getMovieReviewsForUser(loggedInUserId, searchTerm);
-        } catch (SQLException ex) {
-            Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception e) {
-            Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
-        }
-
-        url = "/userPage.jsp";
-
-        request.setAttribute("searchResults", searchResults);
     }
 
     /**
