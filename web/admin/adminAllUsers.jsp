@@ -26,7 +26,6 @@
     <body>
         <jsp:include page="/layout/navbar.jsp" />
         <main id="main-content">
-            <h1>Select a user.</h1>
             <br>
             <div class="container">
                 <div class="row">

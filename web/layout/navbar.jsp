@@ -23,9 +23,6 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-item">
-                                <a href="Private?action=gotoAdminPage" class="nav-link text-dark">Admin Page</a>
-                            </li>
-                            <li class="dropdown-item">
                                 <a href="Private?action=gotoAdminMovie" class="nav-link text-dark">Admin Movies</a>
                             </li>
                             <li class="dropdown-item">

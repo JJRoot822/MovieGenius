@@ -23,6 +23,7 @@
                 <p class="text-center">
                     Unlock the world of cinema with MovieGenius, where your passion for movies meets a vibrant community of fellow cinephiles. Whether you're a seasoned film buff or just starting your cinematic journey, MovieGenius is your go-to platform for discovering, sharing, and discussing the magic of the silver screen.
                 </p>
+                <img src="moviereviews.jpg"/>
             </div>
         </main>
             

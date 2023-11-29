@@ -162,7 +162,7 @@ if (password.equals("")) {
                 request.getSession().setAttribute("loggedInUser", loggedInUser);
                 
                 if (loggedInUser.getUserType().equals("admin")) {
-                    url = "/admin/adminPage.jsp";
+                    url = "/Private?action=adminUserAction";
                 } else {
                     url = "/Private?action=gotoUserPage";
                 }

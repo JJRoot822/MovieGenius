@@ -218,11 +218,6 @@ public class Private extends HttpServlet {
                 url = "/Private?action=gotoAdminMovie";
                 break;
             }
-            case "gotoAdminPage": {
-                url = "/admin/adminPage.jsp";
-
-                break;
-            }
             case "adminUserAction": {
                 url = "/admin/adminAllUsers.jsp";
                 LinkedHashMap<String, User> allUsers = new LinkedHashMap();

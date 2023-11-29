@@ -17,7 +17,7 @@
                     <div class="col-4"></div>
                     <div class="col-4">
                         <h1>Movie List</h1>
-                        <h2>Current Movies</h2>
+                        
                     </div>
                         <table class="table table-striped" border="1" column="1">
                             <tr class="table-dark">
