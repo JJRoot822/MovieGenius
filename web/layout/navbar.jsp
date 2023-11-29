@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<a href="#main-content" id="stmc">Skip to Main Content</a>
+<a href="#main-content" class="visually-hidden-focusable">Skip to Main Content</a>
 
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
