@@ -13,35 +13,36 @@
     <body>
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
-            
+
             <div class="container">
                 <div class="row">
                     <div class="col-4"></div>
                     <div class="col-4">
                         <h1>New Releases</h1>
                     </div>
-                        <table border="1" column="1">
+                    <table class="table table-striped" border="1" column="1">
+                        <tr class="table-dark">
+                            <th>Title</th>
+                            <th>Average Rating</th>
+                            <th>Release Date</th>
+                            <th></th>
+                        </tr>
+                        <c:forEach var="movie" items="${newReleases}">
                             <tr>
-                                <th>Title</th>
-                                <th>Average Rating</th>
-                                <th>Release Date</th>
+                                <td>${movie.key.title}</td>
+                                <td>${movie.value}</td>
+                                <td>${movie.key.releaseDate}</td>
+                                <td>
+                                    <form action="Private" method="post">
+                                        <input type="hidden" name="action" value="movieReviews">
+                                        <input type="hidden" name="movieID" value="${movie.key.movieID}">
+                                        <button type="submit" class="btn btn-success">Movie Reviews</button>
+                                    </form>
+                                </td>
                             </tr>
-                            <c:forEach var="movie" items="${newReleases}">
-                                <tr>
-                                    <td>${movie.key.title}</td>
-                                    <td>${movie.value}</td>
-                                    <td>${movie.key.releaseDate}</td>
-                                    <td>
-                                        <form action="Private" method="post">
-                                            <input type="hidden" name="action" value="movieReviews">
-                                            <input type="hidden" name="movieID" value="${movie.key.movieID}">
-                                            <button type="submit" class="btn btn-success">Movie Reviews</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </table>
-                    
+                        </c:forEach>
+                    </table>
+
                     <div class="col-4"></div>
                 </div>
             </div>

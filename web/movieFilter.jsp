@@ -38,11 +38,13 @@
                     </div>
 
                     <c:if test="${not empty movies}">
-                        <table border="1" column="1">
-                            <tr>
+                        <table class="table table-striped" border="1" column="1">
+                            <tr class="table-dark">
                                 <th>Title</th>
                                 <th>Summary</th>
                                 <th>Release Date</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                             <c:forEach var="movies" items="${movies}">
                                 <tr>

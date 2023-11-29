@@ -30,8 +30,8 @@
                         <br><br>
                         <h2>Reviews</h2>
                     </div>
-                    <table border="1" column="1">
-                        <tr>
+                    <table class="table table-striped" border="1" column="1">
+                        <tr class="table-dark">
                             <th>Username</th>
                             <th>Comment</th>
                             <th>Rating</th>

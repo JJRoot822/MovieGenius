@@ -19,11 +19,13 @@
                         <h1>Movie List</h1>
                         <h2>Current Movies</h2>
                     </div>
-                        <table border="1" column="1">
-                            <tr>
+                        <table class="table table-striped" border="1" column="1">
+                            <tr class="table-dark">
                                 <th>Title</th>
                                 <th>Summary</th>
                                 <th>Release Date</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                             <c:forEach var="movie" items="${allMovies}">
                                 <tr>

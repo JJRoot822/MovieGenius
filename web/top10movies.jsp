@@ -20,11 +20,13 @@
                         <h1>Top 10 Movies</h1>
                     </div>
 
-                    <table border="1" column="1">
-                        <tr>
+                    <table class="table table-striped" border="1" column="1">
+                        <tr class="table-dark">
                             <th>Title</th>
                             <th>Average Rating</th>
                             <th>Release Date</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                         <c:forEach var="movie" items="${top10list}">
                             <tr>
