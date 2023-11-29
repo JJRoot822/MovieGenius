@@ -431,7 +431,7 @@ public class Private extends HttpServlet {
 
     private void navigateToUpdateReview(HttpServletRequest request) {
         int reviewId = 0;
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
 
         try {
             reviewId = Integer.parseInt(request.getParameter("reviewID"));
@@ -450,8 +450,9 @@ public class Private extends HttpServlet {
             errors.add("Failed to navigate to the update review page. Please try again later.");
         }
 
-        if (errors.size() > 0) {
+        if (errors.size() < 1) {
             request.setAttribute("review", review);
+            url = "/reviews/updateReview.jsp";
         } else {
             request.setAttribute("errors", errors);
         }
