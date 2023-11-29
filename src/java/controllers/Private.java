@@ -156,7 +156,7 @@ public class Private extends HttpServlet {
 
                     if (errors.isEmpty()) {
 
-                        url = "/userPage.jsp";
+                        url = "/Private?action=gotoUserPage";
 
                     } else {
                         url = "/updateUser.jsp";
@@ -426,7 +426,7 @@ public class Private extends HttpServlet {
             request.setAttribute("errors", errors);
         }
 
-        url = "/userPage.jsp";
+        url = "/Private?action=gotoUserPage";
     }
 
     private void navigateToUpdateReview(HttpServletRequest request) {
@@ -436,7 +436,7 @@ public class Private extends HttpServlet {
         try {
             reviewId = Integer.parseInt(request.getParameter("reviewID"));
         } catch (NumberFormatException e) {
-            url = "/userPage.jsp";
+            url = "/Private?action=gotoUserPage";
 
             errors.add("The review is not an integer like it should, which means it was tampered with.");
         }
@@ -446,7 +446,7 @@ public class Private extends HttpServlet {
         try {
             review = MovieDB.getReviewById(reviewId);
         } catch (SQLException e) {
-            url = "/userPage.jsp";
+            url = "/Private?action=gotoUserPage";
             errors.add("Failed to navigate to the update review page. Please try again later.");
         }
 
@@ -478,7 +478,7 @@ public class Private extends HttpServlet {
             request.setAttribute("errors", errors);
         }
 
-        url = "/userPage.jsp";
+        url = "/Private?action=gotoUserPage";
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

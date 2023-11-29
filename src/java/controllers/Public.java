@@ -165,7 +165,7 @@ if (password.equals("")) {
                 if (loggedInUser.getUserType().equals("admin")) {
                     url = "/admin/adminPage.jsp";
                 } else {
-                    url = "/userPage.jsp";
+                    url = "/Private?action=gotoUserPage";
                 }
             } catch (Exception e) {
                 errors.add("A user with the provided details does not exist.");
