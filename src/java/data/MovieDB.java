@@ -1119,8 +1119,7 @@ public class MovieDB {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
-        ResultSet rs = null;
-
+        
         String query
                 = "UPDATE reviews "
                 + "SET rating = ?, comment = ?"
@@ -1139,7 +1138,6 @@ public class MovieDB {
         } finally {
             try {
                 ps.close();
-                rs.close();
                 pool.freeConnection(connection);
             } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** delete movie null pointer?", e);
