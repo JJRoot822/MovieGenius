@@ -21,7 +21,7 @@ if (session.getAttribute("loggedInUser")!= null) {
     <body>
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
-            <h1>Log In to MovieGenius</h1>
+            <h1 class="text-center">Log In to MovieGenius</h1>
             <br>
             <div class="container">
                 <div class="row">

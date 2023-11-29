@@ -665,10 +665,6 @@ public class MovieDB {
         }
     }
 
-    
-
-    
-
     public static int deleteMovie(int movieID) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
