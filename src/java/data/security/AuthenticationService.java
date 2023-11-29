@@ -22,7 +22,7 @@ public class AuthenticationService {
     }
     
     private boolean loginUsingUsernameAndPassword(String username, String password) {
-        String hashedUserPassword ="";
+        String hashedUserPassword;
         
         try {
             hashedUserPassword = MovieDB.getPasswordForUsername(username);
@@ -36,7 +36,7 @@ public class AuthenticationService {
     }
     
     private boolean loginUsingEmailAndPassword(String email, String password) {
-        String hashedUserPassword = "";
+        String hashedUserPassword;
         
         try {
             hashedUserPassword = MovieDB.getPasswordForEmail(email);
