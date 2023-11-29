@@ -20,7 +20,6 @@ public class Public extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Logger LOG = Logger.getLogger(Public.class.getName());
         
         String action = request.getParameter("action");
         if (action == null) {
@@ -91,7 +90,7 @@ public class Public extends HttpServlet {
         String password = ((String) request.getParameter("password"));
         String verifyPassword = ((String) request.getParameter("verify-password"));
         
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         
         if (!Validation.isEmail(email)) {
             errors.add("The email you entered is not a valid format. A valid format looks like this: example@somesite.com");
@@ -115,7 +114,7 @@ public class Public extends HttpServlet {
         
         
         
-        if (errors.size() > 0) {
+        if (!errors.isEmpty()) {
             url = "/register.jsp";
             request.setAttribute("errors", errors);
         } else {
@@ -125,7 +124,7 @@ public class Public extends HttpServlet {
             } catch (SQLException ex) {
                 url = "/register.jsp";
                 errors.add("Something went wrong when registering the user: " + ex.getMessage());
-        request.setAttribute("errors", errors);        ;
+        request.setAttribute("errors", errors);
                 Logger.getLogger(Public.class.getName()).log(Level.SEVERE, null, ex);
             }
             
@@ -137,7 +136,7 @@ public class Public extends HttpServlet {
         String usernameOrEmail = ((String) request.getParameter("email-or-username"));
         String password = ((String) request.getParameter("password"));
         
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         
         
 if (usernameOrEmail.equals("")) {
@@ -167,7 +166,7 @@ if (password.equals("")) {
                 } else {
                     url = "/Private?action=gotoUserPage";
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 errors.add("A user with the provided details does not exist.");
                 request.setAttribute("errors", errors);
                 url = "/login.jsp";
