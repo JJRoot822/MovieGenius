@@ -27,7 +27,8 @@
                             <input type="hidden" name="action" value="filter">
                             <br>
                             <select name="genreID" id="genreID" class="form-control">
-                                <c:forEach var="genres" items="${genres}">
+                                    <option value="" disabled selected>Select a genre.</option>
+                                    <c:forEach var="genres" items="${genres}">
                                     <option value="${genres.genreID}">${genres.genreName}</option>
                                 </c:forEach>
                             </select>
@@ -38,11 +39,13 @@
                     </div>
 
                     <c:if test="${not empty movies}">
-                        <table border="1" column="1">
-                            <tr>
+                        <table class="table table-striped" border="1" column="1">
+                            <tr class="table-dark">
                                 <th>Title</th>
                                 <th>Summary</th>
                                 <th>Release Date</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                             <c:forEach var="movies" items="${movies}">
                                 <tr>

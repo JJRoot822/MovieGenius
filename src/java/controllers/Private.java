@@ -31,12 +31,13 @@ public class Private extends HttpServlet {
         switch (action) {
             case "gotoMovieFilter": {
                 url = "/movieFilter.jsp";
+                List<Genre> genres = new ArrayList<>();
                 try {
-                    ArrayList<Genre> genres = MovieDB.selectAllGenres();
-                    request.setAttribute("genres", genres);
+                    genres = MovieDB.selectAllGenres();
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                request.setAttribute("genres", genres);
                 break;
             }
             case "movieReviews": {
@@ -63,17 +64,33 @@ public class Private extends HttpServlet {
                 break;
             }
             case "filter": {
-                url = "/movieFilter.jsp";
-                ArrayList<Movie> movies;
-                ArrayList<Genre> genres;
+                url = "/Private?action=gotoMovieFilter";
+                List<Movie> movies = new ArrayList<>();
+                List<Genre> genres = new ArrayList<>();
+                int genreID = 0;
                 try {
                     genres = MovieDB.selectAllGenres();
-                    int genreID = Integer.parseInt(request.getParameter("genreID"));
-                    movies = MovieDB.getMoviesByGenreID(genreID);
-                    request.setAttribute("movies", movies);
-                    request.setAttribute("genres", genres);
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                try {
+                    genreID = Integer.parseInt(request.getParameter("genreID"));
+                } catch (NumberFormatException e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                try {
+                    movies = MovieDB.getMoviesByGenreID(genreID);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                if (genreID == 0) {
+                    url = "/Private?action=gotoMovieFilter";
+                } else {
+                    request.setAttribute("movies", movies);
+                    request.setAttribute("genres", genres);
                 }
                 break;
             }

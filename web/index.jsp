@@ -17,7 +17,13 @@
     <body>
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
-            <h1>Welcome to Movie Genius!</h1>
+            <div class="container">
+                <h1 class="text-center">Welcome to MovieGenius!</h1>
+
+                <p class="text-center">
+                    Unlock the world of cinema with MovieGenius, where your passion for movies meets a vibrant community of fellow cinephiles. Whether you're a seasoned film buff or just starting your cinematic journey, MovieGenius is your go-to platform for discovering, sharing, and discussing the magic of the silver screen.
+                </p>
+            </div>>
         </main>
             
             
