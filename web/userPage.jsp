@@ -50,6 +50,10 @@
                     </div>
                     <div class="col-4"></div>
                 </div>
+                <c:if test="${empty userReview}">
+                    <h5 class="text-secondary">There are no reviews that you've written yet. You should go write one.</h5>
+                </c:if>
+                    
                 <c:if test="${not empty userReview}">
                     <table class="table table-striped" border='1' column='1'>
                         <thead>
@@ -71,8 +75,8 @@
                                         <form action="Private" method="post">
                                             <input type="hidden" name="userID" value="${userData.userID}"/>
                                             <input type="hidden" name="reviewID" value="${userData.reviewID}"/>
-                                            <input type="hidden" name="action" value="update-review" class="form-control"/>
-                                            <button type="submit" class="btn btn-success">Edit</button>
+                                            <input type="hidden" name="action" value="gotoUpdateReview" class="form-control"/>
+                                            <button type="submit" class="btn btn-light">Edit</button>
                                         </form>
                                     </td>
                                     <td>

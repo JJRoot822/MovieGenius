@@ -348,10 +348,6 @@ public class Private extends HttpServlet {
                 navigateToUpdateReview(request);
                 break;
             }
-            case "movie-review-search": {
-                navigateToUserPageWithSearchResults(request);
-                break;
-            }
             case "update-review": {
                 updateReview(request);
                 break;
@@ -402,8 +398,8 @@ public class Private extends HttpServlet {
     }
 
     private void updateReview(HttpServletRequest request) {
-        int reviewId = (Integer.parseInt(request.getParameter("reviewId")));
-        int movieId = (Integer.parseInt(request.getParameter("movieId")));
+        int reviewId = (Integer.parseInt(request.getParameter("reviewID")));
+        int movieId = (Integer.parseInt(request.getParameter("movieID")));
         int userId = (Integer.parseInt(request.getParameter("userID")));
         int reviewRating = (Integer.parseInt(request.getParameter("review-rating")));
         String reviewComments = ((String) request.getParameter("review-comments"));
@@ -438,7 +434,7 @@ public class Private extends HttpServlet {
         List<String> errors = new ArrayList<String>();
 
         try {
-            reviewId = Integer.parseInt(request.getParameter("reviewId"));
+            reviewId = Integer.parseInt(request.getParameter("reviewID"));
         } catch (NumberFormatException e) {
             url = "/userPage.jsp";
 
