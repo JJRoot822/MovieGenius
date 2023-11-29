@@ -33,33 +33,31 @@
 
                     <div class="col-4">
                         <h1>Admin all users page</h1>
-                    </div>
 
-
-                    <table class="table table-striped">
-                        <thead>
-                            <tr class="table-dark">
-                                <th>Username</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <c:forEach var="user" items="${allUsers}">
-                                    <td>${user.value.username}</td>
-                                    <td>
-                                        <form action="Private" method="post">
-                                            <input type="hidden" name="userID" value="${user.value.userID}"/>
-                                            <input type="hidden" name="action" value="adminDeleteUser" class="form-control"/>
-                                            <button type="submit" class="btn btn-success">Delete User</button>
-                                        </form>
-                                    </td>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr class="table-dark">
+                                    <th>Username</th>
+                                    <th></th>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <c:forEach var="user" items="${allUsers}">
+                                        <td>${user.value.username}</td>
+                                        <td>
+                                            <form action="Private" method="post">
+                                                <input type="hidden" name="userID" value="${user.value.userID}"/>
+                                                <input type="hidden" name="action" value="adminDeleteUser" class="form-control"/>
+                                                <button type="submit" class="btn btn-success">Delete User</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
 
-
+                    </div>
                     <div class="col-4"></div>
                 </div>
             </div>
