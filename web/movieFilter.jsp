@@ -27,7 +27,8 @@
                             <input type="hidden" name="action" value="filter">
                             <br>
                             <select name="genreID" id="genreID" class="form-control">
-                                <c:forEach var="genres" items="${genres}">
+                                    <option value="" disabled selected>Select a genre.</option>
+                                    <c:forEach var="genres" items="${genres}">
                                     <option value="${genres.genreID}">${genres.genreName}</option>
                                 </c:forEach>
                             </select>
