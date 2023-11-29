@@ -1255,7 +1255,7 @@ public class MovieDB {
                 int rating = rs.getInt("rating");
                 String comment = rs.getString("comment");
 
-                MovieReviewVM movieReview = new MovieReviewVM(title, rating, comment);
+                MovieReviewVM movieReview = new MovieReviewVM(movieTitle, rating, comment);
                 movieReviewsMap.put(reviewID, movieReview);
             }
         } catch (SQLException e) {
