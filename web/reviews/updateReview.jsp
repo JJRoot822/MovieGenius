@@ -34,14 +34,20 @@ if (session.getAttribute("loggedInUser") == null) {
                             </c:forEach>
                             
                             <input type="hidden" value="${review.reviewID}" name="reviewID" />
-                            <input type="hidden" value="${review.movieID}" name="movieId" />
-                            <input type="hidden" value="${review.userID}" name="userId" />
+                            <input type="hidden" value="${review.movieID}" name="movieID" />
+                            <input type="hidden" value="${review.userID}" name="userID" />
                             <input type="hidden" value="update-review" name="action" />
 
                             <label for="review-rating-field">Rating</label>
                             <br>
-                            <input type="number" id="review-rating-field" class="form-control" min="1" max="10" step="1" value="<c:out value='${review.rating}' />" name="review-rating" />
 
+                            <select id="review-rating-field" name="review-rating" class="form-control">
+                                <option value="" disabled selected>Select a rating number.</option>
+                                <c:forEach var="i" begin="1" end="10">
+                                    <option value="${i}" <c:if test="${i == review.rating}">selected</c:if>>${i}</option>
+                                </c:forEach>
+                            </select>
+                            
                             <br>
 
                             <label for="review-content-field">Comments</label>
