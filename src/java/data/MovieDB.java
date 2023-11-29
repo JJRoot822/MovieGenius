@@ -1130,7 +1130,6 @@ public class MovieDB {
             ps.setInt(1, review.getRating());
             ps.setString(2, review.getComment());
             ps.setInt(3, review.getReviewID());
-            ps.setInt(4, review.getMovieID());
             ps.executeUpdate();
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "*** get movie", e);
