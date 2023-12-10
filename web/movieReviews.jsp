@@ -23,29 +23,31 @@
         <main id="main-content">
             <div class="container">
                 <div class="row">
-                    <div class="col-4"></div>
-                    <div class="col-4">
-                        <h1>${movie.title}</h1>
-                        <h2>${movie.releaseDate}</h2>
-                        <br><br>
-                        <h2>Reviews</h2>
-                    </div>
-                    <table class="table table-striped" border="1" column="1">
-                        <tr class="table-dark">
-                            <th>Username</th>
-                            <th>Comment</th>
-                            <th>Rating</th>
-                        </tr>
-                        <c:forEach var="userReviews" items="${userReviews}">
-                            <tr>
-                                <td>${userReviews.username}</td>
-                                <td>${userReviews.comment}</td>
-                                <td>${userReviews.rating}</td>
-                            </tr>
-                        </c:forEach>
-                    </table>
+                    <h1 class="text-center">${movie.title}</h1>
+                    <h2 class="text-center">${movie.releaseDate}</h2>
+                    <h3 class="text-center">${movie.summary}</h3>
 
-                    <div class="col-4"></div>
+                    <h2 class="text-center">Reviews</h2>
+                    <c:if test="${empty userReviews}">
+                        <h5 class="text-secondary text-center">There are no reviews for this movie yet.</h5>
+                    </c:if>
+
+                    <c:if test="${not empty userReviews}">
+                        <table class="table table-striped" border="1" column="1">
+                            <tr class="table-dark">
+                                <th>Username</th>
+                                <th>Comment</th>
+                                <th>Rating</th>
+                            </tr>
+                            <c:forEach var="userReviews" items="${userReviews}">
+                                <tr>
+                                    <td>${userReviews.username}</td>
+                                    <td>${userReviews.comment}</td>
+                                    <td>${userReviews.rating}</td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </c:if>
                 </div>
             </div>
         </main>

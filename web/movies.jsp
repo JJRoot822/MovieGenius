@@ -1,5 +1,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    if (session.getAttribute("loggedInUser") == null) {
+        // Redirect to a different page if loggedInUser is not in the session
+        response.sendRedirect("login.jsp"); // Replace "login.jsp" with the desired redirection URL
+        return; // To stop further executio     n of JSP
+    }
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -38,7 +45,6 @@
                                             <input type="hidden" name="action" value="review">
                                             <button type="submit" class="btn btn-success">Review</button>
                                         </form>
-
                                     </td>
                                     <td>
                                         <form action="Private" method="post">

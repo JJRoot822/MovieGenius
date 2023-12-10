@@ -51,7 +51,7 @@
                     <div class="col-4"></div>
                 </div>
                 <c:if test="${empty userReview}">
-                    <h5 class="text-secondary">There are no reviews that you've written yet. You should go write one.</h5>
+                    <h5 class="text-secondary text-center">There are no reviews that you've written yet. You should go write one.</h5>
                 </c:if>
                     
                 <c:if test="${not empty userReview}">
